@@ -5,9 +5,8 @@ import java.util.Objects;
 public class Funcionario {
 
 	private String cpf;
-	private String setor;
-
 	private String nome;
+	private String setor;
 
 	public String getNome() {
 		return nome;
@@ -50,7 +49,4 @@ public class Funcionario {
 		return Objects.equals(cpf, other.cpf) && Objects.equals(nome, other.nome) && Objects.equals(setor, other.setor);
 	}
 
-	
-	
-	
 }
