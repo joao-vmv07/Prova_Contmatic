@@ -1,18 +1,21 @@
 package br.com.contmatic.empresa;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import br.com.contmatic.validacoes.Validacoes;
+import br.com.contmatic.validacoes.Validacao;
 
 public class Empresa {
 
 	private String cnpj;
 	private String razaoSocial;
 
-	private List<Endereco> enderecos;
+	private List<Endereco> enderecos = new ArrayList<Endereco>();
+	private List<Telefone> telefone;
 
-	Validacoes validacoes = new Validacoes();
+	Validacao validacoes = new Validacao();
+	
 
 	public String getCnpj() {
 		return cnpj;
@@ -21,10 +24,10 @@ public class Empresa {
 	public void setCnpj(String cnpj) {
 		if (validacoes.validarCnpj(cnpj) == true) {
 			this.cnpj = cnpj;
-		}else {
-			throw new IllegalArgumentException("CNPJ INVALIDO ");
+		} else {
+			throw new IllegalArgumentException("CNPJ INVALIDO");
 		}
-		
+
 	}
 
 	public String getRazaoSocial() {
@@ -33,6 +36,22 @@ public class Empresa {
 
 	public void setRazaoSocial(String razaoSocial) {
 		this.razaoSocial = razaoSocial;
+	}
+
+	public List<Endereco> getEnderecos() {
+		return enderecos;
+	}
+
+	public void setEnderecos(List<Endereco> enderecos) {
+		this.enderecos = enderecos;
+	}
+
+	public List<Telefone> getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(List<Telefone> telefone) {
+		this.telefone = telefone;
 	}
 
 	@Override

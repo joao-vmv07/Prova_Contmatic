@@ -2,6 +2,8 @@ package br.com.contmatic.empresa;
 
 import java.util.Objects;
 
+import br.com.contmatic.validacoes.Validacao;
+
 public class Funcionario {
 
 	private String cpf;
@@ -21,7 +23,9 @@ public class Funcionario {
 	}
 
 	public void setCpf(String cpf) {
-		this.cpf = cpf;
+		if (Validacao.validarCpf(cpf)) {
+			this.cpf = cpf;
+		}
 	}
 
 	public String getSetor() {
