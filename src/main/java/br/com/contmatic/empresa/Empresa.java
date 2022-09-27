@@ -1,28 +1,24 @@
 package br.com.contmatic.empresa;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import br.com.contmatic.validacoes.Validacao;
+import br.com.contmatic.validacao.Validacao;
 
 public class Empresa {
 
 	private String cnpj;
 	private String razaoSocial;
 
-	private List<Endereco> enderecos = new ArrayList<Endereco>();
+	private List<Endereco> enderecos;
 	private List<Telefone> telefone;
-
-	Validacao validacoes = new Validacao();
-	
 
 	public String getCnpj() {
 		return cnpj;
 	}
 
 	public void setCnpj(String cnpj) {
-		if (validacoes.validarCnpj(cnpj) == true) {
+		if (Validacao.validarCnpj(cnpj) == true) {
 			this.cnpj = cnpj;
 		} else {
 			throw new IllegalArgumentException("CNPJ INVALIDO");

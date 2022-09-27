@@ -2,7 +2,7 @@ package br.com.contmatic.empresa;
 
 import java.util.Objects;
 
-import br.com.contmatic.validacoes.Validacao;
+import br.com.contmatic.validacao.Validacao;
 
 public class Funcionario {
 
@@ -23,8 +23,11 @@ public class Funcionario {
 	}
 
 	public void setCpf(String cpf) {
-		if (Validacao.validarCpf(cpf)) {
+		if (cpf.length() == 11 & Validacao.validarCpf(cpf)) {
 			this.cpf = cpf;
+		}
+		else {
+			throw new IllegalArgumentException("CPF INVALIDO");
 		}
 	}
 
