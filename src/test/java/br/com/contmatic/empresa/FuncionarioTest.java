@@ -9,7 +9,7 @@ class FuncionarioTest {
 	@Test
 	void test_cpf_set() {
 		Funcionario funcionario = new Funcionario();
-		funcionario.setCpf("46339822819");
-		assertEquals("46339822819", funcionario.getCpf());
+		funcionario.setCpf("4578006077");
+		assertEquals("4578006077", funcionario.getCpf());
 	}
 }

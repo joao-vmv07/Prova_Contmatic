@@ -9,26 +9,8 @@ public class EmpresaTest {
 	public void test01_set_cnpj_valido() {
 
 		Empresa empresa = new Empresa();
-		empresa.setCnpj("79018704000142");
-		assertEquals("79018704000142", empresa.getCnpj());
+		empresa.setCnpj("09578813000138");
+		assertEquals("09578813000138", empresa.getCnpj());
 	}
-
-	@Test
-	public void test02_set_cnpj_maior_que_14() {
-
-		Empresa empresa = new Empresa();
-		empresa.setCnpj("790187040001412");
-		assertEquals("790187040001412", empresa.getCnpj());
-	}
-
-	@Test
-	public void test03_set_cnpj_menor_que_14() {
-
-		Empresa empresa = new Empresa();
-		empresa.setCnpj("7901870400014");
-		assertEquals("7901870400014", empresa.getCnpj());
-	}
-	
-	
 
 }

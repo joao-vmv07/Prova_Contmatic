@@ -18,7 +18,7 @@ public class Empresa {
 	}
 
 	public void setCnpj(String cnpj) {
-		if (Validacao.validarCnpj(cnpj) == true) {
+		if (Validacao.validarCnpj(cnpj)) {
 			this.cnpj = cnpj;
 		} else {
 			throw new IllegalArgumentException("CNPJ INVALIDO");

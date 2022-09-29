@@ -23,7 +23,7 @@ public class Funcionario {
 	}
 
 	public void setCpf(String cpf) {
-		if (cpf.length() == 11 & Validacao.validarCpf(cpf)) {
+		if (cpf.length() == 11 && Validacao.validarCpf(cpf)) {
 			this.cpf = cpf;
 		}
 		else {
