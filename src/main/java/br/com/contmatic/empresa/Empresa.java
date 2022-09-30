@@ -1,16 +1,16 @@
 package br.com.contmatic.empresa;
-
 import java.util.List;
 import java.util.Objects;
-
-import br.com.contmatic.validacao.Validacao;
+import br.com.contmatic.validator.CNPJValidator;
 
 public class Empresa {
 
 	private String cnpj;
+	
 	private String razaoSocial;
-
+	
 	private List<Endereco> enderecos;
+	
 	private List<Telefone> telefone;
 
 	public String getCnpj() {
@@ -18,12 +18,8 @@ public class Empresa {
 	}
 
 	public void setCnpj(String cnpj) {
-		if (Validacao.validarCnpj(cnpj)) {
-			this.cnpj = cnpj;
-		} else {
-			throw new IllegalArgumentException("CNPJ INVALIDO");
-		}
-
+		CNPJValidator.check(cnpj, "Empresa");
+		this.cnpj = cnpj;
 	}
 
 	public String getRazaoSocial() {
