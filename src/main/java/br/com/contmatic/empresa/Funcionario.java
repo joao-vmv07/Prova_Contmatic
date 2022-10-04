@@ -43,7 +43,7 @@ public class Funcionario {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(cpf, nome, setor);
+		return Objects.hash(cpf);
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class Funcionario {
 		if (getClass() != obj.getClass())
 			return false;
 		Funcionario other = (Funcionario) obj;
-		return Objects.equals(cpf, other.cpf) && Objects.equals(nome, other.nome) && Objects.equals(setor, other.setor);
+		return Objects.equals(cpf, other.cpf);
 	}
 
 }

@@ -5,78 +5,71 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class EmpresaTest {
-	
+class EmpresaTest {
+
 	@Test
-	public void deve_aceitar_cnpj_valido() {
-		Empresa empresa = new Empresa();
-		empresa.setCnpj("17081431000122");
+	void deve_aceitar_cnpj_valido() {
+		Empresa empresa = new Empresa("17081431000122");
 		assertEquals("17081431000122", empresa.getCnpj());
 	}
 	
 	@Test
-	void nao_deve_aceitar_cnpj_com_calculo_invalido() {
-		Empresa empresa = new Empresa();
-		IllegalArgumentException thrown = assertThrows(
-	    		IllegalArgumentException.class,
-	           () -> empresa.setCnpj("62458986000122"),
-	           "Expected doThing() to throw, but it didn't"
-	    );
-	    assertTrue(thrown.getMessage().contains("O campo CNPJ da Empresa é inválido."));
+	void nao_deve_aceitar_cnpj_com_invalido() {
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> new Empresa("17081431000222"), "Expected doThing() to throw, but it didn't");
+		assertTrue(thrown.getMessage().contains("O CNPJ informado é inválido."));
 	}
-	
+
 	@Test
 	void nao_deve_aceitar_cnpj_com_menos_de_14_caracteres() {
-		Empresa empresa = new Empresa();
-		IllegalArgumentException thrown = assertThrows(
-	    		IllegalArgumentException.class,
-	           () -> empresa.setCnpj("6245898600012"),
-	           "Expected doThing() to throw, but it didn't"
-	    );
-	    assertTrue(thrown.getMessage().contains("O campo CNPJ da Empresa é inválido."));
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> new Empresa("6245898600012"), "Expected doThing() to throw, but it didn't");
+		assertTrue(thrown.getMessage().contains("O campo CNPJ deve conter 14 digitos."));
 	}
-	
+
 	@Test
 	void nao_deve_aceitar_cnpj_com_mais_de_14_caracteres() {
-		Empresa empresa = new Empresa();
-		IllegalArgumentException thrown = assertThrows(
-	    		IllegalArgumentException.class,
-	           () -> empresa.setCnpj("624589860001032"),
-	           "Expected doThing() to throw, but it didn't"
-	    );
-	    assertTrue(thrown.getMessage().contains("O campo CNPJ da Empresa é inválido."));
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> new Empresa("6245898600010322222"), "Expected doThing() to throw, but it didn't");
+		assertTrue(thrown.getMessage().contains("O campo CNPJ deve conter 14 digitos."));
 	}
-	
+
 	@Test
 	void nao_deve_aceitar_cnpj_com_letras() {
-		Empresa empresa = new Empresa();
-		IllegalArgumentException thrown = assertThrows(
-	    		IllegalArgumentException.class,
-	           () -> empresa.setCnpj("6245898600010A"),
-	           "Expected doThing() to throw, but it didn't"
-	    );
-	    assertTrue(thrown.getMessage().contains("O campo CNPJ da Empresa não pode conter letras."));
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> new Empresa("6245898600010A"), "Expected doThing() to throw, but it didn't");
+		System.out.println(thrown.getMessage());
+		assertTrue(thrown.getMessage().contains("O campo CNPJ não pode conter letras e caracteres especiais."));
 	}
-	
+
 	@Test
 	void nao_deve_aceitar_cnpj_com_caracteres_especial() {
-		Empresa empresa = new Empresa();
-		IllegalArgumentException thrown = assertThrows(
-	    		IllegalArgumentException.class,
-	           () -> empresa.setCnpj("6245898600010!"),
-	           "Expected doThing() to throw, but it didn't"
-	    );
-	    assertTrue(thrown.getMessage().contains("O campo CNPJ da Empresa não pode conter letras."));
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> new Empresa("6245898600010!"), "Expected doThing() to throw, but it didn't");
+		assertTrue(thrown.getMessage().contains("O campo CNPJ não pode conter letras e caracteres especiais."));
+	}
+
+	@Test
+	void nao_deve_aceitar_cnpj_com_caracteres_iguais() {
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> new Empresa("11111111111111"), "Expected doThing() to throw, but it didn't");
+		System.out.println(thrown.getMessage());
+		assertTrue(thrown.getMessage().contains("O CNPJ informado é inválido."));
+	}
+
+	@Test
+	void nao_deve_aceitar_cnpj_com_maskara() {
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> new Empresa("69.236.855/0001-12"), "Expected doThing() to throw, but it didn't");
+		System.out.println(thrown.getMessage());
+		assertTrue(thrown.getMessage().contains("O campo CNPJ não deve conter maskara."));
 	}
 	
 	@Test
-	void nao_deve_aceitar_cnpj_com_caracteres_iguais() {
-		Empresa empresa = new Empresa();
-		IllegalArgumentException thrown = assertThrows(
-	    		IllegalArgumentException.class,
-	           () -> empresa.setCnpj("11111111111111"),
-	           "Expected doThing() to throw, but it didn't"
-	    );
-	    assertTrue(thrown.getMessage().contains("O campo CNPJ da Empresa é inválido."));
+	void nao_deve_aceiitar_cpnj_nulo() {
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> new Empresa(null), "Expected doThing() to throw, but it didn't");
+		System.out.println(thrown.getMessage());
+		assertTrue(thrown.getMessage().contains("O campo CNPJ não deve ser vazio."));
 	}
 }

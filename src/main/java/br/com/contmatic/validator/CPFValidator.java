@@ -30,5 +30,5 @@ public class CPFValidator {
 		}
 		int resultado = NUMERO_VERIFCADOR - (soma % NUMERO_VERIFCADOR);
 		return resultado > 9 ? 0 : resultado;
-	}
+	}	
 }
