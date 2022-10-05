@@ -39,14 +39,14 @@ class EmpresaTest {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> new Empresa("6245898600010A"), "Expected doThing() to throw, but it didn't");
 		System.out.println(thrown.getMessage());
-		assertTrue(thrown.getMessage().contains("O campo CNPJ não pode conter letras e caracteres especiais."));
+		assertTrue(thrown.getMessage().contains("O campo CNPJ não pode conter pontuação, letras e caracteres especiais."));
 	}
 
 	@Test
 	void nao_deve_aceitar_cnpj_com_caracteres_especial() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> new Empresa("6245898600010!"), "Expected doThing() to throw, but it didn't");
-		assertTrue(thrown.getMessage().contains("O campo CNPJ não pode conter letras e caracteres especiais."));
+		assertTrue(thrown.getMessage().contains("O campo CNPJ não pode conter pontuação, letras e caracteres especiais."));
 	}
 
 	@Test
@@ -62,7 +62,7 @@ class EmpresaTest {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> new Empresa("69.236.855/0001-12"), "Expected doThing() to throw, but it didn't");
 		System.out.println(thrown.getMessage());
-		assertTrue(thrown.getMessage().contains("O campo CNPJ não deve conter maskara."));
+		assertTrue(thrown.getMessage().contains("O campo CNPJ não pode conter pontuação, letras e caracteres especiais."));
 	}
 	
 	@Test

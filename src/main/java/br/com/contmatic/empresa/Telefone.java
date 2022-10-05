@@ -8,6 +8,11 @@ public class Telefone {
 	
 	private String numero;
 	
+	public Telefone(String numero) {
+		super();
+		this.numero = numero;
+	}
+	
 	public String getNumero() {
 		return numero;
 	}
@@ -38,7 +43,7 @@ public class Telefone {
 		if (getClass() != obj.getClass())
 			return false;
 		Telefone other = (Telefone) obj;
-		return Objects.equals(ddd, other.ddd) && Objects.equals(numero, other.numero);
+		return Objects.equals(numero, other.numero);
 	}
 
 	

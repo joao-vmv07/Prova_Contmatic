@@ -1,16 +1,21 @@
 package br.com.contmatic.empresa;
 
-import java.util.Objects;
+import static br.com.contmatic.validator.CPFValidator.validar;
 
-import br.com.contmatic.validator.CPFValidator;
+import java.util.Objects;
 
 public class Funcionario {
 
 	private String cpf;
-	
+
 	private String nome;
 
 	private String setor;
+
+	public Funcionario(String cpf) {
+		super();
+		this.setCpf(cpf);
+	}
 
 	public String getNome() {
 		return nome;
@@ -25,12 +30,8 @@ public class Funcionario {
 	}
 
 	public void setCpf(String cpf) {
-		if (cpf.length() == 11 && CPFValidator.validar(cpf)) {
-			this.cpf = cpf;
-		}
-		else {
-			throw new IllegalArgumentException("CPF INVALIDO");
-		}
+		validar(cpf);
+		this.cpf = cpf;
 	}
 
 	public String getSetor() {

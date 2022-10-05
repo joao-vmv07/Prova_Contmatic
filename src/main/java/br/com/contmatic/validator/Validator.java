@@ -1,6 +1,10 @@
 package br.com.contmatic.validator;
 
 public class Validator {
+	
+	private Validator() {
+		
+	}
 
 	public static void validarNull(String documento, String message) {
 		if (documento == null) {
@@ -15,14 +19,8 @@ public class Validator {
 		}
 	}
 
-	public static void validarMask(String documento, String message) {
-		if (!documento.matches("[0-9]*")) {
-			throw new IllegalArgumentException(message);
-		}
-	}
-	
-	public static void validarContemLetras(String documento, String message) {
-		if (documento.matches("[a-z]*")) {
+	public static void validarContemSomenteNum(String documento, String message) {
+		if (!documento.matches("[\\d]*")) {
 			throw new IllegalArgumentException(message);
 		}
 	}
