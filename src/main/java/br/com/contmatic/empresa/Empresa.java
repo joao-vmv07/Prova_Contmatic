@@ -1,9 +1,18 @@
 package br.com.contmatic.empresa;
 
+import static br.com.contmatic.constants.EmpresaConstant.RAZAOSOCIAL_TAMANHO_MAX;
+import static br.com.contmatic.constants.EmpresaConstant.RAZAOSOCIAL_TAMANHO_MIN;
+import static br.com.contmatic.exception.mensagens.EmpresaMessage.RAZAOSOCIAL_TAMANHO_MAX_MESSAGE;
+import static br.com.contmatic.exception.mensagens.EmpresaMessage.RAZAOSOCIAL_TAMANHO_MIN_MESSAGE;
+import static br.com.contmatic.exception.mensagens.EmpresaMessage.RAZAOSOCIAL_TAMANHO_NULL_MESSAGE;
+import static br.com.contmatic.validator.CNPJValidator.validar;
+import static br.com.contmatic.validator.ValidatorString.validarNull;
+import static br.com.contmatic.validator.ValidatorString.validarTamahhoMaximo;
+import static br.com.contmatic.validator.ValidatorString.validarTamahhoMinimo;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import br.com.contmatic.validator.CNPJValidator;
 
 public class Empresa {
 
@@ -14,7 +23,7 @@ public class Empresa {
 	private List<Endereco> enderecos;
 
 	private List<Telefone> telefones;
-	
+
 	public Empresa(String cnpj) {
 		super();
 		this.setCnpj(cnpj);
@@ -32,7 +41,7 @@ public class Empresa {
 	}
 
 	public void setCnpj(String cnpj) {
-		CNPJValidator.validar(cnpj);
+		validar(cnpj);
 		this.cnpj = cnpj;
 	}
 
@@ -41,6 +50,9 @@ public class Empresa {
 	}
 
 	public void setRazaoSocial(String razaoSocial) {
+		validarNull(razaoSocial, RAZAOSOCIAL_TAMANHO_NULL_MESSAGE);
+		validarTamahhoMinimo(razaoSocial, RAZAOSOCIAL_TAMANHO_MIN, RAZAOSOCIAL_TAMANHO_MIN_MESSAGE);
+		validarTamahhoMaximo(razaoSocial, RAZAOSOCIAL_TAMANHO_MAX, RAZAOSOCIAL_TAMANHO_MAX_MESSAGE);
 		this.razaoSocial = razaoSocial;
 	}
 
@@ -80,4 +92,9 @@ public class Empresa {
 		return Objects.equals(cnpj, other.cnpj);
 	}
 
+	@Override
+	public String toString() {
+		return "Empresa [cnpj=" + cnpj + ", razaoSocial=" + razaoSocial + ", enderecos=" + enderecos + ", telefones="
+				+ telefones + "]";
+	}
 }

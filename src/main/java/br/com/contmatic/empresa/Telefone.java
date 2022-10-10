@@ -3,16 +3,18 @@ package br.com.contmatic.empresa;
 import java.util.Objects;
 
 public class Telefone {
-	
+
 	private String ddd;
-	
+
 	private String numero;
-	
+
+	private String ddi;
+
 	public Telefone(String numero) {
 		super();
 		this.numero = numero;
 	}
-	
+
 	public String getNumero() {
 		return numero;
 	}
@@ -27,6 +29,14 @@ public class Telefone {
 
 	public void setDdd(String ddd) {
 		this.ddd = ddd;
+	}
+
+	public String getDdi() {
+		return ddi;
+	}
+
+	public void setDdi(String ddi) {
+		this.ddi = ddi;
 	}
 
 	@Override
@@ -46,5 +56,4 @@ public class Telefone {
 		return Objects.equals(numero, other.numero);
 	}
 
-	
 }

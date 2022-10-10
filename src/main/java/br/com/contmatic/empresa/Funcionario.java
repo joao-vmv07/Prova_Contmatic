@@ -2,6 +2,7 @@ package br.com.contmatic.empresa;
 
 import static br.com.contmatic.validator.CPFValidator.validar;
 
+import java.sql.Date;
 import java.util.Objects;
 
 public class Funcionario {
@@ -10,7 +11,9 @@ public class Funcionario {
 
 	private String nome;
 
-	private String setor;
+	private int idade;
+
+	private Date datanascimento;
 
 	public Funcionario(String cpf) {
 		super();
@@ -34,12 +37,20 @@ public class Funcionario {
 		this.cpf = cpf;
 	}
 
-	public String getSetor() {
-		return setor;
+	public int getIdade() {
+		return idade;
 	}
 
-	public void setSetor(String setor) {
-		this.setor = setor;
+	public void setIdade(int idade) {
+		this.idade = idade;
+	}
+
+	public Date getDatanascimento() {
+		return datanascimento;
+	}
+
+	public void setDatanascimento(Date datanascimento) {
+		this.datanascimento = datanascimento;
 	}
 
 	@Override

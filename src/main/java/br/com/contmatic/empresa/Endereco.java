@@ -3,17 +3,21 @@ package br.com.contmatic.empresa;
 import java.util.Objects;
 
 public class Endereco {
-	
+
 	private String rua;
-	
+
 	private String numero;
-	
+
 	private String bairro;
-	
+
 	private String cep;
-	
+
 	public String getCep() {
 		return cep;
+	}
+	public Endereco(String cep,String numero) {
+		this.setCep(cep);
+		this.setNumero(numero);
 	}
 
 	public void setCep(String cep) {
@@ -43,7 +47,7 @@ public class Endereco {
 	public void setBairro(String bairro) {
 		this.bairro = bairro;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(cep, numero);
@@ -61,5 +65,4 @@ public class Endereco {
 		return Objects.equals(cep, other.cep) && Objects.equals(numero, other.numero);
 	}
 
-	
 }
