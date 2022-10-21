@@ -1,6 +1,19 @@
 package br.com.contmatic.model.empresa;
 
+import static br.com.contmatic.model.util.constants.FuncionarioConstant.NOME_FORMAT_MESSAGE;
+import static br.com.contmatic.model.util.constants.FuncionarioConstant.NOME_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constants.FuncionarioConstant.NOME_TAMANHO_MAX;
+import static br.com.contmatic.model.util.constants.FuncionarioConstant.NOME_TAMANHO_MAX_MESSAGE;
+import static br.com.contmatic.model.util.constants.FuncionarioConstant.NOME_TAMANHO_MIN;
+import static br.com.contmatic.model.util.constants.FuncionarioConstant.NOME_TAMANHO_MIN_MESSAGE;
+import static br.com.contmatic.model.util.constants.FuncionarioConstant.NOME_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.validator.CPFValidator.validar;
+import static br.com.contmatic.model.util.validator.StringValidator.validarContemSomenteLetras;
+import static br.com.contmatic.model.util.validator.StringValidator.validarNull;
+import static br.com.contmatic.model.util.validator.StringValidator.validarTamahhoMaximo;
+import static br.com.contmatic.model.util.validator.StringValidator.validarTamahhoMinimo;
+import static br.com.contmatic.model.util.validator.StringValidator.validarVazio;
+
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -18,17 +31,10 @@ public class Funcionario {
 
 	private Boolean status;
 
-	public Funcionario(String cpf) {
+	public Funcionario(String cpf, String nome) {
 		super();
 		this.setCpf(cpf);
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
+		this.setNome(nome);
 	}
 
 	public String getCpf() {
@@ -38,6 +44,19 @@ public class Funcionario {
 	public void setCpf(String cpf) {
 		validar(cpf);
 		this.cpf = cpf;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		validarNull(nome, NOME_NULL_MESSAGE);
+		validarVazio(nome, NOME_VAZIO_MESSAGE);
+		validarContemSomenteLetras(nome, NOME_FORMAT_MESSAGE);
+		validarTamahhoMinimo(nome, NOME_TAMANHO_MIN, NOME_TAMANHO_MIN_MESSAGE);
+		validarTamahhoMaximo(nome, NOME_TAMANHO_MAX, NOME_TAMANHO_MAX_MESSAGE);
+		this.nome = nome;
 	}
 
 	public String getIdade() {

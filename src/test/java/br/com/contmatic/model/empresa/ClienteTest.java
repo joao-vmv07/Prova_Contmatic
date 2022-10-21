@@ -1,10 +1,10 @@
-package br.com.contmatic.model.endereco;
+package br.com.contmatic.model.empresa;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-class EnderecoTest { 
+class ClienteTest {
 
 	@Test
 	void test() {

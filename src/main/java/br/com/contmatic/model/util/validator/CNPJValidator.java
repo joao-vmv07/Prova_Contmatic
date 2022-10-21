@@ -1,15 +1,17 @@
 package br.com.contmatic.model.util.validator;
 
-import static br.com.contmatic.model.util.constants.EmpresaConstant.NULL_CNPJ_MESSAGE;
+import static br.com.contmatic.model.util.constants.EmpresaConstant.CNPJ_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constants.EmpresaConstant.CNPJ_ESPACO_MESSAGE;
 import static br.com.contmatic.model.util.constants.EmpresaConstant.CNPJ_LETRAS_MASK_MESSAGE;
-import static br.com.contmatic.model.util.constants.EmpresaConstant.TAMANHO_CNPJ_MESSAGE;
+import static br.com.contmatic.model.util.constants.EmpresaConstant.CNPJ_TAMANHO_MESSAGE;
 import static br.com.contmatic.model.util.constants.EmpresaConstant.CNPJ_TAMANHO_FIXO;
 import static br.com.contmatic.model.util.constants.EmpresaConstant.CNPJ_INVALIDO_MESSAGE;
-import static br.com.contmatic.model.util.validator.StringValidator.validarContemEspaco;
+import static br.com.contmatic.model.util.constants.EmpresaConstant.CNPJ_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.validator.StringValidator.validarContemSomenteNum;
 import static br.com.contmatic.model.util.validator.StringValidator.validarNull;
 import static br.com.contmatic.model.util.validator.StringValidator.validarTamanhoFixo;
+import static br.com.contmatic.model.util.validator.StringValidator.validarVazio;
+import static br.com.contmatic.model.util.validator.StringValidator.validarEspaco;
 import static java.lang.Integer.parseInt;
 import static java.lang.String.valueOf;
 
@@ -30,10 +32,11 @@ public class CNPJValidator {
 	}
 
 	public static void validar(String cnpj) {
-		validarNull(cnpj, NULL_CNPJ_MESSAGE); 
-		validarContemEspaco(cnpj, CNPJ_ESPACO_MESSAGE);
+		validarNull(cnpj, CNPJ_NULL_MESSAGE); 
+		validarVazio(cnpj, CNPJ_VAZIO_MESSAGE );
+		validarEspaco(cnpj, CNPJ_ESPACO_MESSAGE);
 		validarContemSomenteNum(cnpj, CNPJ_LETRAS_MASK_MESSAGE);
-		validarTamanhoFixo(cnpj, CNPJ_TAMANHO_FIXO, TAMANHO_CNPJ_MESSAGE);
+		validarTamanhoFixo(cnpj, CNPJ_TAMANHO_FIXO, CNPJ_TAMANHO_MESSAGE);
 		validarCalculoDigitos(cnpj);
 	}
 

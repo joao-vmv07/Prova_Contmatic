@@ -9,10 +9,12 @@ public class Telefone {
 	private String numero;
 
 	private String ddi;
-
-	public Telefone(String numero) {
+	
+	public Telefone(String ddd, String numero, String ddi) {
 		super();
-		this.numero = numero; 
+		this.ddd = ddd;
+		this.numero = numero;
+		this.ddi = ddi;
 	}
 
 	public String getNumero() {
@@ -41,7 +43,7 @@ public class Telefone {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(ddd, numero);
+		return Objects.hash(ddd, ddi, numero);
 	}
 
 	@Override
@@ -53,7 +55,12 @@ public class Telefone {
 		if (getClass() != obj.getClass())
 			return false;
 		Telefone other = (Telefone) obj;
-		return Objects.equals(numero, other.numero);
+		return Objects.equals(ddd, other.ddd) && Objects.equals(ddi, other.ddi) && Objects.equals(numero, other.numero);
+	}
+
+	@Override
+	public String toString() {
+		return "Telefone [ddd=" + ddd + ", numero=" + numero + ", ddi=" + ddi + "]";
 	}
 
 }
