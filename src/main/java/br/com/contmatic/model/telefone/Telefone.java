@@ -10,11 +10,12 @@ public class Telefone {
 
 	private String ddi;
 	
-	public Telefone(String ddd, String numero, String ddi) {
+	public Telefone(String ddi, String ddd, String numero) {
 		super();
-		this.ddd = ddd;
-		this.numero = numero;
-		this.ddi = ddi;
+		this.setDdi(ddi);   
+		this.setDdd(ddd); 
+		this.setNumero(numero);
+		
 	}
 
 	public String getNumero() {

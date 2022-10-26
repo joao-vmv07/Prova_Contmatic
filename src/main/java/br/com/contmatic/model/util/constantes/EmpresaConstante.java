@@ -1,6 +1,6 @@
-package br.com.contmatic.model.util.constants;
+package br.com.contmatic.model.util.constantes;
 
-public class EmpresaConstant {
+public final class EmpresaConstante {
 	
 	public static final int RAZAO_SOCIAL_TAMANHO_MIN = 3;
 	
@@ -24,7 +24,7 @@ public class EmpresaConstant {
 	
 	public static final String CNPJ_VAZIO_MESSAGE = "O campo CNPJ de Empresa não deve ser vazio.";
 	
-	public static final String RAZAO_SOCIAL_TAMANHO_MAX_MESSAGE = "O campo razão social de Empresa deve conter no maximo 40 caracteres.";
+	public static final String RAZAO_SOCIAL_TAMANHO_MAX_MESSAGE = "O campo razão social de Empresa é permitido no maximo 40 caracteres.";
 
 	public static final String RAZAO_SOCIAL_TAMANHO_MIN_MESSAGE = "O campo razão social de Empresa deve conter no minimo 3 caracteres.";
 	
@@ -32,11 +32,17 @@ public class EmpresaConstant {
 	
 	public static final String RAZAO_SOCIAL_VAZIO_MESSAGE = "O campo razão social de Empresa não deve ser vazio.";
 	
-	public static final String NOME_FANTASIA_TAMANHO_MAX_MESSAGE = "O campo Nome Fantasia de Empresa deve conter no maximo 40 caracteres.";
+	public static final String NOME_FANTASIA_TAMANHO_MAX_MESSAGE = "O campo Nome Fantasia de Empresa é permitido no maximo 40 caracteres.";
 
 	public static final String NOME_FANTASIA_TAMANHO_MIN_MESSAGE = "O campo Nome Fantasia de Empresa deve conter no minimo 3 caracteres.";
 	
-	private EmpresaConstant() {
+	public static final String NOME_FANTASIA_VAZIO_MESSAGE = "O campo Nome Fantasia de Empresa não deve ser vazio.";
+	
+	public static final String TELEFONE_NULL_MESSAGE = "O campo Telefone de Empresa deve ser preenchido.";
+	
+	public static final String ENDERECO_NULL_MESSAGE = "O campo Endereco de Empresa deve ser preenchido.";
+	
+	private EmpresaConstante() {
 		
 	}
 }

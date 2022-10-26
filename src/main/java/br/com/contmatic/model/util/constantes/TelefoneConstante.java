@@ -1,6 +1,6 @@
-package br.com.contmatic.model.util.constants;
+package br.com.contmatic.model.util.constantes;
 
-public class TelefoneConstant {
+public final class TelefoneConstante {
 	
 	public static final int DDD_TAMANHO_FIXO = 2;
 	
@@ -10,7 +10,7 @@ public class TelefoneConstant {
 	
 	public static final int NUMERO_CELULAR = 9;
 	
-	private TelefoneConstant() {
+	private TelefoneConstante() {
 		
 	}
 }

@@ -1,20 +1,24 @@
 package br.com.contmatic.model.empresa;
 
-import static br.com.contmatic.model.util.constants.EmpresaConstant.NOME_FANTASIA_TAMANHO_MAX;
-import static br.com.contmatic.model.util.constants.EmpresaConstant.NOME_FANTASIA_TAMANHO_MAX_MESSAGE;
-import static br.com.contmatic.model.util.constants.EmpresaConstant.NOME_FANTASIA_TAMANHO_MIN;
-import static br.com.contmatic.model.util.constants.EmpresaConstant.NOME_FANTASIA_TAMANHO_MIN_MESSAGE;
-import static br.com.contmatic.model.util.constants.EmpresaConstant.RAZAO_SOCIAL_TAMANHO_MAX;
-import static br.com.contmatic.model.util.constants.EmpresaConstant.RAZAO_SOCIAL_TAMANHO_MAX_MESSAGE;
-import static br.com.contmatic.model.util.constants.EmpresaConstant.RAZAO_SOCIAL_TAMANHO_MIN;
-import static br.com.contmatic.model.util.constants.EmpresaConstant.RAZAO_SOCIAL_TAMANHO_MIN_MESSAGE;
-import static br.com.contmatic.model.util.constants.EmpresaConstant.RAZAO_SOCIAL_TAMANHO_NULL_MESSAGE;
-import static br.com.contmatic.model.util.constants.EmpresaConstant.RAZAO_SOCIAL_VAZIO_MESSAGE;
-import static br.com.contmatic.model.util.validator.CNPJValidator.validar;
-import static br.com.contmatic.model.util.validator.StringValidator.validarNull;
-import static br.com.contmatic.model.util.validator.StringValidator.validarTamahhoMaximo;
-import static br.com.contmatic.model.util.validator.StringValidator.validarTamahhoMinimo;
-import static br.com.contmatic.model.util.validator.StringValidator.validarVazio;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.ENDERECO_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.NOME_FANTASIA_TAMANHO_MAX;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.NOME_FANTASIA_TAMANHO_MAX_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.NOME_FANTASIA_TAMANHO_MIN;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.NOME_FANTASIA_TAMANHO_MIN_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.NOME_FANTASIA_VAZIO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_TAMANHO_MAX;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_TAMANHO_MAX_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_TAMANHO_MIN;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_TAMANHO_MIN_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_TAMANHO_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_VAZIO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.TELEFONE_NULL_MESSAGE;
+import static br.com.contmatic.model.util.validacao.CNPJValidacao.checkCNPJ;
+import static br.com.contmatic.model.util.validacao.Validacao.checkListaNull;
+import static br.com.contmatic.model.util.validacao.Validacao.checkNull;
+import static br.com.contmatic.model.util.validacao.Validacao.checkTamahhoMaximo;
+import static br.com.contmatic.model.util.validacao.Validacao.checkTamahhoMinimo;
+import static br.com.contmatic.model.util.validacao.Validacao.checkVazio;
 
 import java.util.Objects;
 import java.util.Set;
@@ -36,7 +40,7 @@ public class Empresa {
 
 	public Empresa(String cnpj) {
 		super();
-		this.setCnpj(cnpj);
+		this.setCnpj(cnpj);  
 	}
 
 	public String getCnpj() {
@@ -44,7 +48,7 @@ public class Empresa {
 	}
 
 	public void setCnpj(String cnpj) {
-		validar(cnpj);
+		checkCNPJ(cnpj);
 		this.cnpj = cnpj;
 	}
 
@@ -53,18 +57,19 @@ public class Empresa {
 	}
 
 	public void setRazaoSocial(String razaoSocial) {
-		validarNull(razaoSocial, RAZAO_SOCIAL_TAMANHO_NULL_MESSAGE);
-		validarVazio(razaoSocial, RAZAO_SOCIAL_VAZIO_MESSAGE);
-		validarTamahhoMinimo(razaoSocial, RAZAO_SOCIAL_TAMANHO_MIN, RAZAO_SOCIAL_TAMANHO_MIN_MESSAGE);
-		validarTamahhoMaximo(razaoSocial, RAZAO_SOCIAL_TAMANHO_MAX, RAZAO_SOCIAL_TAMANHO_MAX_MESSAGE);
+		checkNull(razaoSocial, RAZAO_SOCIAL_TAMANHO_NULL_MESSAGE);
+		checkVazio(razaoSocial, RAZAO_SOCIAL_VAZIO_MESSAGE);
+		checkTamahhoMinimo(razaoSocial, RAZAO_SOCIAL_TAMANHO_MIN, RAZAO_SOCIAL_TAMANHO_MIN_MESSAGE);
+		checkTamahhoMaximo(razaoSocial, RAZAO_SOCIAL_TAMANHO_MAX, RAZAO_SOCIAL_TAMANHO_MAX_MESSAGE);
 		this.razaoSocial = razaoSocial;
 	}
 
 	public Set<Endereco> getEnderecos() {
-		return enderecos;
+		return enderecos; 
 	} 
 
 	public void setEnderecos(Set<Endereco> enderecos) {
+		checkListaNull(enderecos, ENDERECO_NULL_MESSAGE);
 		this.enderecos = enderecos;
 	}
 
@@ -73,6 +78,7 @@ public class Empresa {
 	}
 
 	public void setTelefones(Set<Telefone> telefone) {
+		checkListaNull(telefone, TELEFONE_NULL_MESSAGE);
 		this.telefones = telefone;
 	}
 
@@ -81,8 +87,9 @@ public class Empresa {
 	}
 
 	public void setNomeFantasia(String nomeFantasia) {
-		validarTamahhoMinimo(nomeFantasia, NOME_FANTASIA_TAMANHO_MIN, NOME_FANTASIA_TAMANHO_MIN_MESSAGE);
-		validarTamahhoMaximo(nomeFantasia, NOME_FANTASIA_TAMANHO_MAX, NOME_FANTASIA_TAMANHO_MAX_MESSAGE);
+		checkVazio(nomeFantasia, NOME_FANTASIA_VAZIO_MESSAGE);
+		checkTamahhoMinimo(nomeFantasia, NOME_FANTASIA_TAMANHO_MIN, NOME_FANTASIA_TAMANHO_MIN_MESSAGE);
+		checkTamahhoMaximo(nomeFantasia, NOME_FANTASIA_TAMANHO_MAX, NOME_FANTASIA_TAMANHO_MAX_MESSAGE);
 		this.nomeFantasia = nomeFantasia;
 	}
 
@@ -109,6 +116,6 @@ public class Empresa {
 	@Override
 	public String toString() {
 		return "Empresa [cnpj=" + cnpj + ", razaoSocial=" + razaoSocial + ", enderecos=" + enderecos + ", telefones="
-				+ telefones + "]";
+				+ telefones + "]"; 
 	}
 }

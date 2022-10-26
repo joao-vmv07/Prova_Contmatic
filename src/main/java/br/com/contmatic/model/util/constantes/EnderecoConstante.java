@@ -1,6 +1,6 @@
-package br.com.contmatic.model.util.constants;
+package br.com.contmatic.model.util.constantes;
 
-public class EnderecoConstant {
+public final class EnderecoConstante {
 
 	public static final int RUA_TAMANHO_MIN = 3;
 
@@ -42,7 +42,7 @@ public class EnderecoConstant {
 	
 	public static final String BAIRRO_TAMANHO_MAX_MESSAGE = "O campo Bairro de Endereço deve ter tamanho maximo de 40 caracteres.";
 	
-	private EnderecoConstant() {
+	private EnderecoConstante() {
 
 	}
 }

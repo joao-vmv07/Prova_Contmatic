@@ -14,7 +14,7 @@ class EmpresaTest {
 		Empresa empresa = new Empresa("17081431000122");
 		assertEquals("17081431000122", empresa.getCnpj());
 	}
- 
+
 	@Test
 	void nao_deve_aceitar_cnpj_invalido() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
@@ -24,8 +24,8 @@ class EmpresaTest {
 
 	@Test
 	void nao_deve_aceitar_cnpj_com_menos_de_14_caracteres() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> new Empresa("6242"),
-				"Expected doThing() to throw, but it didn't");
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, 
+				() -> new Empresa("6242"),"Expected doThing() to throw, but it didn't");
 		assertTrue(thrown.getMessage().contains("O campo CNPJ de Empresa deve conter 14 digitos."));
 	}
 
@@ -40,16 +40,14 @@ class EmpresaTest {
 	void nao_deve_aceitar_cnpj_com_letras() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> new Empresa("170814310002Az"), "Expected doThing() to throw, but it didn't");
-		assertTrue(thrown.getMessage()
-				.contains("O campo CNPJ de Empresa não pode conter pontuação, letras e caracteres especiais."));
+		assertTrue(thrown.getMessage().contains("O campo CNPJ de Empresa não pode conter pontuação, letras e caracteres especiais."));
 	}
 
 	@Test
 	void nao_deve_aceitar_cnpj_com_caracteres_especial() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> new Empresa("62%5898600010!"), "Expected doThing() to throw, but it didn't");
-		assertTrue(thrown.getMessage()
-				.contains("O campo CNPJ de Empresa não pode conter pontuação, letras e caracteres especiais."));
+		assertTrue(thrown.getMessage().contains("O campo CNPJ de Empresa não pode conter pontuação, letras e caracteres especiais."));
 	}
 
 	@Test
@@ -63,21 +61,27 @@ class EmpresaTest {
 	void nao_deve_aceitar_cnpj_com_maskara() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> new Empresa("69.236.855/0001-12"), "Expected doThing() to throw, but it didn't");
-		assertTrue(thrown.getMessage()
-				.contains("O campo CNPJ de Empresa não pode conter pontuação, letras e caracteres especiais."));
+		assertTrue(thrown.getMessage().contains("O campo CNPJ de Empresa não pode conter pontuação, letras e caracteres especiais."));
 	}
 
 	@Test
 	void nao_deve_aceiitar_cpnj_nulo() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> new Empresa(null),
-				"Expected doThing() to throw, but it didn't");
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, 
+				() -> new Empresa(null),"Expected doThing() to throw, but it didn't");
 		assertTrue(thrown.getMessage().contains("O campo CNPJ de Emrpesa deve ser preenchido."));
 	}
 
 	@Test
-	void nao_deve_aceitar_cpnj_vazio() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> new Empresa(" "),
-				"Expected doThing() to throw, but it didn't");
+	void nao_deve_aceitar_cpnj_vazio_com_espaco() {
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, 
+				() -> new Empresa(" "),"Expected doThing() to throw, but it didn't");
+		assertTrue(thrown.getMessage().contains("O campo CNPJ de Empresa não deve ser vazio"));
+	}
+	
+	@Test
+	void nao_deve_aceitar_cpnj_vazio_sem_espaco() {
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, 
+				() -> new Empresa(" "),"Expected doThing() to throw, but it didn't");
 		assertTrue(thrown.getMessage().contains("O campo CNPJ de Empresa não deve ser vazio"));
 	}
 
@@ -105,9 +109,8 @@ class EmpresaTest {
 	@Test
 	void nao_deve_aceiitar_razao_social_mais_40_caracteres() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setRazaoSocial("TESTE123TESTE123TESTE123TESTE123TESTE123TESTE1231213dadada1"),
-				"Expected doThing() to throw, but it didn't");
-		assertEquals("O campo razão social de Empresa deve conter no maximo 40 caracteres.", thrown.getMessage());
+				() -> empresaBefore.setRazaoSocial("TESTE123TESTE123TESTE123TESTE123TESTE123TESTE1231213dadada1"),"Expected doThing() to throw, but it didn't");
+		assertEquals("O campo razão social de Empresa é permitido no maximo 40 caracteres.", thrown.getMessage());
 	}
 
 	@Test
@@ -127,7 +130,51 @@ class EmpresaTest {
 	@Test
 	void nao_deve_aceiitar_razao_social_campo_vazio() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> empresaBefore.setRazaoSocial(""), "Expected doThing() to throw, but it didn't");
+		assertEquals("O campo razão social de Empresa não deve ser vazio.", thrown.getMessage());
+	}
+	
+	@Test
+	void nao_deve_aceiitar_razao_social_campo_vazio_com_espaco() {
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> empresaBefore.setRazaoSocial(" "), "Expected doThing() to throw, but it didn't");
 		assertEquals("O campo razão social de Empresa não deve ser vazio.", thrown.getMessage());
+	}
+
+	// NomeFantasia
+	@Test
+	void deve_aceitar_nome_fantasia_valido() {
+		empresaBefore.setNomeFantasia("Adidas");
+		assertEquals("Adidas", empresaBefore.getNomeFantasia());
+	}
+
+	@Test
+	void nao_deve_aceiitar_nome_fantasia_vazio() {
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> empresaBefore.setNomeFantasia(""), "Expected doThing() to throw, but it didn't");
+		assertEquals("O campo Nome Fantasia de Empresa não deve ser vazio.", thrown.getMessage());
+	}
+
+	@Test
+	void nao_deve_aceiitar_nome_fantasia_mais_40_caracteres() {
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> empresaBefore.setNomeFantasia("TESTE123TESTE123TESTE123TESTE123TESTE123TESTE1231213dadada1"),"Expected doThing() to throw, but it didn't");
+		assertEquals("O campo Nome Fantasia de Empresa é permitido no maximo 40 caracteres.", thrown.getMessage());
+	}
+
+	@Test
+	void nao_deve_aceiitar_nome_fantasia_menos_3_caracteres() {
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> empresaBefore.setNomeFantasia("AB"), "Expected doThing() to throw, but it didn't");
+		assertEquals("O campo Nome Fantasia de Empresa deve conter no minimo 3 caracteres.", thrown.getMessage());
+	} 
+ 
+	// Telefone
+
+	@Test
+	void nao_deve_aceiitar_lista_telefone_null() {
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> empresaBefore.setTelefones(null), "Expected doThing() to throw, but it didn't");
+		assertEquals("O campo Telefone de Empresa deve ser preenchido.", thrown.getMessage());
 	}
 }
