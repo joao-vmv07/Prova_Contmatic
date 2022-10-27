@@ -91,6 +91,18 @@ class FuncionarioTest {
 		Funcionario funcionario = new Funcionario("46339822819", "João Victor Mendes Vilela");
 		assertEquals("João Victor Mendes Vilela", funcionario.getNome());
 	} 
+	
+	@Test
+	void deve_aceitar_nome_com_acento() {
+		Funcionario funcionario =  new Funcionario("46339822819", "João Victor");
+		assertEquals("João Victor", funcionario.getNome());
+	}
+	
+	@Test
+	void deve_aceitar_nome_sem_acento() {
+		Funcionario funcionario =  new Funcionario("46339822819", "Gabriel Souza");
+		assertEquals("Gabriel Souza", funcionario.getNome());
+	}
 
 	@Test
 	void nao_deve_aceitar_nome_nulo() {
@@ -140,6 +152,7 @@ class FuncionarioTest {
 				() -> new Funcionario("46339822819", "João Victor01"), "Expected doThing() to throw, but it didn't");
 		assertEquals("O campo Nome de Funcionário não é permitido conter pontuação, caracter especial e numérico.", thrown.getMessage());
 	}
+	
 	
 	//Email
 	@Test

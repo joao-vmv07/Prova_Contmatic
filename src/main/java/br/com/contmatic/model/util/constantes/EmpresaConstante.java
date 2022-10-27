@@ -40,7 +40,12 @@ public final class EmpresaConstante {
 	
 	public static final String TELEFONE_NULL_MESSAGE = "O campo Telefone de Empresa deve ser preenchido.";
 	
+	public static final String TELEFONE_VAZIO_MESSAGE = "O campo Telefone de Empresa não deve ser vazio.";
+	
 	public static final String ENDERECO_NULL_MESSAGE = "O campo Endereco de Empresa deve ser preenchido.";
+	
+	public static final String ENDERECO_VAZIO_MESSAGE = "O campo Endereco de Empresa não deve ser vazio.";
+	
 	
 	private EmpresaConstante() {
 		

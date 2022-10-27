@@ -81,5 +81,4 @@ class ClienteTest {
 				() -> new Cliente(" 46339 8 228 11", "Joao"), "Expected doThing() to throw, but it didn't");
 		assertTrue(thrown.getMessage().contains("O CPF de Cliente não deve conter espaço."));
 	}
- 
 }

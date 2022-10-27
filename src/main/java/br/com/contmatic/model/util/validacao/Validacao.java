@@ -1,6 +1,6 @@
 package br.com.contmatic.model.util.validacao;
 
-import java.util.Set;
+import java.util.Collection;
 
 public final class Validacao {
 
@@ -55,9 +55,15 @@ public final class Validacao {
 		}
 	}
 	
-	public static void checkListaNull(Set<?> lista, String message) {
-		if (lista == null) {
+	public static void checkCollectionNull(Collection<?> collection, String message) {
+		if (collection == null) {
 			throw new IllegalArgumentException(message);
 		}
-	} 
+	}
+	
+	public static void checkCollectionVazio(Collection<?> collection, String message) {
+		if (collection.isEmpty()) { 
+			throw new IllegalArgumentException(message);
+		}
+	}
 }

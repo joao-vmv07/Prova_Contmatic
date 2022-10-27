@@ -14,7 +14,7 @@ import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCI
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.TELEFONE_NULL_MESSAGE;
 import static br.com.contmatic.model.util.validacao.CNPJValidacao.checkCNPJ;
-import static br.com.contmatic.model.util.validacao.Validacao.checkListaNull;
+import static br.com.contmatic.model.util.validacao.Validacao.checkCollectionNull;
 import static br.com.contmatic.model.util.validacao.Validacao.checkNull;
 import static br.com.contmatic.model.util.validacao.Validacao.checkTamahhoMaximo;
 import static br.com.contmatic.model.util.validacao.Validacao.checkTamahhoMinimo;
@@ -25,6 +25,8 @@ import java.util.Set;
 
 import br.com.contmatic.model.endereco.Endereco;
 import br.com.contmatic.model.telefone.Telefone;
+import br.com.contmatic.model.util.constantes.EmpresaConstante;
+import br.com.contmatic.model.util.validacao.Validacao;
 
 public class Empresa {
 
@@ -69,7 +71,8 @@ public class Empresa {
 	} 
 
 	public void setEnderecos(Set<Endereco> enderecos) {
-		checkListaNull(enderecos, ENDERECO_NULL_MESSAGE);
+		checkCollectionNull(enderecos, ENDERECO_NULL_MESSAGE);
+		Validacao.checkCollectionVazio(enderecos, EmpresaConstante.ENDERECO_VAZIO_MESSAGE);
 		this.enderecos = enderecos;
 	}
 
@@ -78,7 +81,8 @@ public class Empresa {
 	}
 
 	public void setTelefones(Set<Telefone> telefone) {
-		checkListaNull(telefone, TELEFONE_NULL_MESSAGE);
+		checkCollectionNull(telefone, TELEFONE_NULL_MESSAGE);
+		Validacao.checkCollectionVazio(telefone, EmpresaConstante.TELEFONE_VAZIO_MESSAGE);
 		this.telefones = telefone;
 	}
 
@@ -96,7 +100,7 @@ public class Empresa {
 	@Override
 	public int hashCode() {
 		return Objects.hash(cnpj);
-	}
+	} 
 
 	@Override
 	public boolean equals(Object obj) {

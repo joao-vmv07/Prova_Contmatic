@@ -1,5 +1,15 @@
 package br.com.contmatic.model.util.validacao;
 
+import static br.com.contmatic.model.util.constantes.CNPJConstante.LOGICA_CNPJ_DIGITO_1;
+import static br.com.contmatic.model.util.constantes.CNPJConstante.LOGICA_CNPJ_DIGITO_2;
+import static br.com.contmatic.model.util.constantes.CNPJConstante.NUMERO_VERIFICADOR;
+import static br.com.contmatic.model.util.constantes.CNPJConstante.POSICAO_VERIFICADOR_1;
+import static br.com.contmatic.model.util.constantes.CNPJConstante.POSICAO_VERIFICADOR_2;
+import static br.com.contmatic.model.util.constantes.CNPJConstante.TAMANHO_CNPJ;
+import static br.com.contmatic.model.util.constantes.CNPJConstante.VALOR_MAX_DIGITO_VERIFICADOR;
+import static br.com.contmatic.model.util.constantes.CNPJConstante.VALOR_MAX_MULTIPLICADOR;
+import static br.com.contmatic.model.util.constantes.CNPJConstante.VALOR_MIN_DIGITO_VERIFICADOR;
+import static br.com.contmatic.model.util.constantes.CNPJConstante.VALOR_MIN_MULTIPLICADOR;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_ESPACO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_INVALIDO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_LETRAS_MASK_MESSAGE;
@@ -17,18 +27,6 @@ import static java.lang.String.valueOf;
 
 public class CNPJValidacao {
 
-	private static final int TAMANHO_CNPJ = 14;
-
-	private static final int POSICAO_VERIFICADOR_2 = 13;
-	
-	private static final int POSICAO_VERIFICADOR_1 = 12;
-	
-	private static final int LOGICA_CNPJ_DIGITO_1 = 2;
-	
-	private static final int LOGICA_CNPJ_DIGITO_2 = 1;
-	
-	private static final int NUMERO_VERIFICADOR = 11;
-	
 	private CNPJValidacao() {
 
 	}
@@ -39,30 +37,34 @@ public class CNPJValidacao {
 		checkEspaco(cnpj, CNPJ_ESPACO_MESSAGE);
 		checkContemNum(cnpj, CNPJ_LETRAS_MASK_MESSAGE);
 		checkTamanhoFixo(cnpj, CNPJ_TAMANHO_FIXO, CNPJ_TAMANHO_MESSAGE);
-		checkCalculoDigitos(cnpj);  
+		checkVerificadores(cnpj);  
 	}
 
-	private static void checkCalculoDigitos(String cnpj) {
-		int digito1 = obterNumeroVerificador(cnpj, LOGICA_CNPJ_DIGITO_1);
-		int digito2 = obterNumeroVerificador(cnpj, LOGICA_CNPJ_DIGITO_2);
+	private static void checkVerificadores(String cnpj) {
+		int digito1 = calculoNumeroVerificador(cnpj, LOGICA_CNPJ_DIGITO_1);
+		int digito2 = calculoNumeroVerificador(cnpj, LOGICA_CNPJ_DIGITO_2);
 		if (digito1 == parseInt(valueOf((cnpj.charAt(POSICAO_VERIFICADOR_1)))) && digito2 == parseInt(valueOf((cnpj.charAt(POSICAO_VERIFICADOR_2))))) {
 			return;
 		}
 		throw new IllegalArgumentException(CNPJ_INVALIDO_MESSAGE);
 	}
 
-	private static int obterNumeroVerificador(String cnpj, int logicaCnpj) {
+	private static String inverterCNPJ(String cnpj) {
+		return new StringBuilder(cnpj).reverse().toString();
+	}
+	
+	private static int calculoNumeroVerificador(String cnpj, int logicaCnpj) {
+		String cnpjInvertido = inverterCNPJ(cnpj);
 		int soma = 0;
 		int multiplicador = 1;
-			String cnpjInvertido = new StringBuilder(cnpj).reverse().toString();
-			for (int contador = logicaCnpj; contador < TAMANHO_CNPJ; contador++) {
+			for (int contador = logicaCnpj; contador < 	TAMANHO_CNPJ; contador++) {
 				multiplicador++;
-				if (multiplicador > 9) {
-					multiplicador = 2;  
+				if (multiplicador > VALOR_MAX_MULTIPLICADOR) {
+					multiplicador = VALOR_MIN_MULTIPLICADOR;  
 				}
 				soma += parseInt(valueOf(cnpjInvertido.charAt(contador))) * multiplicador;
 		}
 		int resultado = NUMERO_VERIFICADOR - (soma % NUMERO_VERIFICADOR);
-		return resultado > 9 ? 0 : resultado;
+		return resultado > VALOR_MAX_DIGITO_VERIFICADOR ? VALOR_MIN_DIGITO_VERIFICADOR  : resultado;
 	}
 }
