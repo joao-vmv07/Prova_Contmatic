@@ -6,9 +6,9 @@ public final class TelefoneConstante {
 	
 	public static final int DDI_TAMANHO_FIXO = 2;
 	
-	public static final int NUMERO_TELEFONE = 8;
+	public static final int TELEFONE_TAMANHO_MIN = 8;
 	
-	public static final int NUMERO_CELULAR = 9;
+	public static final int TELEFONE_TAMANHO_MAX= 11;
 	
 	public static final String DDI_NULL_MESSAGE = "O campo DDI de Telefone deve ser preenchido.";
 	

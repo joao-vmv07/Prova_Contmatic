@@ -9,6 +9,11 @@ import static br.com.contmatic.model.util.constantes.FuncionarioConstante.CPF_TA
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.CPF_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.EMAIL_INVALIDO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.EMAIL_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.EMAIL_TAMANHO_MAX;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.EMAIL_TAMANHO_MAX_MESSAGE;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.EMAIL_TAMANHO_MIN;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.EMAIL_TAMANHO_MIN_MESSAGE;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.EMAIL_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.NOME_FORMAT_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.NOME_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.NOME_TAMANHO_MAX;
@@ -50,7 +55,7 @@ public class Funcionario {
 		this.setNome(nome);
 	}
 
-	public String getCpf() {
+	public String getCpf() { 
 		return cpf;
 	}
 
@@ -99,9 +104,12 @@ public class Funcionario {
 
 	public void setEmail(String email) {
 		checkNull(email, EMAIL_NULL_MESSAGE);
+		checkVazio(email, EMAIL_VAZIO_MESSAGE);
+		checkTamahhoMinimo(email, EMAIL_TAMANHO_MIN, EMAIL_TAMANHO_MIN_MESSAGE);
+		checkTamahhoMaximo(email, EMAIL_TAMANHO_MAX, EMAIL_TAMANHO_MAX_MESSAGE);
 		checkEmail(email, EMAIL_INVALIDO_MESSAGE );
 		this.email = email; 
-	}
+	} 
 
 	public Boolean getStatus() {
 		return status;

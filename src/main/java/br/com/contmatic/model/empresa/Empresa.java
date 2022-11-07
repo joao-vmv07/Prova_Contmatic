@@ -1,6 +1,7 @@
 package br.com.contmatic.model.empresa;
 
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.ENDERECO_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.ENDERECO_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.NOME_FANTASIA_TAMANHO_MAX;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.NOME_FANTASIA_TAMANHO_MAX_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.NOME_FANTASIA_TAMANHO_MIN;
@@ -13,8 +14,10 @@ import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCI
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_TAMANHO_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.TELEFONE_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.TELEFONE_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.validacao.CNPJValidacao.checkCNPJ;
 import static br.com.contmatic.model.util.validacao.Validacao.checkCollectionNull;
+import static br.com.contmatic.model.util.validacao.Validacao.checkCollectionVazio;
 import static br.com.contmatic.model.util.validacao.Validacao.checkNull;
 import static br.com.contmatic.model.util.validacao.Validacao.checkTamahhoMaximo;
 import static br.com.contmatic.model.util.validacao.Validacao.checkTamahhoMinimo;
@@ -26,7 +29,6 @@ import java.util.Set;
 import br.com.contmatic.model.endereco.Endereco;
 import br.com.contmatic.model.telefone.Telefone;
 import br.com.contmatic.model.util.constantes.EmpresaConstante;
-import br.com.contmatic.model.util.validacao.Validacao;
 
 public class Empresa {
 
@@ -72,7 +74,7 @@ public class Empresa {
 
 	public void setEnderecos(Set<Endereco> enderecos) {
 		checkCollectionNull(enderecos, ENDERECO_NULL_MESSAGE);
-		Validacao.checkCollectionVazio(enderecos, EmpresaConstante.ENDERECO_VAZIO_MESSAGE);
+		checkCollectionVazio(enderecos, ENDERECO_VAZIO_MESSAGE);
 		this.enderecos = enderecos;
 	}
 
@@ -82,15 +84,16 @@ public class Empresa {
 
 	public void setTelefones(Set<Telefone> telefone) {
 		checkCollectionNull(telefone, TELEFONE_NULL_MESSAGE);
-		Validacao.checkCollectionVazio(telefone, EmpresaConstante.TELEFONE_VAZIO_MESSAGE);
+		checkCollectionVazio(telefone, TELEFONE_VAZIO_MESSAGE);
 		this.telefones = telefone;
-	}
+	} 
 
 	public String getNomeFantasia() {
 		return nomeFantasia;
 	}
 
 	public void setNomeFantasia(String nomeFantasia) {
+		checkNull(nomeFantasia, EmpresaConstante.NOME_FANTASIA_NULL_MESSAGE);
 		checkVazio(nomeFantasia, NOME_FANTASIA_VAZIO_MESSAGE);
 		checkTamahhoMinimo(nomeFantasia, NOME_FANTASIA_TAMANHO_MIN, NOME_FANTASIA_TAMANHO_MIN_MESSAGE);
 		checkTamahhoMaximo(nomeFantasia, NOME_FANTASIA_TAMANHO_MAX, NOME_FANTASIA_TAMANHO_MAX_MESSAGE);

@@ -12,7 +12,7 @@ public class CNPJConstante {
 	
 	public static final int LOGICA_CNPJ_DIGITO_2 = 1;
 	
-	public static final int NUMERO_VERIFICADOR = 11;
+	public static final int NUMERO_VERIFICADOR_FORMULA = 11;
 	
 	public static final int VALOR_MIN_MULTIPLICADOR = 2;
 

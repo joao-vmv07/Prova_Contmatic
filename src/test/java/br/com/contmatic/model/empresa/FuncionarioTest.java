@@ -7,12 +7,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 class FuncionarioTest { 
-
+	 
 	@Test
 	void deve_aceitar_cpf_valido() {
 		Funcionario funcionario = new Funcionario("46339822819", "João");
 		assertEquals("46339822819", funcionario.getCpf());
-	}
+	} 
 
 	@Test
 	void nao_deve_aceitar_cpf_invalido() {
@@ -25,7 +25,6 @@ class FuncionarioTest {
 	void nao_deve_aceitar_cpf_com_numeros_iguais() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> new Funcionario("22222222222", "João"), "Expected doThing() to throw, but it didn't");
-		//assertTrue(thrown.getMessage().contains("O campo CPF de Funcionário informado é inválido."));
 		assertEquals("O campo CPF de Funcionário informado é inválido.", thrown.getMessage());
 	} 
 
@@ -41,7 +40,7 @@ class FuncionarioTest {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> new Funcionario("", "Joao"), "Expected doThing() to throw, but it didn't");
 		assertTrue(thrown.getMessage().contains("O campo CPF de Funcionário não deve ser vazio."));
-	}
+	} 
 
 	@Test
 	void nao_deve_aceitar_cpf_com_mais_de_11() {
@@ -153,29 +152,80 @@ class FuncionarioTest {
 		assertEquals("O campo Nome de Funcionário não é permitido conter pontuação, caracter especial e numérico.", thrown.getMessage());
 	}
 	
-	
 	//Email
+	
 	@Test
-	void nao_deve_aceitar_email_invalido() {
+	void deve_aceitar_email_valido() {
 		Funcionario funcionario =  new Funcionario("46339822819", "João Victor");
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> funcionario.setEmail("joao.mendes.com"), "Expected doThing() to throw, but it didn't");
-		assertEquals("O campo Email de Funcionário é inválido.", thrown.getMessage());
+		funcionario.setEmail("joao.mendes@gmail.com");
+		assertEquals("joao.mendes@gmail.com", funcionario.getEmail());
 	}
 	
 	@Test
 	void nao_deve_aceitar_email_sem_dominio() {
-		Funcionario funcionario =  new Funcionario("46339822819", "João Victor");
+		Funcionario funcionario = new	Funcionario("46339822819", "João Victor");
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> funcionario.setEmail("joao@"), "Expected doThing() to throw, but it didn't");
+				() -> funcionario.setEmail("joaovictor.com"), "Expected doThing() to throw, but it didn't");
 		assertEquals("O campo Email de Funcionário é inválido.", thrown.getMessage());
 	}
 	
 	@Test
 	void nao_deve_aceitar_email_nullo() {
-		Funcionario funcionario =  new Funcionario("46339822819", "João Victor");
+		Funcionario funcionario = new	Funcionario("46339822819", "João Victor");
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> funcionario.setEmail(null), "Expected doThing() to throw, but it didn't");
 		assertEquals("O campo Email de Funcionário deve ser preenchido.", thrown.getMessage());
 	} 
+	
+
+	@Test
+	void nao_deve_aceitar_email_vazio() {
+		Funcionario funcionario = new	Funcionario("46339822819", "João Victor");
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> funcionario.setEmail(""), "Expected doThing() to throw, but it didn't");
+		assertEquals("O campo Email de Funcionário não deve ser vazio.", thrown.getMessage());
+	} 
+	
+	@Test
+	void nao_deve_aceitar_email_vazio_com_espaco() {
+		Funcionario funcionario = new	Funcionario("46339822819", "João Victor");
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> funcionario.setEmail(" "), "Expected doThing() to throw, but it didn't");
+		assertEquals("O campo Email de Funcionário não deve ser vazio.", thrown.getMessage());
+	} 
+	
+	
+	@Test
+	void nao_deve_aceitar_email_com_dois_dominio() {
+		Funcionario funcionario = new	Funcionario("46339822819", "João Victor");
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> funcionario.setEmail("joaovictor@gmail@yahoo"), "Expected doThing() to throw, but it didn't");
+		assertEquals("O campo Email de Funcionário é inválido.", thrown.getMessage());
+	}
+	
+	//Equals
+		@Test
+		void equals_objeto_valores_iguais() {
+			Funcionario funcionarioA = new	Funcionario("46339822819", "João Victor");
+			Funcionario funcionarioB = new Funcionario("46339822819", "João Victor" );
+			assertEquals(true, funcionarioA.equals(funcionarioB));
+		}
+		
+		@Test
+		void equals_objeto_valores_endereco_memoria_iguais() {
+			Funcionario funcionarioA = new	Funcionario("46339822819", "João Victor");
+			assertEquals(true, funcionarioA.equals(funcionarioA));
+		}
+		
+		@Test
+		void equals_objeto_null() {
+			Funcionario funcionarioA = new	Funcionario("46339822819", "João Victor");
+			assertEquals(false, funcionarioA.equals(null));
+		}
+		
+		@Test
+		void equals_objeto_de_classes_diferente() {
+			Funcionario funcionarioA = new	Funcionario("46339822819", "João Victor");
+			assertEquals(false, funcionarioA.equals(new Object()));
+		}
 }

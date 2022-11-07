@@ -10,7 +10,7 @@ public final class FuncionarioConstante {
 	
 	public static final int IDADE_TAMANHO_FIXO = 2;
 	
-	public static final int EMAIL_TAMANHO_MIN = 12;
+	public static final int EMAIL_TAMANHO_MIN = 5;
 	
 	public static final int EMAIL_TAMANHO_MAX = 40;
 	
@@ -39,6 +39,13 @@ public final class FuncionarioConstante {
 	public static final String EMAIL_INVALIDO_MESSAGE = "O campo Email de Funcionário é inválido.";
 	
 	public static final String EMAIL_NULL_MESSAGE = "O campo Email de Funcionário deve ser preenchido.";
+	
+	public static final String EMAIL_VAZIO_MESSAGE = "O campo Email de Funcionário não deve ser vazio.";
+	
+	public static final String EMAIL_TAMANHO_MAX_MESSAGE = "O campo Email de Funcionário não deve ter mais que 40 caracteres.";
+	
+	public static final String EMAIL_TAMANHO_MIN_MESSAGE = "O campo Email de Funcionário deve ter no minimo 5 caracteres.";
+	
 	
 	private FuncionarioConstante() {
 		

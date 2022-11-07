@@ -19,17 +19,17 @@ public class CPFValidacao {
 
 	public static void checkCPF(String cpf, String cpfMessageClasse) {
 		checkTodosNumerosRepetidos(cpf, cpfMessageClasse);
-		checkCalculoNumeroVerificador(cpf, cpfMessageClasse);
+		checkNumeroVerificador(cpf, cpfMessageClasse);
 	}
 
-	private static void checkCalculoNumeroVerificador(String cpf, String cpfMessageClasse) {
+	private static void checkNumeroVerificador(String cpf, String cpfMessageClasse) {
 		int verificador1 = calculoNumeroVerificador(cpf, CPF_LOGICA_MULTIPLICADOR_DIGITO_1, CPF_LOGICA_BUSCAR_DIGITO_1);
 		int verificador2 = calculoNumeroVerificador(cpf, CPF_LOGICA_MULTIPLICADOR_DIGITO_2, CPF_LOGICA_BUSCAR_DIGITO_2);
 		if (verificador1 == parseInt(valueOf(cpf.charAt(CPF_LOGICA_BUSCAR_DIGITO_1)))
-			 && verificador2 == parseInt(valueOf(cpf.charAt(CPF_LOGICA_BUSCAR_DIGITO_2)))) {
+				&& verificador2 == parseInt(valueOf(cpf.charAt(CPF_LOGICA_BUSCAR_DIGITO_2)))) {
 			return;
 		}
-		throw new IllegalArgumentException(cpfMessageClasse);
+		invalidoCPF(cpfMessageClasse);
 	}
 
 	private static int calculoNumeroVerificador(String cpf, int logicaDigitoMultiplicador, int logicaBuscarDigito) {
@@ -41,18 +41,22 @@ public class CPFValidacao {
 		int numeroVerificador = LOGICA_NUMERO_VERIFCADOR - (soma % LOGICA_NUMERO_VERIFCADOR);
 		return numeroVerificador > VALOR_MAX_DIGITO_VERIFICADOR ? VALOR_MIN_DIGITO_VERIFICADOR : numeroVerificador;
 	}
-
+	
 	private static void checkTodosNumerosRepetidos(String cpf, String cpfMessageClasse) {
 		int proximaPosicao = 1;
 		int contadorNumerosRepetidos = 0;
 		for (int posicaoAtual = 0; posicaoAtual < CPF_ULTIMA_POSICAO; posicaoAtual++) {
 			if (parseInt(valueOf(cpf.charAt(posicaoAtual))) == parseInt(valueOf(cpf.charAt(proximaPosicao)))) {
 				contadorNumerosRepetidos++;
-			}	
+			}
 			if (contadorNumerosRepetidos == NUMERO_TOTAL_REPETICOES) {
-				throw new IllegalArgumentException(cpfMessageClasse);
+				invalidoCPF(cpfMessageClasse);
 			}
 			proximaPosicao++;
 		}
+	}
+
+	private static void invalidoCPF(String cpfMessageClasse) {
+		throw new IllegalArgumentException(cpfMessageClasse);
 	}
 }

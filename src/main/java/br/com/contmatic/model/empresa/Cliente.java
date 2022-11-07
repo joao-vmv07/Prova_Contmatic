@@ -16,7 +16,15 @@ import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_TAMAN
 import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_TAMANHO_MIN;
 import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_TAMANHO_MIN_MESSAGE;
 import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_VAZIO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.EMAIL_INVALIDO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.EMAIL_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.EMAIL_TAMANHO_MAX;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.EMAIL_TAMANHO_MAX_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.EMAIL_TAMANHO_MIN;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.EMAIL_TAMANHO_MIN_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.EMAIL_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.validacao.CPFValidacao.checkCPF;
+import static br.com.contmatic.model.util.validacao.EmailValidacao.checkEmail;
 import static br.com.contmatic.model.util.validacao.Validacao.checkContemLetras;
 import static br.com.contmatic.model.util.validacao.Validacao.checkContemNum;
 import static br.com.contmatic.model.util.validacao.Validacao.checkNull;
@@ -62,6 +70,11 @@ public class Cliente {
 	}
 
 	public void setEmail(String email) {
+		checkNull(email, EMAIL_NULL_MESSAGE);
+		checkVazio(email, EMAIL_VAZIO_MESSAGE);
+		checkTamahhoMinimo(email, EMAIL_TAMANHO_MIN, EMAIL_TAMANHO_MIN_MESSAGE);
+		checkTamahhoMaximo(email, EMAIL_TAMANHO_MAX, EMAIL_TAMANHO_MAX_MESSAGE);
+		checkEmail(email, EMAIL_INVALIDO_MESSAGE );
 		this.email = email;
 	}
 

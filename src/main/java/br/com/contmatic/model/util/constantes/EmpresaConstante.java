@@ -38,6 +38,8 @@ public final class EmpresaConstante {
 	
 	public static final String NOME_FANTASIA_VAZIO_MESSAGE = "O campo Nome Fantasia de Empresa não deve ser vazio.";
 	
+	public static final String NOME_FANTASIA_NULL_MESSAGE = "O campo Nome Fantasia de Empresa deve ser preenchido.";
+	
 	public static final String TELEFONE_NULL_MESSAGE = "O campo Telefone de Empresa deve ser preenchido.";
 	
 	public static final String TELEFONE_VAZIO_MESSAGE = "O campo Telefone de Empresa não deve ser vazio.";

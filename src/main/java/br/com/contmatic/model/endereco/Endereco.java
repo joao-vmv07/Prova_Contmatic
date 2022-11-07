@@ -1,23 +1,41 @@
 package br.com.contmatic.model.endereco;
 
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.BAIRRO_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.BAIRRO_TAMANHO_MAX;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.BAIRRO_TAMANHO_MAX_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.BAIRRO_TAMANHO_MIN;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.BAIRRO_TAMANHO_MIN_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.BAIRRO_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.CEP_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.CEP_TAMANHO_FIXO;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.CEP_TAMANHO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.CEP_VAZIO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.MUNICIPIO_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.MUNICIPIO_TAMANHO_MAX;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.MUNICIPIO_TAMANHO_MAX_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.MUNICIPIO_TAMANHO_MIN;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.MUNICIPIO_TAMANHO_MIN_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.MUNICIPIO_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.NUMERO_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.NUMERO_TAMANHO_MAX;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.NUMERO_TAMANHO_MAX_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.NUMERO_TAMANHO_MIN;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.NUMERO_TAMANHO_MIN_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.NUMERO_VAZIO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.PAIS_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.PAIS_TAMANHO_MAX;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.PAIS_TAMANHO_MAX_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.PAIS_TAMANHO_MIN;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.PAIS_TAMANHO_MIN_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.PAIS_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.RUA_TAMANHO_MAX;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.RUA_TAMANHO_MAX_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.RUA_TAMANHO_MIN;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.RUA_TAMANHO_MIN_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.UF_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.UF_TAMANHO_FIXO;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.UF_TAMANHO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.UF_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.validacao.Validacao.checkNull;
 import static br.com.contmatic.model.util.validacao.Validacao.checkTamahhoMaximo;
 import static br.com.contmatic.model.util.validacao.Validacao.checkTamahhoMinimo;
@@ -25,6 +43,9 @@ import static br.com.contmatic.model.util.validacao.Validacao.checkTamanhoFixo;
 import static br.com.contmatic.model.util.validacao.Validacao.checkVazio;
 
 import java.util.Objects;
+
+import br.com.contmatic.model.util.constantes.EnderecoConstante;
+import br.com.contmatic.model.util.validacao.Validacao;
 
 public class Endereco {
 
@@ -54,6 +75,7 @@ public class Endereco {
 	public void setCep(String cep) {
 		checkNull(cep, CEP_NULL_MESSAGE);
 		checkVazio(cep, CEP_VAZIO_MESSAGE);
+		Validacao.checkContemNum(cep, EnderecoConstante.CEP_LETRAS_MESSAGE);
 		checkTamanhoFixo(cep, CEP_TAMANHO_FIXO, CEP_TAMANHO_MESSAGE);
 		this.cep = cep;
 	}
@@ -63,6 +85,8 @@ public class Endereco {
 	}
 
 	public void setRua(String rua) {
+		checkNull(rua, EnderecoConstante.RUA_NULL_MESSAGE);
+		checkVazio(rua, EnderecoConstante.RUA_VAZIO_MESSAGE);
 		checkTamahhoMinimo(rua, RUA_TAMANHO_MIN, RUA_TAMANHO_MIN_MESSAGE);
 		checkTamahhoMaximo(rua, RUA_TAMANHO_MAX, RUA_TAMANHO_MAX_MESSAGE);
 		this.rua = rua;
@@ -85,6 +109,8 @@ public class Endereco {
 	}
 
 	public void setBairro(String bairro) {
+		checkNull(bairro, BAIRRO_NULL_MESSAGE);
+		checkVazio(bairro, BAIRRO_VAZIO_MESSAGE);
 		checkTamahhoMinimo(bairro, BAIRRO_TAMANHO_MIN, BAIRRO_TAMANHO_MIN_MESSAGE);
 		checkTamahhoMaximo(bairro, BAIRRO_TAMANHO_MAX, BAIRRO_TAMANHO_MAX_MESSAGE);
 		this.bairro = bairro;
@@ -95,6 +121,10 @@ public class Endereco {
 	}
 
 	public void setPais(String pais) {
+		checkNull(pais, PAIS_NULL_MESSAGE);
+		checkVazio(pais, PAIS_VAZIO_MESSAGE);
+		checkTamahhoMinimo(pais, PAIS_TAMANHO_MIN, PAIS_TAMANHO_MIN_MESSAGE);
+		checkTamahhoMaximo(pais, PAIS_TAMANHO_MAX, PAIS_TAMANHO_MAX_MESSAGE);
 		this.pais = pais;
 	}
 
@@ -103,6 +133,9 @@ public class Endereco {
 	}
 
 	public void setUf(String uf) {
+		checkNull(uf, UF_NULL_MESSAGE);
+		checkVazio(uf, UF_VAZIO_MESSAGE);
+		checkTamanhoFixo(uf, UF_TAMANHO_FIXO, UF_TAMANHO_MESSAGE);
 		this.uf = uf;
 	}
 
@@ -111,6 +144,10 @@ public class Endereco {
 	}
 
 	public void setMunicipio(String municipio) {
+		checkNull(municipio, MUNICIPIO_NULL_MESSAGE);
+		checkVazio(municipio,MUNICIPIO_VAZIO_MESSAGE);
+		checkTamahhoMinimo(municipio, MUNICIPIO_TAMANHO_MIN, MUNICIPIO_TAMANHO_MIN_MESSAGE);
+		checkTamahhoMaximo(municipio, MUNICIPIO_TAMANHO_MAX, MUNICIPIO_TAMANHO_MAX_MESSAGE);
 		this.municipio = municipio;
 	}
  
