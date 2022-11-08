@@ -69,7 +69,7 @@ class FuncionarioTest {
 				() -> new Funcionario("456398228!*", "João"), "Expected doThing() to throw, but it didn't");
 		assertTrue(thrown.getMessage().contains("O campo CPF de Funcionário não é permitido conter pontuação, letras e caracter especial."));
 	}
-
+ 
 	@Test
 	void nao_deve_aceitar_cpf_com_maskara() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
@@ -163,7 +163,7 @@ class FuncionarioTest {
 	
 	@Test
 	void nao_deve_aceitar_email_sem_dominio() {
-		Funcionario funcionario = new	Funcionario("46339822819", "João Victor");
+		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> funcionario.setEmail("joaovictor.com"), "Expected doThing() to throw, but it didn't");
 		assertEquals("O campo Email de Funcionário é inválido.", thrown.getMessage());
@@ -171,7 +171,7 @@ class FuncionarioTest {
 	
 	@Test
 	void nao_deve_aceitar_email_nullo() {
-		Funcionario funcionario = new	Funcionario("46339822819", "João Victor");
+		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> funcionario.setEmail(null), "Expected doThing() to throw, but it didn't");
 		assertEquals("O campo Email de Funcionário deve ser preenchido.", thrown.getMessage());
@@ -180,7 +180,7 @@ class FuncionarioTest {
 
 	@Test
 	void nao_deve_aceitar_email_vazio() {
-		Funcionario funcionario = new	Funcionario("46339822819", "João Victor");
+		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> funcionario.setEmail(""), "Expected doThing() to throw, but it didn't");
 		assertEquals("O campo Email de Funcionário não deve ser vazio.", thrown.getMessage());
@@ -188,44 +188,93 @@ class FuncionarioTest {
 	
 	@Test
 	void nao_deve_aceitar_email_vazio_com_espaco() {
-		Funcionario funcionario = new	Funcionario("46339822819", "João Victor");
+		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> funcionario.setEmail(" "), "Expected doThing() to throw, but it didn't");
 		assertEquals("O campo Email de Funcionário não deve ser vazio.", thrown.getMessage());
 	} 
 	
-	
 	@Test
 	void nao_deve_aceitar_email_com_dois_dominio() {
-		Funcionario funcionario = new	Funcionario("46339822819", "João Victor");
+		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> funcionario.setEmail("joaovictor@gmail@yahoo"), "Expected doThing() to throw, but it didn't");
 		assertEquals("O campo Email de Funcionário é inválido.", thrown.getMessage());
 	}
 	
+	
+	//IDADE
+	
+	@Test
+	void _deve_aceitar_idade_valida() {
+		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
+		funcionario.setIdade("22");
+		assertEquals("22", funcionario.getIdade());
+	}
+	
+	@Test
+	void nao_deve_aceitar_idade_null() {
+		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> funcionario.setIdade(null), "Expected doThing() to throw, but it didn't");
+		assertEquals("O campo Idade de Funcionário deve ser preenchido.", thrown.getMessage());
+	}
+	
+	@Test
+	void nao_deve_aceitar_idade_vazio() {
+		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> funcionario.setIdade(""), "Expected doThing() to throw, but it didn't");
+		assertEquals("O campo Idade de Funcionário não deve ser vazio.", thrown.getMessage());
+	}
+	
+	@Test
+	void nao_deve_aceitar_idade_vazio_com_espaco() {
+		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> funcionario.setIdade(" "), "Expected doThing() to throw, but it didn't");
+		assertEquals("O campo Idade de Funcionário não deve ser vazio.", thrown.getMessage());
+	} 
+	
+	@Test
+	void nao_deve_aceitar_idade_com_letras() {
+		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> funcionario.setIdade("25A"), "Expected doThing() to throw, but it didn't");
+		assertEquals("O campo Idade de Funcionário não é permitido conter pontuação, letras e caracter especial.", thrown.getMessage());
+	} 
+	
+	@Test
+	void nao_deve_aceitar_idade_com_caracter_especial() {
+		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> funcionario.setIdade("$22"), "Expected doThing() to throw, but it didn't");
+		assertEquals("O campo Idade de Funcionário não é permitido conter pontuação, letras e caracter especial.", thrown.getMessage());
+	} 
+
 	//Equals
 		@Test
 		void equals_objeto_valores_iguais() {
-			Funcionario funcionarioA = new	Funcionario("46339822819", "João Victor");
-			Funcionario funcionarioB = new Funcionario("46339822819", "João Victor" );
+			Funcionario funcionarioA = new Funcionario("46339822819", "Funcionario");
+			Funcionario funcionarioB = new Funcionario("46339822819", "Funcionario" );
 			assertEquals(true, funcionarioA.equals(funcionarioB));
-		}
+		}  
 		
 		@Test
 		void equals_objeto_valores_endereco_memoria_iguais() {
-			Funcionario funcionarioA = new	Funcionario("46339822819", "João Victor");
+			Funcionario funcionarioA = new Funcionario("46339822819", "Funcionario");
 			assertEquals(true, funcionarioA.equals(funcionarioA));
 		}
 		
 		@Test
 		void equals_objeto_null() {
-			Funcionario funcionarioA = new	Funcionario("46339822819", "João Victor");
+			Funcionario funcionarioA = new Funcionario("46339822819", "Funcionario");
 			assertEquals(false, funcionarioA.equals(null));
 		}
 		
 		@Test
 		void equals_objeto_de_classes_diferente() {
-			Funcionario funcionarioA = new	Funcionario("46339822819", "João Victor");
+			Funcionario funcionarioA = new Funcionario("46339822819", "Funcionario");
 			assertEquals(false, funcionarioA.equals(new Object()));
 		}
 }

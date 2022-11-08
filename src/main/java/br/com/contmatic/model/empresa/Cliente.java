@@ -1,21 +1,11 @@
 package br.com.contmatic.model.empresa;
-
-import java.util.Objects;
-
+import static br.com.contmatic.model.util.constantes.ClienteConstante.CPF_ESPACO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.CPF_INVALIDO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.ClienteConstante.CPF_LETRAS_MESSAGE;
 import static br.com.contmatic.model.util.constantes.ClienteConstante.CPF_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.ClienteConstante.CPF_TAMANHO_FIXO;
 import static br.com.contmatic.model.util.constantes.ClienteConstante.CPF_TAMANHO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.ClienteConstante.CPF_VAZIO_MESSAGE;
-import static br.com.contmatic.model.util.constantes.ClienteConstante.CPF_INVALIDO_MESSAGE;
-import static br.com.contmatic.model.util.constantes.ClienteConstante.CPF_ESPACO_MESSAGE;
-import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_FORMAT_MESSAGE;
-import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_NULL_MESSAGE;
-import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_TAMANHO_MAX;
-import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_TAMANHO_MAX_MESSAGE;
-import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_TAMANHO_MIN;
-import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_TAMANHO_MIN_MESSAGE;
-import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.ClienteConstante.EMAIL_INVALIDO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.ClienteConstante.EMAIL_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.ClienteConstante.EMAIL_TAMANHO_MAX;
@@ -23,20 +13,30 @@ import static br.com.contmatic.model.util.constantes.ClienteConstante.EMAIL_TAMA
 import static br.com.contmatic.model.util.constantes.ClienteConstante.EMAIL_TAMANHO_MIN;
 import static br.com.contmatic.model.util.constantes.ClienteConstante.EMAIL_TAMANHO_MIN_MESSAGE;
 import static br.com.contmatic.model.util.constantes.ClienteConstante.EMAIL_VAZIO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_FORMAT_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_TAMANHO_MAX;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_TAMANHO_MAX_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_TAMANHO_MIN;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_TAMANHO_MIN_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.validacao.CPFValidacao.checkCPF;
 import static br.com.contmatic.model.util.validacao.EmailValidacao.checkEmail;
 import static br.com.contmatic.model.util.validacao.Validacao.checkContemLetras;
 import static br.com.contmatic.model.util.validacao.Validacao.checkContemNum;
+import static br.com.contmatic.model.util.validacao.Validacao.checkEspaco;
 import static br.com.contmatic.model.util.validacao.Validacao.checkNull;
 import static br.com.contmatic.model.util.validacao.Validacao.checkTamahhoMaximo;
 import static br.com.contmatic.model.util.validacao.Validacao.checkTamahhoMinimo;
 import static br.com.contmatic.model.util.validacao.Validacao.checkTamanhoFixo;
 import static br.com.contmatic.model.util.validacao.Validacao.checkVazio;
-import static br.com.contmatic.model.util.validacao.Validacao.checkEspaco;
+
+import java.util.Objects;
 
 import br.com.contmatic.model.telefone.Telefone;
+import br.com.contmatic.util.auditoria.Auditoria;
 
-public class Cliente {
+public class Cliente extends Auditoria{
 
 	private String nome;
 
@@ -47,11 +47,10 @@ public class Cliente {
 	private Telefone telefone;
 
 	public Cliente(String cpf, String nome) {
-		super();
 		this.setCpf(cpf);
-		this.setNome(nome);
+		this.setNome(nome); 
 	}
-
+ 
 	public String getNome() {
 		return nome;
 	}
@@ -93,7 +92,7 @@ public class Cliente {
 	}
 
 	public Telefone getTelefone() {
-		return telefone;
+		return telefone; 
 	}
 
 	public void setTelefone(Telefone telefone) {

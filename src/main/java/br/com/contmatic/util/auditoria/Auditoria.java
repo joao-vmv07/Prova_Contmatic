@@ -1,42 +1,62 @@
 package br.com.contmatic.util.auditoria;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-public class Auditoria {
+public abstract class Auditoria {
 
-	private LocalDate dataCadasto;
+	private LocalDateTime dataCriacao;
 
-	private LocalDate dataAlterado;
+	private LocalDateTime dataAlteracao;
+
+	private String usuarioCricao;
+
+	private String usuarioAlteracao;
+
+	public LocalDateTime getDataCriacao() {
+		return dataCriacao;
+	}
+
+	public void setDataCriacao(LocalDateTime dataCriacao) {
+		this.dataCriacao = dataCriacao;
+	}
+
+	public LocalDateTime getDataAlteracao() {
+		return dataAlteracao;
+	}
+
+	public void setDataAlteracao(LocalDateTime dataAlteracao) {
+		this.dataAlteracao = dataAlteracao;
+	}
+
+	public String getUsuarioCricao() {
+		return usuarioCricao;
+	}
+
+	public void setUsuarioCricao(String usuarioCricao) {
+		this.usuarioCricao = usuarioCricao;
+	}
+
+	public String getUsuarioAlteracao() {
+		return usuarioAlteracao;
+	}
+
+	public void setUsuarioAlteracao(String usuarioAlteracao) {
+		this.usuarioAlteracao = usuarioAlteracao;
+	}
+
+	@Override
+	public String toString() {
+		return new StringBuilder()
+		.append("Auditoria [dataCriacao=")
+		.append(dataCriacao)
+		.append(", dataAlteracao=")
+		.append(dataAlteracao)
+		.append(", usuarioCricao=")
+		.append(usuarioCricao)
+		.append(", usuarioAlteracao=") 
+		.append(usuarioAlteracao)
+		.toString();
+	}
+
 	
-	private String usuarioCadastrado;
-	
-	public LocalDate getDataCadasto() {
-		return dataCadasto;
-	}
-
-	public void setDataCadasto(LocalDate dataCadasto) {
-		this.dataCadasto = dataCadasto;
-	}
-
-	public LocalDate getDataAlterado() {
-		return dataAlterado;
-	}
-
-	public void setDataAlterado(LocalDate dataAlterado) {
-		this.dataAlterado = dataAlterado;
-	}
-
-	public String getUsuarioCadastrado() {
-		return usuarioCadastrado;
-	}
-
-	public void setUsuarioCadastrado(String usuarioCadastrado) {
-		this.usuarioCadastrado = usuarioCadastrado;
-	}
-
-	
-	private Auditoria() {
-
-	}
-
 }

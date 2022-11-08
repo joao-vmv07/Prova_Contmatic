@@ -16,6 +16,13 @@ import br.com.contmatic.model.telefone.Telefone;
 
 class EmpresaTest {
 
+	private static Empresa empresaBefore;
+
+	@BeforeAll
+	static void criar_obj_empresa() {
+		empresaBefore = new Empresa("17081431000122");
+	}
+	
 	@Test
 	void deve_aceitar_cnpj_valido() {
 		Empresa empresa = new Empresa("17081431000122");
@@ -25,10 +32,10 @@ class EmpresaTest {
 	@Test
 	void nao_deve_aceitar_cnpj_invalido() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Empresa("17081431000222"), "Esperado IllegalArgumentException ao tentar criar Empresa com CNPJ inválido:");
+				() -> new Empresa("17081431000125"), "Esperado IllegalArgumentException ao tentar criar Empresa com CNPJ inválido:");
 		assertTrue(thrown.getMessage().contains("O CNPJ de Empresa informado é inválido."));
-	}
-
+	} 
+ 
 	@Test
 	void nao_deve_aceitar_cnpj_com_menos_de_14_caracteres() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, 
@@ -100,12 +107,6 @@ class EmpresaTest {
 	}
 
 	// RazaoSocial
-	private static Empresa empresaBefore;
-
-	@BeforeAll
-	static void criar_obj_empresa() {
-		empresaBefore = new Empresa("17081431000122");
-	}
 
 	@Test
 	void deve_aceitar_razao_social_valido() {
@@ -257,7 +258,7 @@ class EmpresaTest {
 	void equals_objeto_de_classes_diferente() {
 		Empresa empresaA = new Empresa("17081431000122");
 		assertEquals(false, empresaA.equals(new Object()));
-	}
+	} 
 	
 	//HashCode
 	@Test
@@ -272,5 +273,23 @@ class EmpresaTest {
 		int hashcodeA = new Empresa("17081431000122").hashCode();
 		int hashcodeB = new Empresa("76698308000114").hashCode();
 		assertNotEquals(hashcodeA, hashcodeB);
+	}  
+	
+//ToString
+	
+	@Test
+	void deve_conter_valores_dos_campos_tostring() {
+		final String CNPJ = "17081431000122";
+		final String NOME = "VIVO";
+		final String RAZAO = "Vivo Telecomunicações";
+		
+		Empresa empresa = new Empresa(CNPJ);
+		empresa.setNomeFantasia(NOME);
+		empresa.setRazaoSocial(RAZAO);
+		
+		assertTrue(empresa.toString().contains(CNPJ));
+		assertTrue(empresa.toString().contains(NOME));
+		assertTrue(empresa.toString().contains(RAZAO));
 	} 
+	
 }

@@ -18,7 +18,7 @@ public final class Validacao {
 			throw new IllegalArgumentException(message);
 		}
 	}
-
+ 
 	public static void checkEspaco(String texto, String message) {
 		if (texto.contains(" ")) {
 			throw new IllegalArgumentException(message);
@@ -39,7 +39,7 @@ public final class Validacao {
 
 	public static void checkTamanhoFixo(String texto, int quantidade, String message) {
 		if (texto.length() != quantidade) {
-			throw new IllegalArgumentException(message);
+			throw new IllegalArgumentException(message); 
 		}
 	} 
 
@@ -62,8 +62,8 @@ public final class Validacao {
 	}
 	
 	public static void checkCollectionVazio(Collection<?> collection, String message) {
-		if (collection.isEmpty()) { 
+		if (collection.isEmpty()) {  
 			throw new IllegalArgumentException(message);
 		}
-	}
+	}  
 }

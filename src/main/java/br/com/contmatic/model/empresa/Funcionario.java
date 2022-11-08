@@ -14,6 +14,12 @@ import static br.com.contmatic.model.util.constantes.FuncionarioConstante.EMAIL_
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.EMAIL_TAMANHO_MIN;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.EMAIL_TAMANHO_MIN_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.EMAIL_VAZIO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_ESPACO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_LETRAS_MESSAGE;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_TAMANHO_FIXO;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_TAMANHO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.NOME_FORMAT_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.NOME_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.NOME_TAMANHO_MAX;
@@ -35,7 +41,9 @@ import static br.com.contmatic.model.util.validacao.Validacao.checkVazio;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Funcionario {
+import br.com.contmatic.util.auditoria.Auditoria;
+
+public class Funcionario extends Auditoria {
 
 	private String cpf;
 
@@ -87,6 +95,11 @@ public class Funcionario {
 	}
 
 	public void setIdade(String idade) {
+		checkNull(idade, IDADE_NULL_MESSAGE);
+		checkVazio(idade, IDADE_VAZIO_MESSAGE);
+		checkEspaco(idade, IDADE_ESPACO_MESSAGE );
+		checkContemNum(idade, IDADE_LETRAS_MESSAGE);
+		checkTamanhoFixo(idade, IDADE_TAMANHO_FIXO, IDADE_TAMANHO_MESSAGE);
 		this.idade = idade;
 	}
 

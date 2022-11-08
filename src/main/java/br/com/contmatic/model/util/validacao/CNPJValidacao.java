@@ -45,15 +45,15 @@ public class CNPJValidacao {
 		int verificador2 = calculoNumeroVerificador(cnpj, LOGICA_CNPJ_DIGITO_2);
 		if (verificador1 == parseInt(valueOf((cnpj.charAt(POSICAO_VERIFICADOR_1))))
 				&& verificador2 == parseInt(valueOf((cnpj.charAt(POSICAO_VERIFICADOR_2))))) {
-			return;
+			return; 
 		}
-		invalidoCNPJ();
-	}
+		throw new IllegalArgumentException(CNPJ_INVALIDO_MESSAGE);
+	} 
 
 	private static int calculoNumeroVerificador(String cnpj, int logicaCnpj) {
-		String cnpjInvertido = inverterCNPJ(cnpj);
 		int soma = 0;
 		int multiplicador = 1;
+		String cnpjInvertido = inverterCNPJ(cnpj);
 		for (int contador = logicaCnpj; contador < TAMANHO_CNPJ; contador++) {
 			multiplicador++;
 			if (multiplicador > VALOR_MAX_MULTIPLICADOR) {
@@ -63,15 +63,12 @@ public class CNPJValidacao {
 		}
 		int resultado = NUMERO_VERIFICADOR_FORMULA - (soma % NUMERO_VERIFICADOR_FORMULA);
 		return resultado > VALOR_MAX_DIGITO_VERIFICADOR ? VALOR_MIN_DIGITO_VERIFICADOR : resultado;
-	}
+	} 
 
 	private static String inverterCNPJ(String cnpj) {
 		return new StringBuilder(cnpj).reverse().toString();
 	}
 	
-	private static void invalidoCNPJ() {
-		throw new IllegalArgumentException(CNPJ_INVALIDO_MESSAGE);
-	}
 
 	
 

@@ -15,5 +15,5 @@ public class EmailValidacao {
 		if(!email.matches(REGEX_EMAIL)) {
 			throw new IllegalArgumentException(message);
 		}
-	} 
+	}  
 }

@@ -29,8 +29,9 @@ import java.util.Set;
 import br.com.contmatic.model.endereco.Endereco;
 import br.com.contmatic.model.telefone.Telefone;
 import br.com.contmatic.model.util.constantes.EmpresaConstante;
+import br.com.contmatic.util.auditoria.Auditoria;
 
-public class Empresa {
+public class Empresa extends Auditoria {
 
 	private String cnpj;
 
@@ -116,13 +117,23 @@ public class Empresa {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		Empresa other = (Empresa) obj;
+		Empresa other = (Empresa) obj; 
 		return Objects.equals(cnpj, other.cnpj);
 	}
 
 	@Override
 	public String toString() {
-		return "Empresa [cnpj=" + cnpj + ", razaoSocial=" + razaoSocial + ", enderecos=" + enderecos + ", telefones="
-				+ telefones + "]"; 
+		return new StringBuilder()
+		.append("Cnpj=")
+		.append(cnpj)
+		.append(" RazaoSocial= ")
+		.append(razaoSocial)
+		.append(" NomeFantasia= ")
+		.append(nomeFantasia)
+		.append(" Enderecos= ")
+		.append(enderecos)
+		.append(" Telefones= ")
+		.append(telefones)
+		.toString();
 	}
 }

@@ -29,7 +29,7 @@ public class CPFValidacao {
 				&& verificador2 == parseInt(valueOf(cpf.charAt(CPF_LOGICA_BUSCAR_DIGITO_2)))) {
 			return;
 		}
-		invalidoCPF(cpfMessageClasse);
+		throw new IllegalArgumentException(cpfMessageClasse);
 	}
 
 	private static int calculoNumeroVerificador(String cpf, int logicaDigitoMultiplicador, int logicaBuscarDigito) {
@@ -41,7 +41,7 @@ public class CPFValidacao {
 		int numeroVerificador = LOGICA_NUMERO_VERIFCADOR - (soma % LOGICA_NUMERO_VERIFCADOR);
 		return numeroVerificador > VALOR_MAX_DIGITO_VERIFICADOR ? VALOR_MIN_DIGITO_VERIFICADOR : numeroVerificador;
 	}
-	
+
 	private static void checkTodosNumerosRepetidos(String cpf, String cpfMessageClasse) {
 		int proximaPosicao = 1;
 		int contadorNumerosRepetidos = 0;
@@ -50,13 +50,10 @@ public class CPFValidacao {
 				contadorNumerosRepetidos++;
 			}
 			if (contadorNumerosRepetidos == NUMERO_TOTAL_REPETICOES) {
-				invalidoCPF(cpfMessageClasse);
+				throw new IllegalArgumentException(cpfMessageClasse);
 			}
 			proximaPosicao++;
 		}
-	}
 
-	private static void invalidoCPF(String cpfMessageClasse) {
-		throw new IllegalArgumentException(cpfMessageClasse);
 	}
 }
