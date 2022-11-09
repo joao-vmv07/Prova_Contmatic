@@ -166,12 +166,29 @@ public class Endereco {
 			return false;
 		Endereco other = (Endereco) obj;
 		return Objects.equals(cep, other.cep) && Objects.equals(numero, other.numero);
-	} 
+	}
 
 	@Override
 	public String toString() {
-		return "Endereco [rua=" + rua + ", numero=" + numero + ", bairro=" + bairro + ", cep=" + cep + ", pais=" + pais
-				+ ", uf=" + uf + ", municipio=" + municipio + "]";
-	}
+		StringBuilder builder = new StringBuilder();
+		builder.append("Endereco Rua=");
+		builder.append(rua);
+		builder.append(", Numero=");
+		builder.append(numero);
+		builder.append(", Bairro=");
+		builder.append(bairro);
+		builder.append(", Cep=");
+		builder.append(cep);
+		builder.append(", Pais=");
+		builder.append(pais);
+		builder.append(", UF=");
+		builder.append(uf);
+		builder.append(", municipio=");
+		builder.append(municipio);
+		builder.append("]");
+		return builder.toString();
+	} 
+	
+	
 
 }

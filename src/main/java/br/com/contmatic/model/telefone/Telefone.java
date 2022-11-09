@@ -82,7 +82,15 @@ public class Telefone {
 
 	@Override
 	public String toString() {
-		return "Telefone [ddd=" + ddd + ", numero=" + numero + ", ddi=" + ddi + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("Telefone [DDI=");
+		builder.append(ddi);
+		builder.append(", DDD=");
+		builder.append(ddd);
+		builder.append(", Numero=");
+		builder.append(numero);
+		builder.append("]");
+		return builder.toString();
 	}
-
+	
 }

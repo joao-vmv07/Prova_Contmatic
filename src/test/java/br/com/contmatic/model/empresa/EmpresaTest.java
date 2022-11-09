@@ -19,7 +19,7 @@ class EmpresaTest {
 	private static Empresa empresaBefore;
 
 	@BeforeAll
-	static void criar_obj_empresa() {
+	static void criarObjEmpresa() {
 		empresaBefore = new Empresa("17081431000122");
 	}
 	
@@ -125,7 +125,7 @@ class EmpresaTest {
 	void nao_deve_aceitar_razao_social_menos_3_caracteres() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> empresaBefore.setRazaoSocial("AB"), "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa com menos de 3 caracteres:");
-		assertEquals("O campo razão social de Empresa deve conter no minimo 3 caracteres.", thrown.getMessage());
+		assertEquals("O campo razão social de Empresa deve conter no mínimo 3 caracteres.", thrown.getMessage());
 	}
 
 	@Test
@@ -181,7 +181,7 @@ class EmpresaTest {
 	void nao_deve_aceitar_nome_fantasia_menos_3_caracteres() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> empresaBefore.setNomeFantasia("AB"), "Esperado IllegalArgumentException ao tentar criar NomeFantasia de Empresa com menos de 3 caracteres:");
-		assertEquals("O campo Nome Fantasia de Empresa deve conter no minimo 3 caracteres.", thrown.getMessage());
+		assertEquals("O campo Nome Fantasia de Empresa deve conter no mínimo 3 caracteres.", thrown.getMessage());
 	} 
  
 	//Telefone
@@ -236,60 +236,75 @@ class EmpresaTest {
 	
 	//Equals
 	@Test
-	void equals_objeto_valores_iguais() {
+	void deve_aceitar_objeto_com_valores_iguais() {
 		Empresa empresaA = new Empresa("17081431000122");
 		Empresa empresaB = new Empresa("17081431000122");
 		assertEquals(true, empresaA.equals(empresaB));
 	}
 	
 	@Test
-	void equals_objeto_valores_endereco_memoria_iguais() {
+	void deve_aceitar_objeto_valores_endereco_memoria_iguais() {
 		Empresa empresaA = new Empresa("17081431000122");
 		assertEquals(true, empresaA.equals(empresaA));
 	}
 	
 	@Test
-	void equals_objeto_null() {
+	void nao_deve_aceitar_equals_com_objeto_null() {
 		Empresa empresaA = new Empresa("17081431000122");
 		assertEquals(false, empresaA.equals(null));
 	}
 	
 	@Test
-	void equals_objeto_de_classes_diferente() {
+	void nao_deve_aceitar_equals_objeto_de_classes_diferente() {
 		Empresa empresaA = new Empresa("17081431000122");
 		assertEquals(false, empresaA.equals(new Object()));
 	} 
 	
 	//HashCode
 	@Test
-	void hashCode_iguais() {
+	void deve_ter_hashCode_iguais() {
 		int hashcodeA = new Empresa("17081431000122").hashCode();
 		int hashcodeB = new Empresa("17081431000122").hashCode();
 		assertEquals(hashcodeA, hashcodeB);
 	} 
 	
 	@Test
-	void hashCode_diferentes() {
+	void nao_deve_ter_hashCode_iguais() {
 		int hashcodeA = new Empresa("17081431000122").hashCode();
 		int hashcodeB = new Empresa("76698308000114").hashCode();
 		assertNotEquals(hashcodeA, hashcodeB);
 	}  
 	
 //ToString
-	
 	@Test
 	void deve_conter_valores_dos_campos_tostring() {
 		final String CNPJ = "17081431000122";
 		final String NOME = "VIVO";
 		final String RAZAO = "Vivo Telecomunicações";
+		final String USERCRIACAO = "João";
+		final String USERALTERACAO = "José";
 		
+		Set<Endereco> enderecos =  new HashSet<>(); 
+		enderecos.add(new Endereco("04852505", "83"));
+		
+		Set<Telefone> telefones =  new HashSet<>();
+		telefones.add(new Telefone("55","11","967976463"));
+	
 		Empresa empresa = new Empresa(CNPJ);
 		empresa.setNomeFantasia(NOME);
 		empresa.setRazaoSocial(RAZAO);
+		empresa.setEnderecos(enderecos);
+		empresa.setTelefones(telefones);
+		empresa.setUsuarioCricao(USERCRIACAO);
+		empresa.setUsuarioAlteracao(USERALTERACAO);
 		
 		assertTrue(empresa.toString().contains(CNPJ));
 		assertTrue(empresa.toString().contains(NOME));
 		assertTrue(empresa.toString().contains(RAZAO));
+		assertTrue(empresa.toString().contains(USERCRIACAO));
+		assertTrue(empresa.toString().contains(USERALTERACAO));
+		assertTrue(empresa.toString().contains(enderecos.toString()));
+		assertTrue(empresa.toString().contains(telefones.toString()));
 	} 
 	
 }

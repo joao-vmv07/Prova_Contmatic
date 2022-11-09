@@ -1,6 +1,6 @@
 package br.com.contmatic.model.util.constantes;
 
-public class CPFConstante {
+public final class CPFConstante {
 	
 	public static final int VALOR_MIN_DIGITO_VERIFICADOR = 0;
 

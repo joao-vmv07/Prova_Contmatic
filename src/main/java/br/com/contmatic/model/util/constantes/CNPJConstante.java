@@ -1,6 +1,6 @@
 package br.com.contmatic.model.util.constantes;
 
-public class CNPJConstante {
+public final class CNPJConstante {
 
 	public static final int TAMANHO_CNPJ = 14;
 
@@ -21,7 +21,6 @@ public class CNPJConstante {
 	public static final int VALOR_MIN_DIGITO_VERIFICADOR = 0;
 
 	public static final int VALOR_MAX_DIGITO_VERIFICADOR = 9;
-
 	
 	private CNPJConstante() {
 		

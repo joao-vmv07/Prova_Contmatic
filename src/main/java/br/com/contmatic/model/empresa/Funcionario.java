@@ -41,7 +41,7 @@ import static br.com.contmatic.model.util.validacao.Validacao.checkVazio;
 import java.time.LocalDate;
 import java.util.Objects;
 
-import br.com.contmatic.util.auditoria.Auditoria;
+import br.com.contmatic.model.empresa.auditoria.Auditoria;
 
 public class Funcionario extends Auditoria {
 

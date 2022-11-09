@@ -33,8 +33,8 @@ import static br.com.contmatic.model.util.validacao.Validacao.checkVazio;
 
 import java.util.Objects;
 
+import br.com.contmatic.model.empresa.auditoria.Auditoria;
 import br.com.contmatic.model.telefone.Telefone;
-import br.com.contmatic.util.auditoria.Auditoria;
 
 public class Cliente extends Auditoria{
 
@@ -118,7 +118,16 @@ public class Cliente extends Auditoria{
 
 	@Override
 	public String toString() {
-		return "Cliente [nome=" + nome + ", email=" + email + ", cpf=" + cpf + ", telefone=" + telefone + "]";
+		return new StringBuilder()
+		.append("Cliente [nome=")
+		.append(nome)
+		.append(", email=")
+		.append(email)
+		.append(", cpf=")
+		.append(cpf)
+		.append(", telefone=")
+		.append(telefone)
+		.append("]").toString();
+		
 	}
-
 }

@@ -2,6 +2,14 @@ package br.com.contmatic.model.empresa;
 
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.ENDERECO_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.ENDERECO_VAZIO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.LISTA_ENDERECO_TAMANHO_MAX;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.LISTA_ENDERECO_TAMANHO_MAX_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.LISTA_ENDERECO_TAMANHO_MIN;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.LISTA_ENDERECO_TAMANHO_MIN_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.LISTA_TELEFONE_TAMANHO_MAX;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.LISTA_TELEFONE_TAMANHO_MAX_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.LISTA_TELEFONE_TAMANHO_MIN;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.LISTA_TELEFONE_TAMANHO_MIN_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.NOME_FANTASIA_TAMANHO_MAX;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.NOME_FANTASIA_TAMANHO_MAX_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.NOME_FANTASIA_TAMANHO_MIN;
@@ -16,8 +24,10 @@ import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCI
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.TELEFONE_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.TELEFONE_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.validacao.CNPJValidacao.checkCNPJ;
-import static br.com.contmatic.model.util.validacao.Validacao.checkCollectionNull;
-import static br.com.contmatic.model.util.validacao.Validacao.checkCollectionVazio;
+import static br.com.contmatic.model.util.validacao.CollectionValidacao.checkCollectionNull;
+import static br.com.contmatic.model.util.validacao.CollectionValidacao.checkCollectionTamanhoMax;
+import static br.com.contmatic.model.util.validacao.CollectionValidacao.checkCollectionTamanhoMin;
+import static br.com.contmatic.model.util.validacao.CollectionValidacao.checkCollectionVazio;
 import static br.com.contmatic.model.util.validacao.Validacao.checkNull;
 import static br.com.contmatic.model.util.validacao.Validacao.checkTamahhoMaximo;
 import static br.com.contmatic.model.util.validacao.Validacao.checkTamahhoMinimo;
@@ -26,10 +36,10 @@ import static br.com.contmatic.model.util.validacao.Validacao.checkVazio;
 import java.util.Objects;
 import java.util.Set;
 
+import br.com.contmatic.model.empresa.auditoria.Auditoria;
 import br.com.contmatic.model.endereco.Endereco;
 import br.com.contmatic.model.telefone.Telefone;
 import br.com.contmatic.model.util.constantes.EmpresaConstante;
-import br.com.contmatic.util.auditoria.Auditoria;
 
 public class Empresa extends Auditoria {
 
@@ -76,6 +86,8 @@ public class Empresa extends Auditoria {
 	public void setEnderecos(Set<Endereco> enderecos) {
 		checkCollectionNull(enderecos, ENDERECO_NULL_MESSAGE);
 		checkCollectionVazio(enderecos, ENDERECO_VAZIO_MESSAGE);
+		checkCollectionTamanhoMin(enderecos, LISTA_ENDERECO_TAMANHO_MIN, LISTA_ENDERECO_TAMANHO_MIN_MESSAGE);
+		checkCollectionTamanhoMax(enderecos, LISTA_ENDERECO_TAMANHO_MAX, LISTA_ENDERECO_TAMANHO_MAX_MESSAGE);
 		this.enderecos = enderecos;
 	}
 
@@ -86,6 +98,8 @@ public class Empresa extends Auditoria {
 	public void setTelefones(Set<Telefone> telefone) {
 		checkCollectionNull(telefone, TELEFONE_NULL_MESSAGE);
 		checkCollectionVazio(telefone, TELEFONE_VAZIO_MESSAGE);
+		checkCollectionTamanhoMin(telefone, LISTA_TELEFONE_TAMANHO_MIN, LISTA_TELEFONE_TAMANHO_MIN_MESSAGE);
+		checkCollectionTamanhoMax(telefone, LISTA_TELEFONE_TAMANHO_MAX, LISTA_TELEFONE_TAMANHO_MAX_MESSAGE);
 		this.telefones = telefone;
 	} 
 
@@ -124,16 +138,20 @@ public class Empresa extends Auditoria {
 	@Override
 	public String toString() {
 		return new StringBuilder()
-		.append("Cnpj=")
+		.append("Cnpj:")
 		.append(cnpj)
-		.append(" RazaoSocial= ")
+		.append(" Razao Social:")
 		.append(razaoSocial)
-		.append(" NomeFantasia= ")
+		.append(" Nome Fantasia:")
 		.append(nomeFantasia)
-		.append(" Enderecos= ")
+		.append(" Enderecos:")
 		.append(enderecos)
-		.append(" Telefones= ")
+		.append(" Telefones:")
 		.append(telefones)
+		.append(" Usuário de Criação:")
+		.append(getUsuarioCricao())
+		.append(" Usuário de Alteração:")
+		.append(getUsuarioAlteracao())
 		.toString();
 	}
 }

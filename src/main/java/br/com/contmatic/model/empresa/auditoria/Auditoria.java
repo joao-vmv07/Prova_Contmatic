@@ -1,4 +1,4 @@
-package br.com.contmatic.util.auditoria;
+package br.com.contmatic.model.empresa.auditoria;
 
 import java.time.LocalDateTime;
 
@@ -46,17 +46,8 @@ public abstract class Auditoria {
 
 	@Override
 	public String toString() {
-		return new StringBuilder()
-		.append("Auditoria [dataCriacao=")
-		.append(dataCriacao)
-		.append(", dataAlteracao=")
-		.append(dataAlteracao)
-		.append(", usuarioCricao=")
-		.append(usuarioCricao)
-		.append(", usuarioAlteracao=") 
-		.append(usuarioAlteracao)
-		.toString();
+		return new StringBuilder().append("Auditoria [dataCriacao=").append(dataCriacao).append(", dataAlteracao=")
+				.append(dataAlteracao).append(", usuarioCricao=").append(usuarioCricao).append(", usuarioAlteracao=")
+				.append(usuarioAlteracao).toString();
 	}
-
-	
 }
