@@ -1,5 +1,7 @@
 package br.com.contmatic.model.util.validacao;
 
+import java.math.BigDecimal;
+
 public final class Validacao {
 
 	private Validacao() {
@@ -9,14 +11,14 @@ public final class Validacao {
 		if (obj == null) {
 			throw new IllegalArgumentException(message);
 		}
-	} 
+	}
 
-	public static void checkVazio(String texto, String message) {
-		if (texto.trim().isEmpty()) { 
+	public static void checkVazio(Object texto, String message) {
+		if (texto.toString().trim().isEmpty()) {
 			throw new IllegalArgumentException(message);
 		}
 	}
- 
+
 	public static void checkEspaco(String texto, String message) {
 		if (texto.contains(" ")) {
 			throw new IllegalArgumentException(message);
@@ -25,7 +27,7 @@ public final class Validacao {
 
 	public static void checkTamahhoMinimo(String texto, int quantidade, String message) {
 		if (texto.length() < quantidade) {
-			throw new IllegalArgumentException(message );
+			throw new IllegalArgumentException(message);
 		}
 	}
 
@@ -37,19 +39,31 @@ public final class Validacao {
 
 	public static void checkTamanhoFixo(String texto, int quantidade, String message) {
 		if (texto.length() != quantidade) {
-			throw new IllegalArgumentException(message); 
+			throw new IllegalArgumentException(message);
 		}
-	} 
+	}
 
 	public static void checkContemLetras(String texto, String message) {
 		if (!texto.matches("[ a-zA-Z-à-úÀ-Ú]*")) {
-			throw new IllegalArgumentException(message); 
+			throw new IllegalArgumentException(message);
 		}
-	} 
+	}
 
 	public static void checkContemNum(String texto, String message) {
 		if (!texto.matches("[\\d]*")) {
 			throw new IllegalArgumentException(message);
 		}
-	}  
+	}
+
+	public static void checkValorMinimo(BigDecimal valor, BigDecimal minimo, String message) {
+		if (valor.compareTo(minimo) < 0) {
+			throw new IllegalArgumentException(message);
+		}
+	}
+
+	public static void checkValorMaximo(BigDecimal valor, BigDecimal maximo, String message) {
+		if (valor.compareTo(maximo) > 0) {
+			throw new IllegalArgumentException(message);
+		}
+	}
 }

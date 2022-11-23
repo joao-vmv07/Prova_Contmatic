@@ -14,7 +14,7 @@ public final class EmpresaConstante {
 	
 	public static final int LISTA_TELEFONE_TAMANHO_MAX = 3;
 	
-	public static final int LISTA_TELEFONE_TAMANHO_MIN = 1;
+	public static final int LISTA_TELEFONE_TAMANHO_MIN = 2;
 	
 	public static final int LISTA_ENDERECO_TAMANHO_MAX = 2;
 	
@@ -52,7 +52,7 @@ public final class EmpresaConstante {
 	
 	public static final String TELEFONE_VAZIO_MESSAGE = "O campo Telefone de Empresa não deve ser vazio.";
 	
-	public static final String LISTA_TELEFONE_TAMANHO_MIN_MESSAGE = "O campo Telefone de Empresa deve conter no mínimo um registro de contato.";
+	public static final String LISTA_TELEFONE_TAMANHO_MIN_MESSAGE = "O campo Telefone de Empresa deve conter no mínimo dois registros de contato.";
 	
 	public static final String LISTA_TELEFONE_TAMANHO_MAX_MESSAGE = "O campo Telefone de Empresa deve conter no maximo três registros de contato.";
 	
@@ -60,9 +60,9 @@ public final class EmpresaConstante {
 	
 	public static final String ENDERECO_VAZIO_MESSAGE = "O campo Endereco de Empresa não deve ser vazio.";
 	
-	public static final String LISTA_ENDERECO_TAMANHO_MIN_MESSAGE = "O campo Endereco de Empresa deve conter no mínimo um registro de local.";
+	public static final String LISTA_ENDERECO_TAMANHO_MIN_MESSAGE = "O campo Endereco de Empresa deve conter no mínimo um registro de localidade.";
 	
-	public static final String LISTA_ENDERECO_TAMANHO_MAX_MESSAGE = "O campo Endereco de Empresa deve conter no maximo dois registros de local.";
+	public static final String LISTA_ENDERECO_TAMANHO_MAX_MESSAGE = "O campo Endereco de Empresa deve conter no maximo dois registros de localidade.";
 	
 	private EmpresaConstante() {
 

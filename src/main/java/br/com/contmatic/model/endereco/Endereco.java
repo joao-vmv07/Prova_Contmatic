@@ -6,36 +6,34 @@ import static br.com.contmatic.model.util.constantes.EnderecoConstante.BAIRRO_TA
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.BAIRRO_TAMANHO_MIN;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.BAIRRO_TAMANHO_MIN_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.BAIRRO_VAZIO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.CEP_LETRAS_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.CEP_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.CEP_TAMANHO_FIXO;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.CEP_TAMANHO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.CEP_VAZIO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.LOGRADOURO_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.LOGRADOURO_TAMANHO_MAX;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.LOGRADOURO_TAMANHO_MAX_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.LOGRADOURO_TAMANHO_MIN;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.LOGRADOURO_TAMANHO_MIN_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.LOGRADOURO_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.MUNICIPIO_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.MUNICIPIO_TAMANHO_MAX;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.MUNICIPIO_TAMANHO_MAX_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.MUNICIPIO_TAMANHO_MIN;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.MUNICIPIO_TAMANHO_MIN_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.MUNICIPIO_VAZIO_MESSAGE;
-import static br.com.contmatic.model.util.constantes.EnderecoConstante.NUMERO_NULL_MESSAGE;
-import static br.com.contmatic.model.util.constantes.EnderecoConstante.NUMERO_TAMANHO_MAX;
-import static br.com.contmatic.model.util.constantes.EnderecoConstante.NUMERO_TAMANHO_MAX_MESSAGE;
-import static br.com.contmatic.model.util.constantes.EnderecoConstante.NUMERO_TAMANHO_MIN;
-import static br.com.contmatic.model.util.constantes.EnderecoConstante.NUMERO_TAMANHO_MIN_MESSAGE;
-import static br.com.contmatic.model.util.constantes.EnderecoConstante.NUMERO_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.PAIS_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.PAIS_TAMANHO_MAX;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.PAIS_TAMANHO_MAX_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.PAIS_TAMANHO_MIN;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.PAIS_TAMANHO_MIN_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.PAIS_VAZIO_MESSAGE;
-import static br.com.contmatic.model.util.constantes.EnderecoConstante.RUA_TAMANHO_MAX;
-import static br.com.contmatic.model.util.constantes.EnderecoConstante.RUA_TAMANHO_MAX_MESSAGE;
-import static br.com.contmatic.model.util.constantes.EnderecoConstante.RUA_TAMANHO_MIN;
-import static br.com.contmatic.model.util.constantes.EnderecoConstante.RUA_TAMANHO_MIN_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.UF_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.UF_TAMANHO_FIXO;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.UF_TAMANHO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.UF_VAZIO_MESSAGE;
+import static br.com.contmatic.model.util.validacao.Validacao.checkContemNum;
 import static br.com.contmatic.model.util.validacao.Validacao.checkNull;
 import static br.com.contmatic.model.util.validacao.Validacao.checkTamahhoMaximo;
 import static br.com.contmatic.model.util.validacao.Validacao.checkTamahhoMinimo;
@@ -44,14 +42,11 @@ import static br.com.contmatic.model.util.validacao.Validacao.checkVazio;
 
 import java.util.Objects;
 
-import br.com.contmatic.model.util.constantes.EnderecoConstante;
-import br.com.contmatic.model.util.validacao.Validacao;
-
 public class Endereco {
 
-	private String rua;
+	private String logradouro;
 
-	private String numero;
+	private Integer numero;
 
 	private String bairro;
 
@@ -63,7 +58,7 @@ public class Endereco {
 
 	private String municipio;
 
-	public Endereco(String cep, String numero) {
+	public Endereco(String cep, Integer numero) {
 		this.setCep(cep);
 		this.setNumero(numero); 
 	}
@@ -75,33 +70,21 @@ public class Endereco {
 	public void setCep(String cep) {
 		checkNull(cep, CEP_NULL_MESSAGE);
 		checkVazio(cep, CEP_VAZIO_MESSAGE);
-		Validacao.checkContemNum(cep, EnderecoConstante.CEP_LETRAS_MESSAGE);
+		checkContemNum(cep, CEP_LETRAS_MESSAGE);
 		checkTamanhoFixo(cep, CEP_TAMANHO_FIXO, CEP_TAMANHO_MESSAGE);
 		this.cep = cep;
 	}
 
-	public String getRua() {
-		return rua;
+	public String getLogradoro() {
+		return logradouro;
 	}
 
-	public void setRua(String rua) {
-		checkNull(rua, EnderecoConstante.RUA_NULL_MESSAGE);
-		checkVazio(rua, EnderecoConstante.RUA_VAZIO_MESSAGE);
-		checkTamahhoMinimo(rua, RUA_TAMANHO_MIN, RUA_TAMANHO_MIN_MESSAGE);
-		checkTamahhoMaximo(rua, RUA_TAMANHO_MAX, RUA_TAMANHO_MAX_MESSAGE);
-		this.rua = rua;
-	}
-
-	public String getNumero() {
-		return numero;
-	}
-
-	public void setNumero(String numero) {
-		checkNull(numero, NUMERO_NULL_MESSAGE);
-		checkVazio(numero, NUMERO_VAZIO_MESSAGE);
-		checkTamahhoMinimo(numero, NUMERO_TAMANHO_MIN, NUMERO_TAMANHO_MIN_MESSAGE);
-		checkTamahhoMaximo(numero, NUMERO_TAMANHO_MAX, NUMERO_TAMANHO_MAX_MESSAGE);
-		this.numero = numero;
+	public void setLogradoro(String rua) {
+		checkNull(rua, LOGRADOURO_NULL_MESSAGE);
+		checkVazio(rua, LOGRADOURO_VAZIO_MESSAGE);
+		checkTamahhoMinimo(rua, LOGRADOURO_TAMANHO_MIN, LOGRADOURO_TAMANHO_MIN_MESSAGE);
+		checkTamahhoMaximo(rua, LOGRADOURO_TAMANHO_MAX, LOGRADOURO_TAMANHO_MAX_MESSAGE);
+		this.logradouro = rua;
 	}
 
 	public String getBairro() {
@@ -150,6 +133,14 @@ public class Endereco {
 		checkTamahhoMaximo(municipio, MUNICIPIO_TAMANHO_MAX, MUNICIPIO_TAMANHO_MAX_MESSAGE);
 		this.municipio = municipio;
 	}
+
+	public Integer getNumero() {
+		return numero;
+	}
+
+	public void setNumero(Integer numero) {
+		this.numero = numero;
+	}
  
 	@Override
 	public int hashCode() {
@@ -172,7 +163,7 @@ public class Endereco {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Endereco Rua=");
-		builder.append(rua);
+		builder.append(logradouro);
 		builder.append(", Numero=");
 		builder.append(numero);
 		builder.append(", Bairro=");

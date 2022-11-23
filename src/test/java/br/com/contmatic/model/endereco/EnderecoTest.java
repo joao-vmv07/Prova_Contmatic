@@ -10,14 +10,14 @@ class EnderecoTest {
 	
 	@Test
 	void deve_aceitar_cep_valido() {
-		Endereco endereco = new Endereco("04852505", "20");
+		Endereco endereco = new Endereco("04852505", 03);
 		assertEquals("04852505", endereco.getCep());
 	}
 	
 	static private Endereco enderecoBefore;
 	@BeforeAll
 	static void criarEndereco() {
-		enderecoBefore = new Endereco("04852505", "11");
+		enderecoBefore = new Endereco("04852505", 11);
 	
 	}
 	

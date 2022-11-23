@@ -8,12 +8,12 @@ public class EmailValidacao {
 	}
 	
 	public static void checkEmail(String email, String message) {
-		checkCaracteresEmail(email, message);
+		checkFormatEmail(email, message);
 	}
 
-	private static void checkCaracteresEmail(String email, String message) {
+	private static void checkFormatEmail(String email, String message) {
 		if(!email.matches(REGEX_EMAIL)) {
 			throw new IllegalArgumentException(message);
 		}
-	}  
+	}    
 }

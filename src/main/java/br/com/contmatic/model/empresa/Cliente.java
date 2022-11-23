@@ -1,4 +1,5 @@
 package br.com.contmatic.model.empresa;
+
 import static br.com.contmatic.model.util.constantes.ClienteConstante.CPF_ESPACO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.ClienteConstante.CPF_INVALIDO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.ClienteConstante.CPF_LETRAS_MESSAGE;
@@ -13,6 +14,10 @@ import static br.com.contmatic.model.util.constantes.ClienteConstante.EMAIL_TAMA
 import static br.com.contmatic.model.util.constantes.ClienteConstante.EMAIL_TAMANHO_MIN;
 import static br.com.contmatic.model.util.constantes.ClienteConstante.EMAIL_TAMANHO_MIN_MESSAGE;
 import static br.com.contmatic.model.util.constantes.ClienteConstante.EMAIL_VAZIO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.LISTA_TELEFONE_TAMANHO_MAX;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.LISTA_TELEFONE_TAMANHO_MAX_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.LISTA_TELEFONE_TAMANHO_MIN;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.LISTA_TELEFONE_TAMANHO_MIN_MESSAGE;
 import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_FORMAT_MESSAGE;
 import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_TAMANHO_MAX;
@@ -20,7 +25,13 @@ import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_TAMAN
 import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_TAMANHO_MIN;
 import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_TAMANHO_MIN_MESSAGE;
 import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_VAZIO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.TELEFONE_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.TELEFONE_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.validacao.CPFValidacao.checkCPF;
+import static br.com.contmatic.model.util.validacao.CollectionValidacao.checkCollectionNull;
+import static br.com.contmatic.model.util.validacao.CollectionValidacao.checkCollectionTamanhoMaximo;
+import static br.com.contmatic.model.util.validacao.CollectionValidacao.checkCollectionTamanhoMinimo;
+import static br.com.contmatic.model.util.validacao.CollectionValidacao.checkCollectionVazio;
 import static br.com.contmatic.model.util.validacao.EmailValidacao.checkEmail;
 import static br.com.contmatic.model.util.validacao.Validacao.checkContemLetras;
 import static br.com.contmatic.model.util.validacao.Validacao.checkContemNum;
@@ -32,11 +43,11 @@ import static br.com.contmatic.model.util.validacao.Validacao.checkTamanhoFixo;
 import static br.com.contmatic.model.util.validacao.Validacao.checkVazio;
 
 import java.util.Objects;
+import java.util.Set;
 
-import br.com.contmatic.model.empresa.auditoria.Auditoria;
 import br.com.contmatic.model.telefone.Telefone;
 
-public class Cliente extends Auditoria{
+public class Cliente extends Auditoria {
 
 	private String nome;
 
@@ -44,13 +55,13 @@ public class Cliente extends Auditoria{
 
 	private String cpf;
 
-	private Telefone telefone;
+	private Set<Telefone> telefones;
 
 	public Cliente(String cpf, String nome) {
 		this.setCpf(cpf);
-		this.setNome(nome); 
+		this.setNome(nome);
 	}
- 
+
 	public String getNome() {
 		return nome;
 	}
@@ -73,8 +84,20 @@ public class Cliente extends Auditoria{
 		checkVazio(email, EMAIL_VAZIO_MESSAGE);
 		checkTamahhoMinimo(email, EMAIL_TAMANHO_MIN, EMAIL_TAMANHO_MIN_MESSAGE);
 		checkTamahhoMaximo(email, EMAIL_TAMANHO_MAX, EMAIL_TAMANHO_MAX_MESSAGE);
-		checkEmail(email, EMAIL_INVALIDO_MESSAGE );
+		checkEmail(email, EMAIL_INVALIDO_MESSAGE);
 		this.email = email;
+	}
+
+	public Set<Telefone> getTelefones() {
+		return telefones;
+	}
+
+	public void setTelefones(Set<Telefone> telefones) {
+		checkCollectionNull(telefones, TELEFONE_NULL_MESSAGE);
+		checkCollectionVazio(telefones, TELEFONE_VAZIO_MESSAGE);
+		checkCollectionTamanhoMinimo(telefones, LISTA_TELEFONE_TAMANHO_MIN, LISTA_TELEFONE_TAMANHO_MIN_MESSAGE);
+		checkCollectionTamanhoMaximo(telefones, LISTA_TELEFONE_TAMANHO_MAX, LISTA_TELEFONE_TAMANHO_MAX_MESSAGE);
+		this.telefones = telefones;
 	}
 
 	public String getCpf() {
@@ -89,14 +112,6 @@ public class Cliente extends Auditoria{
 		checkTamanhoFixo(cpf, CPF_TAMANHO_FIXO, CPF_TAMANHO_MESSAGE);
 		checkCPF(cpf, CPF_INVALIDO_MESSAGE);
 		this.cpf = cpf;
-	}
-
-	public Telefone getTelefone() {
-		return telefone; 
-	}
-
-	public void setTelefone(Telefone telefone) {
-		this.telefone = telefone;
 	}
 
 	@Override
@@ -118,16 +133,9 @@ public class Cliente extends Auditoria{
 
 	@Override
 	public String toString() {
-		return new StringBuilder()
-		.append("Cliente [nome=")
-		.append(nome)
-		.append(", email=")
-		.append(email)
-		.append(", cpf=")
-		.append(cpf)
-		.append(", telefone=")
-		.append(telefone)
-		.append("]").toString();
-		
+		return new StringBuilder().append("Cliente [Nome:").append(nome).append(" Email:").append(email).append(" CPF:")
+				.append(cpf).append(telefones).append(" Usuário Criação:").append(getUsuarioCriacao())
+				.append(" Usuário Alteração:").append(getUsuarioAlteracao()).append("]").toString();
+
 	}
 }

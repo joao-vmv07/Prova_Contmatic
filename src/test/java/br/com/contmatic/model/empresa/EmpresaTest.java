@@ -28,7 +28,13 @@ class EmpresaTest {
 		Empresa empresa = new Empresa("17081431000122");
 		assertEquals("17081431000122", empresa.getCnpj());
 	}
-
+	
+	@Test
+	void deve_aceitar_cnpj_valido_2() {
+		Empresa empresa = new Empresa("84866772000109");
+		assertEquals("84866772000109", empresa.getCnpj());
+	}
+	
 	@Test
 	void nao_deve_aceitar_cnpj_invalido() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
@@ -107,7 +113,6 @@ class EmpresaTest {
 	}
 
 	// RazaoSocial
-
 	@Test
 	void deve_aceitar_razao_social_valido() {
 		empresaBefore.setRazaoSocial("NIKE");
@@ -149,7 +154,7 @@ class EmpresaTest {
 		assertEquals("O campo razão social de Empresa não deve ser vazio.", thrown.getMessage());
 	}
 
-	// NomeFantasia
+	//NomeFantasia
 	@Test
 	void deve_aceitar_nome_fantasia_valido() {
 		empresaBefore.setNomeFantasia("Adidas");
@@ -189,9 +194,10 @@ class EmpresaTest {
 	void deve_aceitar_lista_telefone_valida() {
 	Set<Telefone> telefones =  new HashSet<>();
 	telefones.add(new Telefone("55","11","967976463"));
+	telefones.add(new Telefone("55","11","968904450"));
 	empresaBefore.setTelefones(telefones);
 	assertEquals(telefones, empresaBefore.getTelefones() );
-	 
+	  
 	} 
 	
 	@Test
@@ -209,14 +215,34 @@ class EmpresaTest {
 		assertEquals("O campo Telefone de Empresa não deve ser vazio.", thrown.getMessage());
 	}
 	
+	@Test
+	void nao_deve_aceitar_lista_telefone_maior_que_tres_contatos() {
+		Set<Telefone> telefones = new HashSet<>();
+		telefones.add(new Telefone("55", "11", "967945524"));
+		telefones.add(new Telefone("55", "11", "55285908"));
+		telefones.add(new Telefone("55", "11", "969945526"));
+		telefones.add(new Telefone("55", "11", "960945527"));
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> empresaBefore.setTelefones(telefones), "Esperado IllegalArgumentException ao tentar criar lista de Telefone maior que três contatos em Empresa");
+		assertEquals("O campo Telefone de Empresa deve conter no maximo três registros de contato.", thrown.getMessage());
+	}
+	
+	@Test
+	void nao_deve_aceitar_lista_telefone_menor_que_dois_contatos() {
+		Set<Telefone> telefones = new HashSet<>();
+		telefones.add(new Telefone("55", "11", "968945525"));
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> empresaBefore.setTelefones(telefones), "Esperado IllegalArgumentException ao tentar criar lista de Telefone vazia em Empresa");
+		assertEquals("O campo Telefone de Empresa deve conter no mínimo dois registros de contato.", thrown.getMessage());
+	}
+
 	//Endereco
 	@Test
 	void deve_aceitar_lista_endereco_valida() {
 	Set<Endereco> enderecos =  new HashSet<>();
-	 enderecos.add(new Endereco("04852505", "83"));
+	 enderecos.add(new Endereco("04852505", 83));
 	 empresaBefore.setEnderecos(enderecos);
 	 assertEquals(enderecos, empresaBefore.getEnderecos() );
-	 
 	}  
 	
 	@Test
@@ -232,6 +258,17 @@ class EmpresaTest {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> empresaBefore.setEnderecos(enderecos), "Esperado IllegalArgumentException ao tentar criar lista de Endereco vazia em Empresa");
 		assertEquals("O campo Endereco de Empresa não deve ser vazio.", thrown.getMessage());
+	}
+	
+	@Test 
+	void nao_deve_aceitar_lista_endereco_maior_que_dois_registros() {
+		Set<Endereco> enderecos = new HashSet<>();
+		enderecos.add(new Endereco("04854522", 81));
+		enderecos.add(new Endereco("04256505", 82));
+		enderecos.add(new Endereco("04852511", 83));
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> empresaBefore.setEnderecos(enderecos), "Esperado IllegalArgumentException ao tentar criar lista de Endereco vazia em Empresa");
+		assertEquals("O campo Endereco de Empresa deve conter no maximo dois registros de localidade.", thrown.getMessage());
 	}
 	
 	//Equals
@@ -275,7 +312,7 @@ class EmpresaTest {
 		assertNotEquals(hashcodeA, hashcodeB);
 	}  
 	
-//ToString
+	//toString
 	@Test
 	void deve_conter_valores_dos_campos_tostring() {
 		final String CNPJ = "17081431000122";
@@ -285,19 +322,20 @@ class EmpresaTest {
 		final String USERALTERACAO = "José";
 		
 		Set<Endereco> enderecos =  new HashSet<>(); 
-		enderecos.add(new Endereco("04852505", "83"));
+		enderecos.add(new Endereco("04852505", 83)); 
 		
 		Set<Telefone> telefones =  new HashSet<>();
 		telefones.add(new Telefone("55","11","967976463"));
-	
+		telefones.add(new Telefone("55","11","968984543"));
+		
 		Empresa empresa = new Empresa(CNPJ);
 		empresa.setNomeFantasia(NOME);
 		empresa.setRazaoSocial(RAZAO);
-		empresa.setEnderecos(enderecos);
-		empresa.setTelefones(telefones);
-		empresa.setUsuarioCricao(USERCRIACAO);
+		empresa.setUsuarioCriacao(USERCRIACAO); 
 		empresa.setUsuarioAlteracao(USERALTERACAO);
-		
+		empresa.setEnderecos(enderecos);
+		empresa.setTelefones(telefones); 
+		 
 		assertTrue(empresa.toString().contains(CNPJ));
 		assertTrue(empresa.toString().contains(NOME));
 		assertTrue(empresa.toString().contains(RAZAO));

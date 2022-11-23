@@ -2,9 +2,9 @@ package br.com.contmatic.model.util.constantes;
 
 public final class EnderecoConstante {
 
-	public static final int RUA_TAMANHO_MIN = 3;
+	public static final int LOGRADOURO_TAMANHO_MIN = 3;
 
-	public static final int RUA_TAMANHO_MAX = 40;
+	public static final int LOGRADOURO_TAMANHO_MAX = 40;
 
 	public static final int BAIRRO_TAMANHO_MIN = 3;
 
@@ -34,13 +34,13 @@ public final class EnderecoConstante {
 	
 	public static final String CEP_LETRAS_MESSAGE = "O campo CEP de Endereco deve conter somente números.";
 	
-	public static final String RUA_TAMANHO_MIN_MESSAGE = "O campo Rua de endereco deve ter tamanho mínimo de 3 caracteres";
+	public static final String LOGRADOURO_TAMANHO_MIN_MESSAGE = "O campo Rua de endereco deve ter tamanho mínimo de 3 caracteres";
 	
-	public static final String RUA_TAMANHO_MAX_MESSAGE = "O campo Rua de endereco deve ter tamanho maximo de 40 caracteres";
+	public static final String LOGRADOURO_TAMANHO_MAX_MESSAGE = "O campo Rua de endereco deve ter tamanho maximo de 40 caracteres";
 	
-	public static final String RUA_NULL_MESSAGE =  "O campo Rua de Endereço deve ser preenchido";
+	public static final String LOGRADOURO_NULL_MESSAGE =  "O campo Rua de Endereço deve ser preenchido";
 	
-	public static final String RUA_VAZIO_MESSAGE = "O campo Rua de Endereço não pode ser vazio.";
+	public static final String LOGRADOURO_VAZIO_MESSAGE = "O campo Rua de Endereço não pode ser vazio.";
 	
 	public static final String NUMERO_TAMANHO_MIN_MESSAGE = "O campo Número de Endereço deve ter tamanho mínimo de 1 digito.";
 	

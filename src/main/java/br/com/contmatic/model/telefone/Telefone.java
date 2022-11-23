@@ -83,7 +83,7 @@ public class Telefone {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Telefone [DDI=");
+		builder.append(" Telefone [DDI=");
 		builder.append(ddi);
 		builder.append(", DDD=");
 		builder.append(ddd);
