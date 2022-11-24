@@ -34,7 +34,7 @@ import static br.com.contmatic.model.util.validacao.CollectionValidacao.checkCol
 import static br.com.contmatic.model.util.validacao.CollectionValidacao.checkCollectionVazio;
 import static br.com.contmatic.model.util.validacao.EmailValidacao.checkEmail;
 import static br.com.contmatic.model.util.validacao.Validacao.checkContemLetras;
-import static br.com.contmatic.model.util.validacao.Validacao.checkContemNum;
+import static br.com.contmatic.model.util.validacao.Validacao.checkContemNumero;
 import static br.com.contmatic.model.util.validacao.Validacao.checkEspaco;
 import static br.com.contmatic.model.util.validacao.Validacao.checkNull;
 import static br.com.contmatic.model.util.validacao.Validacao.checkTamahhoMaximo;
@@ -108,7 +108,7 @@ public class Cliente extends Auditoria {
 		checkNull(cpf, CPF_NULL_MESSAGE);
 		checkVazio(cpf, CPF_VAZIO_MESSAGE);
 		checkEspaco(cpf, CPF_ESPACO_MESSAGE);
-		checkContemNum(cpf, CPF_LETRAS_MESSAGE);
+		checkContemNumero(cpf, CPF_LETRAS_MESSAGE);
 		checkTamanhoFixo(cpf, CPF_TAMANHO_FIXO, CPF_TAMANHO_MESSAGE);
 		checkCPF(cpf, CPF_INVALIDO_MESSAGE);
 		this.cpf = cpf;

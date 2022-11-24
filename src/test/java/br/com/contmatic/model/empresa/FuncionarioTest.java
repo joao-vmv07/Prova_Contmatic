@@ -357,25 +357,19 @@ class FuncionarioTest {
 	void nao_deve_aceitar_salario_null() {
 		Funcionario funcionario = new Funcionario("46339822819", "João");
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> funcionario.setIdade(null), "Expected doThing() to throw, but it didn't");
-		assertEquals("O campo Idade de Funcionário deve ser preenchido.", thrown.getMessage());
+				() -> funcionario.setSalario(null), "Expected doThing() to throw, but it didn't");
+		assertEquals("O campo Salario do Funcionário deve ser preenchido.", thrown.getMessage());
 	}
 	
 	@Test
 	void nao_deve_aceitar_salario_vazio() {
+		NumberFormatException e = new NumberFormatException();
 		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> funcionario.setIdade(""), "Expected doThing() to throw, but it didn't");
-		assertEquals("O campo Idade de Funcionário não deve ser vazio.", thrown.getMessage());
+		NumberFormatException thrown = assertThrows(NumberFormatException.class,
+				() -> funcionario.setSalario(new BigDecimal("")), "Expected doThing() to throw, but it didn't");
+		assertEquals(e.getMessage(), thrown.getMessage());
 	}
 	
-	@Test
-	void nao_deve_aceitar_idade_salario_com_espaco() {
-		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> funcionario.setIdade(" "), "Expected doThing() to throw, but it didn't");
-		assertEquals("O campo Idade de Funcionário não deve ser vazio.", thrown.getMessage());
-	} 
 	
 //Equals
 		@Test

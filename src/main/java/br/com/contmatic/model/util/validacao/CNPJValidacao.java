@@ -17,7 +17,7 @@ import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_NULL_
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_TAMANHO_FIXO;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_TAMANHO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_VAZIO_MESSAGE;
-import static br.com.contmatic.model.util.validacao.Validacao.checkContemNum;
+import static br.com.contmatic.model.util.validacao.Validacao.checkContemNumero;
 import static br.com.contmatic.model.util.validacao.Validacao.checkEspaco;
 import static br.com.contmatic.model.util.validacao.Validacao.checkNull;
 import static br.com.contmatic.model.util.validacao.Validacao.checkTamanhoFixo;
@@ -35,7 +35,7 @@ public class CNPJValidacao {
 		checkNull(cnpj, CNPJ_NULL_MESSAGE);
 		checkVazio(cnpj, CNPJ_VAZIO_MESSAGE); 
 		checkEspaco(cnpj, CNPJ_ESPACO_MESSAGE);
-		checkContemNum(cnpj, CNPJ_LETRAS_MASK_MESSAGE);
+		checkContemNumero(cnpj, CNPJ_LETRAS_MASK_MESSAGE);
 		checkTamanhoFixo(cnpj, CNPJ_TAMANHO_FIXO, CNPJ_TAMANHO_MESSAGE);
 		checkNumeroVerificador(cnpj);
 	}

@@ -34,29 +34,33 @@ public final class EnderecoConstante {
 	
 	public static final String CEP_LETRAS_MESSAGE = "O campo CEP de Endereco deve conter somente números.";
 	
-	public static final String LOGRADOURO_TAMANHO_MIN_MESSAGE = "O campo Rua de endereco deve ter tamanho mínimo de 3 caracteres";
+	public static final String LOGRADOURO_TAMANHO_MIN_MESSAGE = "O campo Logradouro de Endereco é permitido no minímo 3 caracteres.";
 	
-	public static final String LOGRADOURO_TAMANHO_MAX_MESSAGE = "O campo Rua de endereco deve ter tamanho maximo de 40 caracteres";
+	public static final String LOGRADOURO_TAMANHO_MAX_MESSAGE = "O campo Logradouro de Endereco é permitido no maximo 40 caracteres.";
 	
-	public static final String LOGRADOURO_NULL_MESSAGE =  "O campo Rua de Endereço deve ser preenchido";
+	public static final String LOGRADOURO_NULL_MESSAGE =  "O campo Logradouro de Endereço deve ser preenchido.";
 	
-	public static final String LOGRADOURO_VAZIO_MESSAGE = "O campo Rua de Endereço não pode ser vazio.";
+	public static final String LOGRADOURO_VAZIO_MESSAGE = "O campo Logradouro de Endereço não pode ser vazio.";
 	
+	public static final String LOGRADOURO_LETRAS_MESSAGE = "O campo Logradouro de Endereço deve conter somente letras.";
+		
 	public static final String NUMERO_TAMANHO_MIN_MESSAGE = "O campo Número de Endereço deve ter tamanho mínimo de 1 digito.";
 	
 	public static final String NUMERO_TAMANHO_MAX_MESSAGE = "O campo Número de Endereço deve ter tamanho maximo de 4 digitos.";
 	
-	public static final String NUMERO_NULL_MESSAGE =  "O campo Número de Endereço deve ser preenchido";
+	public static final String NUMERO_NULL_MESSAGE =  "O campo Número de Endereço deve ser preenchido.";
+		
+	public static final String NUMERO_LETRAS_MESSAGE = "O campo Número de Endereco deve conter somente caracteres númericos e não é permitido valores menor ou igual a zero.";
 	
-	public static final String NUMERO_VAZIO_MESSAGE = "O campo Número de Endereço não pode ser vazio.";
+	public static final String BAIRRO_TAMANHO_MIN_MESSAGE = "O campo Bairro de Endereco é permitido no minímo 3 caracteres.";
 	
-	public static final String BAIRRO_TAMANHO_MIN_MESSAGE = "O campo Bairro de Endereço deve ter tamanho mínimo de 3 caracteres.";
+	public static final String BAIRRO_TAMANHO_MAX_MESSAGE = "O campo Bairro de Endereco é permitido no maximo 40 caracteres.";
 	
-	public static final String BAIRRO_TAMANHO_MAX_MESSAGE = "O campo Bairro de Endereço deve ter tamanho maximo de 40 caracteres.";
-	
-	public static final String BAIRRO_NULL_MESSAGE =  "O campo Bairro de Endereço deve ser preenchido";
+	public static final String BAIRRO_NULL_MESSAGE =  "O campo Bairro de Endereço deve ser preenchido.";
 	
 	public static final String BAIRRO_VAZIO_MESSAGE = "O campo Bairro de Endereço não pode ser vazio.";
+	
+	public static final String BAIRRO_LETRAS_MESSAGE = "O campo Bairro de Endereço deve conter somente letras.";
 	
 	public static final String PAIS_TAMANHO_MIN_MESSAGE = "O campo País de Endereço deve ter tamanho mínimo de 4 caracteres.";
 	
@@ -66,11 +70,15 @@ public final class EnderecoConstante {
 	
 	public static final String PAIS_VAZIO_MESSAGE = "O campo País de Endereço não pode ser vazio.";
 	
+	public static final String PAIS_LETRAS_MESSAGE = "O campo País de Endereco deve conter somente letras.";
+	
 	public static final String UF_NULL_MESSAGE =  "O campo UF de Endereço deve ser preenchido";
 	
 	public static final String UF_VAZIO_MESSAGE = "O campo UF de Endereço não pode ser vazio.";
 	
 	public static final String UF_TAMANHO_MESSAGE = "O campo CEP de Endereço deve conter2 caracteres represantando seu estado.";
+	
+	public static final String UF_LETRAS_MESSAGE = "O campo UF de Endereco deve conter somente letras.";
 	
 	public static final String MUNICIPIO_TAMANHO_MIN_MESSAGE = "O campo Município de Endereço deve ter tamanho mínimo de 3 caracteres.";
 	
@@ -79,6 +87,8 @@ public final class EnderecoConstante {
 	public static final String MUNICIPIO_NULL_MESSAGE =  "O campo Município de Endereço deve ser preenchido";
 	
 	public static final String MUNICIPIO_VAZIO_MESSAGE = "O campo Município de Endereço não pode ser vazio.";
+	
+	public static final String MUNICIPIOLETRAS_MESSAGE = "O campo Município de Endereco deve conter somente letras.";
 	
 	private EnderecoConstante() {
 

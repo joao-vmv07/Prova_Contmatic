@@ -9,7 +9,7 @@ import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDI_NULL_
 import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDI_TAMANHO_FIXO;
 import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDI_TAMANHO_FIXO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDI_VAZIO_MESSAGE;
-import static br.com.contmatic.model.util.validacao.Validacao.checkContemNum;
+import static br.com.contmatic.model.util.validacao.Validacao.checkContemNumero;
 import static br.com.contmatic.model.util.validacao.Validacao.checkNull;
 import static br.com.contmatic.model.util.validacao.Validacao.checkTamanhoFixo;
 import static br.com.contmatic.model.util.validacao.Validacao.checkVazio;
@@ -46,7 +46,7 @@ public class Telefone {
 	public void setDdd(String ddd) {
 		checkNull(ddd, DDD_NULL_MESSAGE);
 		checkVazio(ddd, DDD_VAZIO_MESSAGE);
-		checkContemNum(ddd, DDD_LETRAS_MESSAGE);
+		checkContemNumero(ddd, DDD_LETRAS_MESSAGE);
 		checkTamanhoFixo(ddd, DDD_TAMANHO_FIXO, DDD_TAMANHO_FIXO_MESSAGE);
 		this.ddd = ddd;
 	}
@@ -58,7 +58,7 @@ public class Telefone {
 	public void setDdi(String ddi) {
 		checkNull(ddi, DDI_NULL_MESSAGE);
 		checkVazio(ddi, DDI_VAZIO_MESSAGE);
-		checkContemNum(ddi, DDI_LETRAS_MESSAGE);
+		checkContemNumero(ddi, DDI_LETRAS_MESSAGE);
 		checkTamanhoFixo(ddi, DDI_TAMANHO_FIXO, DDI_TAMANHO_FIXO_MESSAGE);
 		this.ddi = ddi;
 	}

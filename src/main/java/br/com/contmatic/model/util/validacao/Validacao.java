@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 public final class Validacao {
 
+	private static final int VALOR_DE_RETORNO = 0;
+
 	private Validacao() {
 	}
 
@@ -13,56 +15,62 @@ public final class Validacao {
 		}
 	}
 
-	public static void checkVazio(Object texto, String message) {
-		if (texto.toString().trim().isEmpty()) {
+	public static void checkVazio(Object obj, String message) {
+		if (obj.toString().trim().isEmpty()) {
 			throw new IllegalArgumentException(message);
 		}
 	}
 
-	public static void checkEspaco(String texto, String message) {
-		if (texto.contains(" ")) {
+	public static void checkTamahhoMinimo(Object obj, int quantidade, String message) {
+		if (obj.toString().length() < quantidade) {
 			throw new IllegalArgumentException(message);
 		}
 	}
 
-	public static void checkTamahhoMinimo(String texto, int quantidade, String message) {
-		if (texto.length() < quantidade) {
+	public static void checkTamahhoMaximo(Object obj, int quantidade, String message) {
+		if (obj.toString().length() > quantidade) {
+			throw new IllegalArgumentException(message);
+		} 
+	}
+
+	public static void checkTamanhoFixo(Object obj, int quantidade, String message) {
+		if (obj.toString().length() != quantidade) {
 			throw new IllegalArgumentException(message);
 		}
 	}
 
-	public static void checkTamahhoMaximo(String texto, int quantidade, String message) {
-		if (texto.length() > quantidade) {
+	public static void checkContemLetras(Object obj, String message) {
+		if (!obj.toString().matches("[ a-zA-Z-à-úÀ-Ú]*")) {
 			throw new IllegalArgumentException(message);
 		}
 	}
 
-	public static void checkTamanhoFixo(String texto, int quantidade, String message) {
-		if (texto.length() != quantidade) {
+	public static void checkContemNumero(Object obj, String message) {
+		if (!obj.toString().matches("[\\d]*")) {
 			throw new IllegalArgumentException(message);
 		}
-	}
+	}  
 
-	public static void checkContemLetras(String texto, String message) {
-		if (!texto.matches("[ a-zA-Z-à-úÀ-Ú]*")) {
-			throw new IllegalArgumentException(message);
-		}
-	}
-
-	public static void checkContemNum(String texto, String message) {
-		if (!texto.matches("[\\d]*")) {
+	public static void checkEspaco(Object obj, String message) {
+		if (obj.toString().contains(" ")) {
 			throw new IllegalArgumentException(message);
 		}
 	}
 
 	public static void checkValorMinimo(BigDecimal valor, BigDecimal minimo, String message) {
-		if (valor.compareTo(minimo) < 0) {
+		if (valor.compareTo(minimo) < VALOR_DE_RETORNO) {
 			throw new IllegalArgumentException(message);
 		}
 	}
 
 	public static void checkValorMaximo(BigDecimal valor, BigDecimal maximo, String message) {
-		if (valor.compareTo(maximo) > 0) {
+		if (valor.compareTo(maximo) > VALOR_DE_RETORNO) {
+			throw new IllegalArgumentException(message);
+		}
+	}
+	
+	public static void checkNumeroMenorIgualZero(Integer numero, String message) {
+		if(numero <= 0) {
 			throw new IllegalArgumentException(message);
 		}
 	}

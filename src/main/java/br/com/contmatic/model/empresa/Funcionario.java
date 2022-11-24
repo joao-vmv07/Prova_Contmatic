@@ -43,7 +43,7 @@ import static br.com.contmatic.model.util.validacao.DataValidacao.checkDataNasci
 import static br.com.contmatic.model.util.validacao.DataValidacao.checkDataNascimentoIdadeMinima;
 import static br.com.contmatic.model.util.validacao.EmailValidacao.checkEmail;
 import static br.com.contmatic.model.util.validacao.Validacao.checkContemLetras;
-import static br.com.contmatic.model.util.validacao.Validacao.checkContemNum;
+import static br.com.contmatic.model.util.validacao.Validacao.checkContemNumero;
 import static br.com.contmatic.model.util.validacao.Validacao.checkEspaco;
 import static br.com.contmatic.model.util.validacao.Validacao.checkNull;
 import static br.com.contmatic.model.util.validacao.Validacao.checkTamahhoMaximo;
@@ -87,7 +87,7 @@ public class Funcionario extends Auditoria {
 		checkNull(cpf, CPF_NULL_MESSAGE);
 		checkVazio(cpf, CPF_VAZIO_MESSAGE);
 		checkEspaco(cpf, CPF_ESPACO_MESSAGE);
-		checkContemNum(cpf, CPF_LETRAS_MESSAGE);
+		checkContemNumero(cpf, CPF_LETRAS_MESSAGE);
 		checkTamanhoFixo(cpf, CPF_TAMANHO_FIXO, CPF_TAMANHO_MESSAGE);
 		checkCPF(cpf, CPF_INVALIDO_MESSAGE);
 		this.cpf = cpf;
@@ -114,7 +114,7 @@ public class Funcionario extends Auditoria {
 		checkNull(idade, IDADE_NULL_MESSAGE);
 		checkVazio(idade, IDADE_VAZIO_MESSAGE);
 		checkEspaco(idade, IDADE_ESPACO_MESSAGE);
-		checkContemNum(idade, IDADE_LETRAS_MESSAGE);
+		checkContemNumero(idade, IDADE_LETRAS_MESSAGE);
 		checkTamanhoFixo(idade, IDADE_TAMANHO_FIXO, IDADE_TAMANHO_MESSAGE);
 		this.idade = idade;
 	}
@@ -164,7 +164,7 @@ public class Funcionario extends Auditoria {
 		checkValorMinimo(salario, new BigDecimal("1212.00"), SALARIO_VALOR_MIN_MESSAGE);
 		checkValorMaximo(salario, new BigDecimal("99000.00"), SALARIO_VALOR_MAX_MESSAGE);
 		this.salario = salario;
-	}
+	} 
 
 	@Override
 	public int hashCode() {

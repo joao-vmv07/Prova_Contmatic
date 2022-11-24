@@ -125,11 +125,11 @@ class EmpresaTest {
 				() -> empresaBefore.setRazaoSocial("TESTE123TESTE123TESTE123TESTE123TESTE123TESTE1231213dadada1"),"Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa com mais de 40 caracteres: ");
 		assertEquals("O campo razão social de Empresa é permitido no maximo 40 caracteres.", thrown.getMessage());
 	}
-
+ 
 	@Test
 	void nao_deve_aceitar_razao_social_menos_3_caracteres() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setRazaoSocial("AB"), "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa com menos de 3 caracteres:");
+	 			() -> empresaBefore.setRazaoSocial("AB"), "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa com menos de 3 caracteres:");
 		assertEquals("O campo razão social de Empresa deve conter no mínimo 3 caracteres.", thrown.getMessage());
 	}
 
