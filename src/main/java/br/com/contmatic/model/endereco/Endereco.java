@@ -19,7 +19,7 @@ import static br.com.contmatic.model.util.constantes.EnderecoConstante.LOGRADOUR
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.LOGRADOURO_TAMANHO_MIN;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.LOGRADOURO_TAMANHO_MIN_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.LOGRADOURO_VAZIO_MESSAGE;
-import static br.com.contmatic.model.util.constantes.EnderecoConstante.MUNICIPIOLETRAS_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.MUNICIPIO_LETRAS_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.MUNICIPIO_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.MUNICIPIO_TAMANHO_MAX;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.MUNICIPIO_TAMANHO_MAX_MESSAGE;
@@ -101,7 +101,7 @@ public class Endereco {
 		this.logradouro = logradouro;
 	}
 
-	public String getBairro() { 
+	public String getBairro() {
 		return bairro;
 	}
 
@@ -137,7 +137,7 @@ public class Endereco {
 		checkContemLetras(uf, UF_LETRAS_MESSAGE);
 		checkTamanhoFixo(uf, UF_TAMANHO_FIXO, UF_TAMANHO_MESSAGE);
 		this.uf = uf;
-	} 
+	}
 
 	public String getMunicipio() {
 		return municipio;
@@ -146,14 +146,14 @@ public class Endereco {
 	public void setMunicipio(String municipio) {
 		checkNull(municipio, MUNICIPIO_NULL_MESSAGE);
 		checkVazio(municipio, MUNICIPIO_VAZIO_MESSAGE);
-		checkContemLetras(municipio, MUNICIPIOLETRAS_MESSAGE);
+		checkContemLetras(municipio, MUNICIPIO_LETRAS_MESSAGE);
 		checkTamahhoMinimo(municipio, MUNICIPIO_TAMANHO_MIN, MUNICIPIO_TAMANHO_MIN_MESSAGE);
 		checkTamahhoMaximo(municipio, MUNICIPIO_TAMANHO_MAX, MUNICIPIO_TAMANHO_MAX_MESSAGE);
 		this.municipio = municipio;
 	}
 
 	public Integer getNumero() {
-		return numero; 
+		return numero;
 	}
 
 	public void setNumero(Integer numero) {
@@ -162,7 +162,7 @@ public class Endereco {
 		checkNumeroMenorIgualZero(numero, NUMERO_LETRAS_MESSAGE);
 		checkTamahhoMinimo(numero, NUMERO_TAMANHO_MIN, NUMERO_TAMANHO_MIN_MESSAGE);
 		checkTamahhoMaximo(numero, NUMERO_TAMANHO_MAX, NUMERO_TAMANHO_MAX_MESSAGE);
-		this.numero = numero;
+		this.numero = numero; 
 	}
 
 	@Override
@@ -185,7 +185,7 @@ public class Endereco {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Endereco Rua=");
+		builder.append("Endereco Logradouro=");
 		builder.append(logradouro);
 		builder.append(", Numero=");
 		builder.append(numero);

@@ -60,7 +60,7 @@ public class Cliente extends Auditoria {
 	public Cliente(String cpf, String nome) {
 		this.setCpf(cpf);
 		this.setNome(nome);
-	}
+	} 
 
 	public String getNome() {
 		return nome;

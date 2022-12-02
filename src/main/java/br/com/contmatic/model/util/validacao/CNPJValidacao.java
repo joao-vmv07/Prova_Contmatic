@@ -45,7 +45,7 @@ public class CNPJValidacao {
 		int verificador2 = calculoNumeroVerificador(cnpj, LOGICA_CNPJ_DIGITO_2);
 		if (verificador1 == parseInt(valueOf((cnpj.charAt(POSICAO_VERIFICADOR_1))))
 				&& verificador2 == parseInt(valueOf((cnpj.charAt(POSICAO_VERIFICADOR_2))))) {
-			return; 
+			return;  
 		}
 		throw new IllegalArgumentException(CNPJ_INVALIDO_MESSAGE);
 	} 

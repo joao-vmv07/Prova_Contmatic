@@ -28,7 +28,7 @@ public class Telefone {
 		super();
 		this.setDdi(ddi);   
 		this.setDdd(ddd); 
-		this.setNumero(numero);
+		this.setNumero(numero); 
 	}
 
 	public String getNumero() {
@@ -78,7 +78,7 @@ public class Telefone {
 			return false;
 		Telefone other = (Telefone) obj;
 		return Objects.equals(ddd, other.ddd) && Objects.equals(ddi, other.ddi) && Objects.equals(numero, other.numero);
-	}
+	} 
 
 	@Override
 	public String toString() {

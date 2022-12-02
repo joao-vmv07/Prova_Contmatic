@@ -1,6 +1,10 @@
 package br.com.contmatic.model.telefone;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -41,6 +45,13 @@ class TelefoneTest {
 	} 
 	
 	@Test
+	void nao_deve_aceitar_ddi_vazio_com_espaco() {
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> telefoneBefore.setDdi(" "), "Esperado IllegalArgumentException ao tentar criar Telefone com DDI Null:");
+		assertEquals("O campo DDI de Telefone não deve ser vazio", thrown.getMessage());
+	} 
+	
+	@Test
 	void nao_deve_aceitar_ddi_com_letras() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> telefoneBefore.setDdi("1D"), "Esperado IllegalArgumentException ao tentar criar Telefone com letra no campo DDI:");
@@ -62,6 +73,11 @@ class TelefoneTest {
 	} 
 	
 	//DDD
+	@Test
+	void deve_aceitar_ddd_valido() {
+		Telefone telefone = new Telefone("55","11","967976463");
+		assertEquals("11", telefone.getDdd());
+	} 
 	
 	@Test
 	void nao_deve_aceitar_ddd_null() {
@@ -74,6 +90,13 @@ class TelefoneTest {
 	void nao_deve_aceitar_ddd_vazio() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> telefoneBefore.setDdd(""), "Esperado IllegalArgumentException ao tentar criar Telefone com DDD Null:");
+		assertEquals("O campo DDD de Telefone não deve ser vazio", thrown.getMessage());
+	} 
+	
+	@Test
+	void nao_deve_aceitar_ddd_vazio_com_espaco() {
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> telefoneBefore.setDdd(" "), "Esperado IllegalArgumentException ao tentar criar Telefone com DDD Null:");
 		assertEquals("O campo DDD de Telefone não deve ser vazio", thrown.getMessage());
 	} 
 	
@@ -105,4 +128,69 @@ class TelefoneTest {
 		assertEquals("O campo DDD de Telefone deve conter dois números.", thrown.getMessage());
 	}
 	
+//Equals
+	@Test
+	void deve_aceitar_objeto_com_valores_iguais() {
+		Telefone telefoneA = new Telefone("55", "11", "980102211" );
+		Telefone telefoneB = new Telefone("55", "11", "980102211");
+		assertEquals(true, telefoneA.equals(telefoneB));
+	} 
+	
+	@Test
+	void deve_aceitar_objeto_valores_endereco_memoria_iguais() {
+		Telefone telefoneA = new Telefone("55", "11", "980102211");
+		assertEquals(true, telefoneA.equals(telefoneA));
+	}
+	 
+	@Test
+	void nao_deve_aceitar_equals_com_objeto_valores_diferentes() {
+		Telefone telefoneA = new Telefone("55", "11", "980102211");
+		Telefone telefoneB = new Telefone("10", "80", "980102212");
+		assertEquals(false, telefoneA.equals(telefoneB));
+	}
+	
+	@Test
+	void nao_deve_aceitar_equals_com_objeto_null() {
+		Telefone telefoneA = new Telefone("55", "11", "980102211");
+		assertEquals(false, telefoneA.equals(null));
+	}
+	
+	@Test
+	void nao_deve_aceitar_equals_objeto_de_classes_diferente() {
+		Telefone telefoneA = new Telefone("55", "11", "980102211");
+		assertEquals(false, telefoneA.equals(new Object()));
+	} 
+	
+	
+	//HashCode
+		@Test
+		void deve_ter_hashCode_iguais() {
+			int hashcodeA = new Telefone("55","11","967976463").hashCode();
+			int hashcodeB = new Telefone("55","11","967976463").hashCode();
+			assertEquals(hashcodeA, hashcodeB);
+		} 
+		
+		@Test
+		void nao_deve_ter_hashCode_iguais() {
+			int hashcodeA =  new Telefone("55","11","967976463").hashCode();
+			int hashcodeB =  new Telefone("22","83","967976060").hashCode();
+			assertNotEquals(hashcodeA, hashcodeB);
+		} 
+//ToString
+	
+	@Test
+	void deve_conter_valores_dos_campos_tostring() {
+		final String DDD = "11";
+		final String DDI = "55";
+		final String NUMERO = "55285908";
+		
+		Telefone telefone = new Telefone(DDI, DDD, NUMERO);
+		telefone.setDdd(DDD);
+		telefone.setDdi(DDI);
+		telefone.setNumero(NUMERO);
+		
+		assertTrue(telefone.toString().contains(NUMERO));
+		assertTrue(telefone.toString().contains(DDI));
+		assertTrue(telefone.toString().contains(DDD));
+	}
 }

@@ -27,7 +27,7 @@ public class CPFValidacao {
 		int verificador2 = calculoNumeroVerificador(cpf, CPF_LOGICA_MULTIPLICADOR_DIGITO_2, CPF_LOGICA_BUSCAR_DIGITO_2);
 		if (verificador1 == parseInt(valueOf(cpf.charAt(CPF_LOGICA_BUSCAR_DIGITO_1)))
 				&& verificador2 == parseInt(valueOf(cpf.charAt(CPF_LOGICA_BUSCAR_DIGITO_2)))) {
-			return;
+			return; 
 		}
 		throw new IllegalArgumentException(cpfMessageClasse);
 	}
@@ -52,7 +52,7 @@ public class CPFValidacao {
 			if (contadorNumerosRepetidos == NUMERO_TOTAL_REPETICOES) {
 				throw new IllegalArgumentException(cpfMessageClasse);
 			}
-			proximaPosicao++;
+			proximaPosicao++; 
 		}
 
 	}

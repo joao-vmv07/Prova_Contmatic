@@ -62,33 +62,33 @@ public final class EnderecoConstante {
 	
 	public static final String BAIRRO_LETRAS_MESSAGE = "O campo Bairro de Endereço deve conter somente letras.";
 	
-	public static final String PAIS_TAMANHO_MIN_MESSAGE = "O campo País de Endereço deve ter tamanho mínimo de 4 caracteres.";
+	public static final String PAIS_TAMANHO_MIN_MESSAGE = "O campo País de Endereço deve conter no mínimo de 4 caracteres.";
 	
-	public static final String PAIS_TAMANHO_MAX_MESSAGE = "O campo País de Endereço deve ter tamanho maximo de 14 caracteres.";
+	public static final String PAIS_TAMANHO_MAX_MESSAGE = "O campo País de Endereco é permitido no maximo 14 caracteres.";
 	
-	public static final String PAIS_NULL_MESSAGE =  "O campo País de Endereço deve ser preenchido";
+	public static final String PAIS_NULL_MESSAGE =  "O campo País de Endereço deve ser preenchido.";
 	
 	public static final String PAIS_VAZIO_MESSAGE = "O campo País de Endereço não pode ser vazio.";
 	
 	public static final String PAIS_LETRAS_MESSAGE = "O campo País de Endereco deve conter somente letras.";
 	
-	public static final String UF_NULL_MESSAGE =  "O campo UF de Endereço deve ser preenchido";
+	public static final String UF_NULL_MESSAGE =  "O campo UF de Endereço deve ser preenchido.";
 	
 	public static final String UF_VAZIO_MESSAGE = "O campo UF de Endereço não pode ser vazio.";
 	
-	public static final String UF_TAMANHO_MESSAGE = "O campo CEP de Endereço deve conter2 caracteres represantando seu estado.";
+	public static final String UF_TAMANHO_MESSAGE = "O campo UF de Endereço deve conter 2 caracteres.";
 	
 	public static final String UF_LETRAS_MESSAGE = "O campo UF de Endereco deve conter somente letras.";
 	
-	public static final String MUNICIPIO_TAMANHO_MIN_MESSAGE = "O campo Município de Endereço deve ter tamanho mínimo de 3 caracteres.";
+	public static final String MUNICIPIO_TAMANHO_MIN_MESSAGE = "O campo Município de Endereço deve conter no mínimo de 3 caracteres.";
 	
 	public static final String MUNICIPIO_TAMANHO_MAX_MESSAGE = "O campo Município de Endereço deve ter tamanho maximo de 40 caracteres.";
 	
-	public static final String MUNICIPIO_NULL_MESSAGE =  "O campo Município de Endereço deve ser preenchido";
+	public static final String MUNICIPIO_NULL_MESSAGE =  "O campo Município de Endereço deve ser preenchido.";
 	
 	public static final String MUNICIPIO_VAZIO_MESSAGE = "O campo Município de Endereço não pode ser vazio.";
 	
-	public static final String MUNICIPIOLETRAS_MESSAGE = "O campo Município de Endereco deve conter somente letras.";
+	public static final String MUNICIPIO_LETRAS_MESSAGE = "O campo Município de Endereco deve conter somente letras.";
 	
 	private EnderecoConstante() {
 

@@ -53,7 +53,7 @@ public class Empresa extends Auditoria {
 	public Empresa(String cnpj) {
 		super();
 		this.setCnpj(cnpj);
-	} 
+	}
 
 	public String getCnpj() {
 		return cnpj;
@@ -96,7 +96,7 @@ public class Empresa extends Auditoria {
 		checkCollectionVazio(telefone, TELEFONE_VAZIO_MESSAGE);
 		checkCollectionTamanhoMinimo(telefone, LISTA_TELEFONE_TAMANHO_MIN, LISTA_TELEFONE_TAMANHO_MIN_MESSAGE);
 		checkCollectionTamanhoMaximo(telefone, LISTA_TELEFONE_TAMANHO_MAX, LISTA_TELEFONE_TAMANHO_MAX_MESSAGE);
-		this.telefones = telefone; 
+		this.telefones = telefone;
 	}
 
 	public String getNomeFantasia() {
@@ -118,7 +118,7 @@ public class Empresa extends Auditoria {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
+		if (this == obj) { 
 			return true;
 		}
 		if (obj == null) {
@@ -129,13 +129,12 @@ public class Empresa extends Auditoria {
 		}
 		Empresa other = (Empresa) obj;
 		return Objects.equals(cnpj, other.cnpj);
-	}
-
+	} 
+	
 	@Override
 	public String toString() {
 		return new StringBuilder().append("Cnpj:").append(cnpj).append(" Razao Social:").append(razaoSocial)
 				.append(" Nome Fantasia:").append(nomeFantasia).append(" Enderecos:").append(enderecos)
-				.append(" Telefones:").append(telefones).append(" Usuário de Criação:").append(getUsuarioCriacao())
-				.append(" Usuário de Alteração:").append(getUsuarioAlteracao()).toString();
+				.append(" Telefones:").append(telefones).append(super.toString()).toString(); 
 	}
 }

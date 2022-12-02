@@ -13,7 +13,7 @@ public final class Validacao {
 		if (obj == null) {
 			throw new IllegalArgumentException(message);
 		}
-	}
+	} 
 
 	public static void checkVazio(Object obj, String message) {
 		if (obj.toString().trim().isEmpty()) {
@@ -70,8 +70,8 @@ public final class Validacao {
 	}
 	
 	public static void checkNumeroMenorIgualZero(Integer numero, String message) {
-		if(numero <= 0) {
+		if(numero <= VALOR_DE_RETORNO) {
 			throw new IllegalArgumentException(message);
 		}
-	}
+	} 
 }

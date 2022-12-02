@@ -33,7 +33,9 @@ import static br.com.contmatic.model.util.constantes.FuncionarioConstante.NOME_T
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.NOME_TAMANHO_MIN_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.NOME_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.SALARIO_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.SALARIO_VALOR_MAXIMO;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.SALARIO_VALOR_MAX_MESSAGE;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.SALARIO_VALOR_MINIMO;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.SALARIO_VALOR_MIN_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.SALARIO_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.STATUS_NULL_MESSAGE;
@@ -124,7 +126,7 @@ public class Funcionario extends Auditoria {
 	}
 
 	public void setdataNascimento(LocalDate dataNascimento) {
-		checkNull(dataNascimento, DATA_NULL_MESSAGE); 
+		checkNull(dataNascimento, DATA_NULL_MESSAGE);
 		checkVazio(dataNascimento, DATA_NASCIMENTO_VAZIO_MESSAGE);
 		checkDataNascimentoIdadeMinima(dataNascimento, DATA_NASCIMENTO_IDADE_MINIMA_MESSAGE);
 		checkDataNascimentoIdadeMaxima(dataNascimento, DATA_NASCIMENTO_IDADE_MAXIMA_MESSAGE);
@@ -151,20 +153,20 @@ public class Funcionario extends Auditoria {
 
 	public void setStatus(Boolean status) {
 		checkNull(status, STATUS_NULL_MESSAGE);
-		this.status = status; 
+		this.status = status;
 	}
-	
+
 	public BigDecimal getSalario() {
 		return salario;
 	}
 
 	public void setSalario(BigDecimal salario) {
-		checkNull(salario, SALARIO_NULL_MESSAGE );
-		checkVazio(salario, SALARIO_VAZIO_MESSAGE );
-		checkValorMinimo(salario, new BigDecimal("1212.00"), SALARIO_VALOR_MIN_MESSAGE);
-		checkValorMaximo(salario, new BigDecimal("99000.00"), SALARIO_VALOR_MAX_MESSAGE);
+		checkNull(salario, SALARIO_NULL_MESSAGE);
+		checkVazio(salario, SALARIO_VAZIO_MESSAGE);
+		checkValorMinimo(salario, SALARIO_VALOR_MINIMO, SALARIO_VALOR_MIN_MESSAGE);
+		checkValorMaximo(salario, SALARIO_VALOR_MAXIMO, SALARIO_VALOR_MAX_MESSAGE);
 		this.salario = salario;
-	} 
+	}
 
 	@Override
 	public int hashCode() {
@@ -188,7 +190,7 @@ public class Funcionario extends Auditoria {
 		return new StringBuilder().append("Funcionario [CPF:").append(cpf).append(", Nome:").append(nome)
 				.append(", Email:").append(email).append(", Idade:").append(idade).append(", DataDeNascimento:")
 				.append(dataNascimento.format(FORMATTER_DATA)).append(", Status:").append(status).append("]")
-				.toString();
+				.append(super.toString()).toString();
 	}
 
 }

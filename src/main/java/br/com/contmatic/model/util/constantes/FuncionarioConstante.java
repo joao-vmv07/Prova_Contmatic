@@ -16,9 +16,9 @@ public final class FuncionarioConstante {
 	
 	public static final int EMAIL_TAMANHO_MAX = 40;
 	
-	public static final BigDecimal SALARIO_VALOR_MINIMO = new BigDecimal("1212.OO");
+	public static final BigDecimal SALARIO_VALOR_MINIMO = BigDecimal.valueOf(1212.00);
 	
-	public static final BigDecimal SALARIO_VALOR_MAXIMO = new BigDecimal("99000.00");
+	public static final BigDecimal SALARIO_VALOR_MAXIMO =  BigDecimal.valueOf(99999.00);
 	
 	public static final String CPF_TAMANHO_MESSAGE = "O campo CPF de Funcionário deve conter 11 digitos.";
 	
