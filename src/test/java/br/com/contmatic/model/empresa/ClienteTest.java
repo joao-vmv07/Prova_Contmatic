@@ -13,7 +13,8 @@ import org.junit.jupiter.api.Test;
 
 import br.com.contmatic.model.telefone.Telefone;
 
-class ClienteTest {
+
+public class ClienteTest {
 
 	private static Cliente clienteBefore;
 
@@ -34,7 +35,7 @@ class ClienteTest {
 				() -> new Cliente("46329822813", "José Neto"),
 				"Esperado IllegalArgumentException ao tentar criar Cliente com CPF inválido:");
 		assertTrue(thrown.getMessage().contains("O campo CPF de Cliente informado é inválido."));
-	}
+	} 
 
 	@Test
 	void nao_deve_aceitar_cpf_com_numeros_iguais() {
@@ -43,7 +44,7 @@ class ClienteTest {
 				"Esperado IllegalArgumentException ao tentar criar Funcionário com CPF com números iguais:");
 		assertTrue(thrown.getMessage().contains("O campo CPF de Cliente informado é inválido."));
 	}
-
+	
 	@Test
 	void nao_deve_aceitar_cpf_nulo() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,

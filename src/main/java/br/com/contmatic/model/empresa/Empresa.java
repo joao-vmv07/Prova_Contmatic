@@ -61,7 +61,7 @@ public class Empresa extends Auditoria {
 
 	public void setCnpj(String cnpj) {
 		checkCNPJ(cnpj);
-		this.cnpj = cnpj;
+		this.cnpj = cnpj; 
 	}
 
 	public String getRazaoSocial() {

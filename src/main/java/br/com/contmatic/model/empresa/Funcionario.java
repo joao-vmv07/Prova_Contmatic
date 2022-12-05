@@ -1,5 +1,6 @@
 package br.com.contmatic.model.empresa;
 
+import static br.com.contmatic.model.util.constantes.DataValidacaoConstante.FORMATTER_DATA;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.CPF_ESPACO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.CPF_INVALIDO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.CPF_LETRAS_MESSAGE;
@@ -24,6 +25,8 @@ import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_TAMANHO_FIXO;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_TAMANHO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_VALOR_MAX;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_VALOR_MINIMO;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.NOME_FORMAT_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.NOME_NULL_MESSAGE;
@@ -40,7 +43,6 @@ import static br.com.contmatic.model.util.constantes.FuncionarioConstante.SALARI
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.SALARIO_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.STATUS_NULL_MESSAGE;
 import static br.com.contmatic.model.util.validacao.CPFValidacao.checkCPF;
-import static br.com.contmatic.model.util.validacao.DataValidacao.FORMATTER_DATA;
 import static br.com.contmatic.model.util.validacao.DataValidacao.checkDataNascimentoIdadeMaxima;
 import static br.com.contmatic.model.util.validacao.DataValidacao.checkDataNascimentoIdadeMinima;
 import static br.com.contmatic.model.util.validacao.EmailValidacao.checkEmail;
@@ -94,7 +96,7 @@ public class Funcionario extends Auditoria {
 		checkCPF(cpf, CPF_INVALIDO_MESSAGE);
 		this.cpf = cpf;
 	}
-
+ 
 	public String getNome() {
 		return nome;
 	}
@@ -128,8 +130,8 @@ public class Funcionario extends Auditoria {
 	public void setdataNascimento(LocalDate dataNascimento) {
 		checkNull(dataNascimento, DATA_NULL_MESSAGE);
 		checkVazio(dataNascimento, DATA_NASCIMENTO_VAZIO_MESSAGE);
-		checkDataNascimentoIdadeMinima(dataNascimento, DATA_NASCIMENTO_IDADE_MINIMA_MESSAGE);
-		checkDataNascimentoIdadeMaxima(dataNascimento, DATA_NASCIMENTO_IDADE_MAXIMA_MESSAGE);
+		checkDataNascimentoIdadeMinima(dataNascimento,IDADE_VALOR_MINIMO, DATA_NASCIMENTO_IDADE_MINIMA_MESSAGE);
+		checkDataNascimentoIdadeMaxima(dataNascimento, IDADE_VALOR_MAX, DATA_NASCIMENTO_IDADE_MAXIMA_MESSAGE);
 		this.dataNascimento = dataNascimento;
 	}
 

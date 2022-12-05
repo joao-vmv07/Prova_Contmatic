@@ -1,7 +1,7 @@
 package br.com.contmatic.model.empresa;
 
-import static br.com.contmatic.model.util.validacao.DataValidacao.FORMATTER_DATA;
-import static br.com.contmatic.model.util.validacao.DataValidacao.FORMATTER_DATA_HORA;
+import static br.com.contmatic.model.util.constantes.DataValidacaoConstante.FORMATTER_DATA;
+import static br.com.contmatic.model.util.constantes.DataValidacaoConstante.FORMATTER_DATA_HORA;
 import static java.math.BigDecimal.valueOf;
 import static java.time.LocalDate.of;
 import static java.time.LocalDateTime.now;
@@ -17,14 +17,14 @@ import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 
-class FuncionarioTest {
+public class FuncionarioTest {
 
 	@Test
 	void deve_aceitar_cpf_valido() {
 		Funcionario funcionario = new Funcionario("46339822819", "João");
 		assertEquals("46339822819", funcionario.getCpf());
 	}
-
+ 
 	@Test
 	void nao_deve_aceitar_cpf_invalido() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,

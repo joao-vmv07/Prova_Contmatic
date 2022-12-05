@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-class EnderecoTest {
+public class EnderecoTest {
 
 	static private Endereco enderecoBefore;
 
@@ -16,12 +16,12 @@ class EnderecoTest {
 	static void criarEndereco() {
 		enderecoBefore = new Endereco("04852505", 11);
 	}
-	
+
 	@Test
 	void deve_aceitar_cep_valido() {
 		Endereco endereco = new Endereco("04852505", 03);
 		assertEquals("04852505", endereco.getCep());
-	}
+	} 
 
 	@Test
 	void nao_deve_aceitar_cep_null() {
@@ -71,13 +71,12 @@ class EnderecoTest {
 	}
 
 //NUMERO 
-	
 	@Test
 	void deve_aceitar_numero_valido() {
 		Endereco endereco = new Endereco("04852505", 03);
 		assertEquals(03, endereco.getNumero());
 	}
-	
+
 	@Test
 	void nao_deve_aceitar_numero_null() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
@@ -99,9 +98,7 @@ class EnderecoTest {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> enderecoBefore.setNumero(new Integer(-1)),
 				"Esperado IllegalArgumentException ao tentar criar Endereco com CEP vazio:");
-		assertEquals(
-				"O campo Número de Endereco deve conter somente caracteres númericos e não é permitido valores menor ou igual a zero.",
-				thrown.getMessage());
+		assertEquals("O campo Número de Endereco deve conter somente caracteres númericos e não é permitido valores menor ou igual a zero.",thrown.getMessage());
 	}
 
 	@Test
@@ -428,81 +425,81 @@ class EnderecoTest {
 				() -> enderecoBefore.setMunicipio("R!%#"),
 				"Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa vazio com espaço: ");
 		assertEquals("O campo Município de Endereco deve conter somente letras.", thrown.getMessage());
-	} 
- 
+	}
+
 //Equals
-		@Test
-		void deve_aceitar_objeto_com_valores_iguais() {
-			Endereco enderecoA = new Endereco("04852505",11 );
-			Endereco enderecoB = new Endereco("04852505",11);
-			assertEquals(true, enderecoA.equals(enderecoB));
-		} 
-		
-		@Test
-		void deve_aceitar_objeto_valores_endereco_memoria_iguais() {
-			Endereco enderecoA = new Endereco("04852505",11);
-			assertEquals(true, enderecoA.equals(enderecoA));
-		}
-		 
-		@Test
-		void nao_deve_aceitar_equals_com_objeto_valores_diferentes() {
-			Endereco enderecoA = new Endereco("04852505",11);
-			Endereco enderecoB = new Endereco("04852511",12);
-			assertEquals(false, enderecoA.equals(enderecoB));
-		}
-		
-		@Test
-		void nao_deve_aceitar_equals_com_objeto_null() {
-			Endereco enderecoA = new Endereco("04852505",11);
-			assertEquals(false, enderecoA.equals(null));
-		}
-		
-		@Test
-		void nao_deve_aceitar_equals_objeto_de_classes_diferente() {
-			Endereco enderecoA = new Endereco("04852505",11);
-			assertEquals(false, enderecoA.equals(new Object()));
-		} 
-		
+	@Test
+	void deve_aceitar_objeto_com_valores_iguais() {
+		Endereco enderecoA = new Endereco("04852505", 11);
+		Endereco enderecoB = new Endereco("04852505", 11);
+		assertEquals(true, enderecoA.equals(enderecoB));
+	}
+
+	@Test
+	void deve_aceitar_objeto_valores_endereco_memoria_iguais() {
+		Endereco enderecoA = new Endereco("04852505", 11);
+		assertEquals(true, enderecoA.equals(enderecoA));
+	}
+
+	@Test
+	void nao_deve_aceitar_equals_com_objeto_valores_diferentes() {
+		Endereco enderecoA = new Endereco("04852505", 11);
+		Endereco enderecoB = new Endereco("04852511", 12);
+		assertEquals(false, enderecoA.equals(enderecoB));
+	}
+
+	@Test
+	void nao_deve_aceitar_equals_com_objeto_null() {
+		Endereco enderecoA = new Endereco("04852505", 11);
+		assertEquals(false, enderecoA.equals(null));
+	}
+
+	@Test
+	void nao_deve_aceitar_equals_objeto_de_classes_diferente() {
+		Endereco enderecoA = new Endereco("04852505", 11);
+		assertEquals(false, enderecoA.equals(new Object()));
+	}
+
 //HashCode
-		@Test
-		void deve_ter_hashCode_iguais() {
-			int hashcodeA =  new Endereco("04852505",11).hashCode();
-			int hashcodeB =  new Endereco("04852505",11).hashCode();
-			assertEquals(hashcodeA, hashcodeB);
-		} 
-		
-		@Test
-		void nao_deve_ter_hashCode_iguais() {
-			int hashcodeA = new Endereco("04852505",11).hashCode();
-			int hashcodeB = new Endereco("04852506",11).hashCode();
-			assertNotEquals(hashcodeA, hashcodeB);
-		}  	
-		
+	@Test
+	void deve_ter_hashCode_iguais() {
+		int hashcodeA = new Endereco("04852505", 11).hashCode();
+		int hashcodeB = new Endereco("04852505", 11).hashCode();
+		assertEquals(hashcodeA, hashcodeB);
+	}
+
+	@Test
+	void nao_deve_ter_hashCode_iguais() {
+		int hashcodeA = new Endereco("04852505", 11).hashCode();
+		int hashcodeB = new Endereco("04852506", 11).hashCode();
+		assertNotEquals(hashcodeA, hashcodeB);
+	}
+
 //ToString
-		@Test
-		void deve_conter_valores_dos_campos_tostring() {
-			final String LOUGRADOURO = "AVENIDA";
-			final Integer NUMERO = 11;
-			final String BAIRRO = "JARDIM FLORIDA";
-			final String CEP= "04852505";
-			final String PAIS = "BRASIL";
-			final String UF = "SP";
-			final String MUNICIPIO = "OSASCO";
-		
-			Endereco endereco = new Endereco(CEP, NUMERO);
-			
-			endereco.setBairro(BAIRRO);
-			endereco.setLogradouro(LOUGRADOURO);
-			endereco.setPais(PAIS);
-			endereco.setUf(UF);
-			endereco.setMunicipio(MUNICIPIO);
-			
-			assertTrue(endereco.toString().contains(CEP));
-			assertTrue(endereco.toString().contains(NUMERO.toString()));
-			assertTrue(endereco.toString().contains(BAIRRO));
-			assertTrue(endereco.toString().contains(LOUGRADOURO));
-			assertTrue(endereco.toString().contains(PAIS));
-			assertTrue(endereco.toString().contains(UF));
-			assertTrue(endereco.toString().contains(MUNICIPIO));
-		} 
+	@Test
+	void deve_conter_valores_dos_campos_tostring() {
+		final String LOUGRADOURO = "AVENIDA";
+		final Integer NUMERO = 11;
+		final String BAIRRO = "JARDIM FLORIDA";
+		final String CEP = "04852505";
+		final String PAIS = "BRASIL";
+		final String UF = "SP";
+		final String MUNICIPIO = "OSASCO";
+
+		Endereco endereco = new Endereco(CEP, NUMERO);
+
+		endereco.setBairro(BAIRRO);
+		endereco.setLogradouro(LOUGRADOURO);
+		endereco.setPais(PAIS);
+		endereco.setUf(UF);
+		endereco.setMunicipio(MUNICIPIO);
+
+		assertTrue(endereco.toString().contains(CEP));
+		assertTrue(endereco.toString().contains(NUMERO.toString()));
+		assertTrue(endereco.toString().contains(BAIRRO));
+		assertTrue(endereco.toString().contains(LOUGRADOURO));
+		assertTrue(endereco.toString().contains(PAIS));
+		assertTrue(endereco.toString().contains(UF));
+		assertTrue(endereco.toString().contains(MUNICIPIO));
+	}
 }

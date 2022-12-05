@@ -12,6 +12,10 @@ public final class FuncionarioConstante {
 	
 	public static final int IDADE_TAMANHO_FIXO = 2;
 	
+	public static final int IDADE_VALOR_MINIMO = 14;
+
+	public static final int IDADE_VALOR_MAX = 80;
+	
 	public static final int EMAIL_TAMANHO_MIN = 5;
 	
 	public static final int EMAIL_TAMANHO_MAX = 40;

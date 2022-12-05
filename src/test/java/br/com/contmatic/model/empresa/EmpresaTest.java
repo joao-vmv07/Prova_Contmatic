@@ -1,6 +1,6 @@
 package br.com.contmatic.model.empresa;
 
-import static br.com.contmatic.model.util.validacao.DataValidacao.FORMATTER_DATA_HORA;
+import static br.com.contmatic.model.util.constantes.DataValidacaoConstante.FORMATTER_DATA_HORA;
 import static java.time.LocalDateTime.now;
 import static java.time.LocalDateTime.of;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,14 +19,14 @@ import org.junit.jupiter.api.Test;
 import br.com.contmatic.model.endereco.Endereco;
 import br.com.contmatic.model.telefone.Telefone;
 
-class EmpresaTest {
+public class EmpresaTest {
 
 	private static Empresa empresaBefore;
 
 	@BeforeAll
 	static void criarObjEmpresa() {
 		empresaBefore = new Empresa("17081431000122");
-	}
+	} 
 
 	@Test
 	void deve_aceitar_cnpj_valido() {
@@ -115,7 +115,7 @@ class EmpresaTest {
 	@Test
 	void nao_deve_aceitar_cpnj_vazio_sem_espaco() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> new Empresa(""),
-				"Esperado IllegalArgumentException ao tentar criar Empresa com CPNPJ vazio sem espaço:");
+				"Esperado IllegalArgumentException ao tentar criar Empresa com CNPJ vazio sem espaço:");
 		assertTrue(thrown.getMessage().contains("O campo CNPJ de Empresa não deve ser vazio"));
 	}
 
@@ -305,7 +305,7 @@ class EmpresaTest {
 				thrown.getMessage());
 	}
 
-// Equals
+ // Equals
 	@Test
 	void deve_aceitar_objeto_com_valores_iguais() {
 		Empresa empresaA = new Empresa("17081431000122");
@@ -536,7 +536,7 @@ class EmpresaTest {
 				"Expected doThing() to throw, but it didn't");
 		assertEquals("A Data Alteração informada de Auditoria é invalida Minuto incorreto.", thrown.getMessage());
 	}
-
+ 
 //toString
 	@Test
 	void deve_conter_valores_dos_campos_tostring() {
@@ -546,7 +546,7 @@ class EmpresaTest {
 		final String USERCRIACAO = "João";
 		final String USERALTERACAO = "José";
 		LocalDateTime DATA_CRIACAO = LocalDateTime.now();
-		final LocalDateTime DATA_ALT = LocalDateTime.now();
+		final LocalDateTime DATA_ALTERACAO = LocalDateTime.now();
 
 		Set<Endereco> enderecos = new HashSet<>();
 		enderecos.add(new Endereco("04852505", 83));
@@ -561,9 +561,9 @@ class EmpresaTest {
 		empresa.setUsuarioCriacao(USERCRIACAO);
 		empresa.setUsuarioAlteracao(USERALTERACAO);
 		empresa.setEnderecos(enderecos);
-		empresa.setTelefones(telefones);
+		empresa.setTelefones(telefones); 
 		empresa.setDataCriacao(DATA_CRIACAO);
-		empresa.setDataAlteracao(DATA_ALT);
+		empresa.setDataAlteracao(DATA_ALTERACAO);
 
 		assertTrue(empresa.toString().contains(CNPJ));
 		assertTrue(empresa.toString().contains(NOME));
@@ -573,6 +573,6 @@ class EmpresaTest {
 		assertTrue(empresa.toString().contains(enderecos.toString()));
 		assertTrue(empresa.toString().contains(telefones.toString()));
 		assertTrue(empresa.toString().contains(DATA_CRIACAO.format(FORMATTER_DATA_HORA)));
-		assertTrue(empresa.toString().contains(DATA_ALT.format(FORMATTER_DATA_HORA)));
+		assertTrue(empresa.toString().contains(DATA_ALTERACAO.format(FORMATTER_DATA_HORA)));
 	}
 }
