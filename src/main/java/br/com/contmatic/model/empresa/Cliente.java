@@ -60,7 +60,7 @@ public class Cliente extends Auditoria {
 	public Cliente(String cpf, String nome) {
 		this.setCpf(cpf);
 		this.setNome(nome);
-	}  
+	}
 
 	public String getNome() {
 		return nome;
@@ -135,7 +135,7 @@ public class Cliente extends Auditoria {
 	public String toString() {
 		return new StringBuilder().append("Cliente [Nome:").append(nome).append(" Email:").append(email).append(" CPF:")
 				.append(cpf).append(telefones).append(" Usuário Criação:").append(getUsuarioCriacao())
-				.append(" Usuário Alteração:").append(getUsuarioAlteracao()).append("]").toString();
-
+				.append(" Usuário Alteração:").append(getUsuarioAlteracao()).append("]").append(super.toString())
+				.toString();
 	}
 }

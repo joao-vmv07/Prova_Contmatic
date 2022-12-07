@@ -56,7 +56,7 @@ public final class Validacao {
 			throw new IllegalArgumentException(message);
 		}
 	}
-
+ 
 	public static void checkValorMinimo(BigDecimal valor, BigDecimal minimo, String message) {
 		if (valor.compareTo(minimo) < VALOR_DE_RETORNO) {
 			throw new IllegalArgumentException(message);

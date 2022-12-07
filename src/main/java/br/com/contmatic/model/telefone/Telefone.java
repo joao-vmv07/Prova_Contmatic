@@ -1,4 +1,5 @@
 package br.com.contmatic.model.telefone;
+
 import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDD_LETRAS_MESSAGE;
 import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDD_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDD_TAMANHO_FIXO;
@@ -9,8 +10,16 @@ import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDI_NULL_
 import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDI_TAMANHO_FIXO;
 import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDI_TAMANHO_FIXO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDI_VAZIO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.TelefoneConstante.NUMERO_LETRAS_MESSAGE;
+import static br.com.contmatic.model.util.constantes.TelefoneConstante.NUMERO_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.TelefoneConstante.NUMERO_TAMANHO_MAX;
+import static br.com.contmatic.model.util.constantes.TelefoneConstante.NUMERO_TAMANHO_MIN;
+import static br.com.contmatic.model.util.constantes.TelefoneConstante.NUMERO_TIPO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.TelefoneConstante.NUMERO_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.validacao.Validacao.checkContemNumero;
 import static br.com.contmatic.model.util.validacao.Validacao.checkNull;
+import static br.com.contmatic.model.util.validacao.Validacao.checkTamahhoMaximo;
+import static br.com.contmatic.model.util.validacao.Validacao.checkTamahhoMinimo;
 import static br.com.contmatic.model.util.validacao.Validacao.checkTamanhoFixo;
 import static br.com.contmatic.model.util.validacao.Validacao.checkVazio;
 
@@ -23,12 +32,12 @@ public class Telefone {
 	private String numero;
 
 	private String ddi;
-	
+
 	public Telefone(String ddi, String ddd, String numero) {
 		super();
-		this.setDdi(ddi);   
-		this.setDdd(ddd); 
-		this.setNumero(numero); 
+		this.setDdi(ddi);
+		this.setDdd(ddd);
+		this.setNumero(numero);
 	}
 
 	public String getNumero() {
@@ -36,6 +45,11 @@ public class Telefone {
 	}
 
 	public void setNumero(String numero) {
+		checkNull(numero, NUMERO_NULL_MESSAGE);
+		checkVazio(numero, NUMERO_VAZIO_MESSAGE);
+		checkContemNumero(numero, NUMERO_LETRAS_MESSAGE);
+		checkTamahhoMinimo(numero, NUMERO_TAMANHO_MIN, NUMERO_TIPO_MESSAGE);
+		checkTamahhoMaximo(numero, NUMERO_TAMANHO_MAX, NUMERO_TIPO_MESSAGE);
 		this.numero = numero;
 	}
 
@@ -78,19 +92,12 @@ public class Telefone {
 			return false;
 		Telefone other = (Telefone) obj;
 		return Objects.equals(ddd, other.ddd) && Objects.equals(ddi, other.ddi) && Objects.equals(numero, other.numero);
-	} 
+	}
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append(" Telefone [DDI=");
-		builder.append(ddi);
-		builder.append(", DDD=");
-		builder.append(ddd);
-		builder.append(", Numero=");
-		builder.append(numero);
-		builder.append("]");
-		return builder.toString();
+		return new StringBuilder().append(" Telefone [DDI=").append(ddi).append(", DDD=").append(ddd)
+				.append(", Numero=").append(numero).append("]").toString();
 	}
-	
+
 }

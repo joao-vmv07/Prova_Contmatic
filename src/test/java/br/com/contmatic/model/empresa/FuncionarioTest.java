@@ -28,7 +28,7 @@ public class FuncionarioTest {
 	@Test
 	void nao_deve_aceitar_cpf_invalido() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Funcionario("46339822812", "João"), "Expected doThing() to throw, but it didn't");
+				() -> new Funcionario("46339822815", "João"), "Expected doThing() to throw, but it didn't");
 		assertTrue(thrown.getMessage().contains("O campo CPF de Funcionário informado é inválido."));
 	}
 
@@ -427,6 +427,15 @@ public class FuncionarioTest {
 	}
 
 	@Test
+	void nao_deve_aceitar_valor_salario_negativo() {
+		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
+		BigDecimal salario = BigDecimal.valueOf(-1100.00);
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> funcionario.setSalario(salario), "Expected doThing() to throw, but it didn't");
+		assertEquals("O campo Salario de Funcionario deve conter valor minímo de R$1.212,00", thrown.getMessage());
+	}
+
+	@Test
 	void nao_deve_aceitar_salario_com_letras() {
 		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
@@ -434,6 +443,14 @@ public class FuncionarioTest {
 		assertEquals(null, thrown.getMessage());
 	}
 
+	@Test
+	void nao_deve_aceitar_salario_com_caracteres_especial() {
+		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> funcionario.setSalario(new BigDecimal("120@%.00")), "Expected doThing() to throw, but it didn't");
+		assertEquals(null, thrown.getMessage());
+	} 
+	
 //Equals
 	@Test
 	void equals_objeto_valores_iguais() {

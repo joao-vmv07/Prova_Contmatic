@@ -1,5 +1,11 @@
 package br.com.contmatic.model.empresa;
 
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_ESPACO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_LETRAS_MASK_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_TAMANHO_FIXO;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_TAMANHO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.ENDERECO_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.ENDERECO_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.LISTA_ENDERECO_TAMANHO_MAX;
@@ -27,9 +33,12 @@ import static br.com.contmatic.model.util.validacao.CollectionValidacao.checkCol
 import static br.com.contmatic.model.util.validacao.CollectionValidacao.checkCollectionTamanhoMaximo;
 import static br.com.contmatic.model.util.validacao.CollectionValidacao.checkCollectionTamanhoMinimo;
 import static br.com.contmatic.model.util.validacao.CollectionValidacao.checkCollectionVazio;
+import static br.com.contmatic.model.util.validacao.Validacao.checkContemNumero;
+import static br.com.contmatic.model.util.validacao.Validacao.checkEspaco;
 import static br.com.contmatic.model.util.validacao.Validacao.checkNull;
 import static br.com.contmatic.model.util.validacao.Validacao.checkTamahhoMaximo;
 import static br.com.contmatic.model.util.validacao.Validacao.checkTamahhoMinimo;
+import static br.com.contmatic.model.util.validacao.Validacao.checkTamanhoFixo;
 import static br.com.contmatic.model.util.validacao.Validacao.checkVazio;
 
 import java.util.Objects;
@@ -60,6 +69,11 @@ public class Empresa extends Auditoria {
 	}
 
 	public void setCnpj(String cnpj) {
+		checkNull(cnpj, CNPJ_NULL_MESSAGE);
+		checkVazio(cnpj, CNPJ_VAZIO_MESSAGE);
+		checkEspaco(cnpj, CNPJ_ESPACO_MESSAGE);
+		checkContemNumero(cnpj, CNPJ_LETRAS_MASK_MESSAGE); 
+		checkTamanhoFixo(cnpj, CNPJ_TAMANHO_FIXO, CNPJ_TAMANHO_MESSAGE); 
 		checkCNPJ(cnpj);
 		this.cnpj = cnpj; 
 	}

@@ -73,7 +73,7 @@ public class Endereco {
 
 	public Endereco(String cep, Integer numero) {
 		this.setCep(cep);
-		this.setNumero(numero);
+		this.setNumero(numero); 
 	}
 
 	public String getCep() {
@@ -162,7 +162,7 @@ public class Endereco {
 		checkNumeroMenorIgualZero(numero, NUMERO_LETRAS_MESSAGE);
 		checkTamahhoMinimo(numero, NUMERO_TAMANHO_MIN, NUMERO_TAMANHO_MIN_MESSAGE);
 		checkTamahhoMaximo(numero, NUMERO_TAMANHO_MAX, NUMERO_TAMANHO_MAX_MESSAGE);
-		this.numero = numero; 
+		this.numero = numero;
 	}
 
 	@Override
@@ -184,23 +184,8 @@ public class Endereco {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Endereco Logradouro=");
-		builder.append(logradouro);
-		builder.append(", Numero=");
-		builder.append(numero);
-		builder.append(", Bairro=");
-		builder.append(bairro);
-		builder.append(", Cep=");
-		builder.append(cep);
-		builder.append(", Pais=");
-		builder.append(pais);
-		builder.append(", UF=");
-		builder.append(uf);
-		builder.append(", municipio=");
-		builder.append(municipio);
-		builder.append("]");
-		return builder.toString();
+		return new StringBuilder().append("Endereco Logradouro=").append(logradouro).append(", Numero=").append(numero)
+				.append(", Bairro=").append(bairro).append(", Cep=").append(cep).append(", Pais=").append(pais)
+				.append(", UF=").append(uf).append(", Municipio=").append(municipio).append("]").toString();
 	}
-
 }

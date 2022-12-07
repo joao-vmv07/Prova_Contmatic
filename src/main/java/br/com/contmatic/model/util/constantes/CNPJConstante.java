@@ -8,9 +8,9 @@ public final class CNPJConstante {
 	
 	public static final int POSICAO_VERIFICADOR_2 = 13;
 	
-	public static final int LOGICA_CNPJ_DIGITO_1 = 2;
+	public static final int LOGICA_CNPJ_VERIFICADOR_1 = 2;
 	
-	public static final int LOGICA_CNPJ_DIGITO_2 = 1;
+	public static final int LOGICA_CNPJ_VERIFICADOR_2 = 1;
 	
 	public static final int NUMERO_VERIFICADOR_FORMULA = 11;
 	

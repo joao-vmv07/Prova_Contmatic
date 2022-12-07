@@ -22,7 +22,7 @@ public class TelefoneTest {
 		assertEquals("967976463", telefone.getNumero());
 	} 
 	
-	//DDI
+//DDI
 	@Test
 	void deve_aceitar_ddi_valido() {
 		Telefone telefone =  new Telefone("55", "11", "980171042");
@@ -71,7 +71,7 @@ public class TelefoneTest {
 		assertEquals("O campo DDI de Telefone deve conter dois números.", thrown.getMessage());
 	} 
 	
-	//DDD
+//DDD
 	@Test
 	void deve_aceitar_ddd_valido() {
 		Telefone telefone = new Telefone("55","11","967976463");
@@ -127,10 +127,93 @@ public class TelefoneTest {
 		assertEquals("O campo DDD de Telefone deve conter dois números.", thrown.getMessage());
 	}
 	
+//Número
+	@Test
+	void deve_aceitar_numero_celular_valido() {
+		Telefone telefone = new Telefone("55","11","967976463");
+		assertEquals("967976463", telefone.getNumero());
+	} 
+	
+	@Test
+	void deve_aceitar_numero_telefone_fixo_valido() {
+		Telefone telefone = new Telefone("55","11","55285908");
+		assertEquals("55285908", telefone.getNumero());
+	} 
+	
+	@Test
+	void deve_aceitar_numero_comercial_valido() {
+		Telefone telefone = new Telefone("55","11","08004004818");
+		assertEquals("08004004818", telefone.getNumero());
+	} 
+	
+	@Test
+	void nao_deve_aceitar_numero_null() {
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> telefoneBefore.setNumero(null), "Esperado IllegalArgumentException ao tentar criar Telefone com DDD Null:");
+		assertEquals("O campo Número de Telefone deve ser preenchido.", thrown.getMessage());
+	} 
+	
+	@Test
+	void nao_deve_aceitar_numero_vazio() {
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> telefoneBefore.setNumero(""), "Esperado IllegalArgumentException ao tentar criar Telefone com DDD Null:");
+		assertEquals("O campo Número de Telefone não deve ser vazio.", thrown.getMessage());
+	} 
+	
+	@Test
+	void nao_deve_aceitar_numero_vazio_com_espaco() {
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> telefoneBefore.setNumero(" "), "Esperado IllegalArgumentException ao tentar criar Telefone com DDD Null:");
+		assertEquals("O campo Número de Telefone não deve ser vazio.", thrown.getMessage());
+	} 
+	
+	@Test
+	void nao_deve_aceitar_numero_com_letras() {
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> telefoneBefore.setNumero("1D"), "Esperado IllegalArgumentException ao tentar criar Telefone com letra no campo DDD:");
+		assertEquals("O campo Número de Telefone deve conter somente números.", thrown.getMessage());
+	} 
+	
+	@Test
+	void nao_deve_aceitar_numero_com_caracter_especial() {
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> telefoneBefore.setNumero("96797!#64"), "Esperado IllegalArgumentException ao tentar criar Telefone com letra no campo DDD:");
+		assertEquals("O campo Número de Telefone deve conter somente números.", thrown.getMessage());
+	} 
+	 
+	@Test
+	void nao_deve_aceitar_numero_com_tamanho_maior_que_11() {
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> telefoneBefore.setNumero("968986364111533"), "Esperado IllegalArgumentException ao tentar criar Telefone com mais de 2 números no campo DDD:");
+		assertEquals("O campo Número de Telefone esta inválido, deve ser prenchido com registro Celular/Comercial ou Telefone Fixo.", thrown.getMessage());
+	} 
+	
+	@Test
+	void nao_deve_aceitar_numero_com_tamanho_menor_que_8() {
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> telefoneBefore.setNumero("552859"), "Esperado IllegalArgumentException ao tentar criar Telefone com menos de 2 números no campo DDD:");
+		assertEquals("O campo Número de Telefone esta inválido, deve ser prenchido com registro Celular/Comercial ou Telefone Fixo.", thrown.getMessage());
+	}
+	
+	@Test
+	void nao_deve_aceitar_numero_com_barra() {
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> telefoneBefore.setNumero("96797/64"), "Esperado IllegalArgumentException ao tentar criar Telefone com letra no campo DDD:");
+		assertEquals("O campo Número de Telefone deve conter somente números.", thrown.getMessage());
+	} 
+	
+
+	@Test
+	void nao_deve_aceitar_numero_com_barra_invertida() {
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> telefoneBefore.setNumero("967\\636"), "Esperado IllegalArgumentException ao tentar criar Telefone com letra no campo DDD:");
+		assertEquals("O campo Número de Telefone deve conter somente números.", thrown.getMessage());
+	} 
+	
 //Equals
 	@Test
 	void deve_aceitar_objeto_com_valores_iguais() {
-		Telefone telefoneA = new Telefone("55", "11", "980102211" );
+		Telefone telefoneA = new Telefone("55", "11", "980102211");
 		Telefone telefoneB = new Telefone("55", "11", "980102211");
 		assertEquals(true, telefoneA.equals(telefoneB));
 	} 
@@ -160,8 +243,7 @@ public class TelefoneTest {
 		assertEquals(false, telefoneA.equals(new Object()));
 	} 
 	
-	
-	//HashCode
+//HashCode
 		@Test
 		void deve_ter_hashCode_iguais() {
 			int hashcodeA = new Telefone("55","11","967976463").hashCode();
@@ -191,5 +273,5 @@ public class TelefoneTest {
 		assertTrue(telefone.toString().contains(NUMERO));
 		assertTrue(telefone.toString().contains(DDI));
 		assertTrue(telefone.toString().contains(DDD));
-	}
+	} 
 }

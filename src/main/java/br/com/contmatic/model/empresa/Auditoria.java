@@ -51,14 +51,14 @@ public abstract class Auditoria {
 
 	private String usuarioAlteracao;
 
-	public LocalDateTime getDataCriacao() { 
+	public LocalDateTime getDataCriacao() {
 		return dataCriacao;
-	} 
- 
+	}
+
 	public void setDataCriacao(LocalDateTime dataCriacao) {
-		checkNull(dataCriacao, DATA_CRIACAO_NULL_MESSAGE); 
+		checkNull(dataCriacao, DATA_CRIACAO_NULL_MESSAGE);
 		checkVazio(dataCriacao, DATA_CRIACAO_VAZIO_MESSAGE);
-		checkValorAno(dataCriacao, DATA_CRIACAO_INVALIDA_ANO); 
+		checkValorAno(dataCriacao, DATA_CRIACAO_INVALIDA_ANO);
 		checkValorMes(dataCriacao, DATA_CRIACAO_INVALIDA_MES);
 		checkValorDia(dataCriacao, DATA_CRIACAO_INVALIDA_DIA);
 		checkValorHora(dataCriacao, DATA_CRIACAO_INVALIDA_HORA);
@@ -71,7 +71,7 @@ public abstract class Auditoria {
 	}
 
 	public void setDataAlteracao(LocalDateTime dataAlteracao) {
-		checkNull(dataAlteracao, DATA_CRIACAO_NULL_MESSAGE); 
+		checkNull(dataAlteracao, DATA_CRIACAO_NULL_MESSAGE);
 		checkVazio(dataAlteracao, DATA_CRIACAO_VAZIO_MESSAGE);
 		checkValorAno(dataAlteracao, DATA_ALTERACAO_INVALIDA_ANO);
 		checkValorMes(dataAlteracao, DATA_ALTERACAO_INVALIDA_MES);
@@ -91,7 +91,7 @@ public abstract class Auditoria {
 		checkContemLetras(usuarioCriacao, USUARIO_CRIACAO_FORMAT_MESSAGE);
 		checkTamahhoMinimo(usuarioCriacao, USUARIO_CRIACAO_TAMANHO_MIN, USUARIO_CRIACAO_TAMANHO_MIN_MESSAGE);
 		checkTamahhoMaximo(usuarioCriacao, USUARIO_CRIACAO_TAMANHO_MAX, USUARIO_CRIACAO_TAMANHO_MAX_MESSAGE);
-		this.usuarioCriacao = usuarioCriacao; 
+		this.usuarioCriacao = usuarioCriacao;
 	}
 
 	public String getUsuarioAlteracao() {
@@ -109,18 +109,10 @@ public abstract class Auditoria {
 
 	@Override
 	public String toString() {
-		return new StringBuilder() 
-		.append("Auditoria [DataCriacao=")
-		.append(dataCriacao.format(FORMATTER_DATA_HORA))
-		.append(", DataAlteracao=")
-		.append(dataAlteracao.format(FORMATTER_DATA_HORA))
-		.append(", UsuarioCriacao=")
-		.append(usuarioCriacao)
-		.append(", UsuarioAlteracao=")
-		.append(usuarioAlteracao)
-		.append("]") 
-		.toString();
+		return new StringBuilder().append("Auditoria [DataCriacao=").append(dataCriacao.format(FORMATTER_DATA_HORA))
+				.append(", DataAlteracao=").append(dataAlteracao.format(FORMATTER_DATA_HORA))
+				.append(", UsuarioCriacao=").append(usuarioCriacao).append(", UsuarioAlteracao=")
+				.append(usuarioAlteracao).append("]").toString();
 	}
-	
-	
+
 }

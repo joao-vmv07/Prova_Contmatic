@@ -527,7 +527,7 @@ public class EmpresaTest {
 				() -> empresaBefore.setDataCriacao(now().withMinute(1)),
 				"Expected doThing() to throw, but it didn't");
 		assertEquals("A Data Criação informada de Auditoria é invalida Minuto incorreto.", thrown.getMessage());
-	}
+	} 
 	
 	@Test
 	void nao_deve_aceitar_data_criacao_minutos_maior_que_atual() { 
