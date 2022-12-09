@@ -1,18 +1,23 @@
 package br.com.contmatic.model.empresa;
 
+import static br.com.contmatic.model.util.constantes.DataValidacaoConstante.FORMATTER_DATA_HORA;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.junit.Ignore;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 
 import br.com.contmatic.model.telefone.Telefone;
-
 
 public class ClienteTest {
 
@@ -23,33 +28,36 @@ public class ClienteTest {
 		clienteBefore = new Cliente("46339822819", "João");
 	}
 
+	@AfterEach
 	@Test
 	void deve_aceitar_cpf_valido() {
 		Cliente cliente = new Cliente("46339822819", "João");
 		assertEquals("46339822819", cliente.getCpf());
 	}
- 
+
+	@Disabled("Ignore")
 	@Test
 	void nao_deve_aceitar_cpf_invalido() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> new Cliente("46329822813", "José Neto"),
 				"Esperado IllegalArgumentException ao tentar criar Cliente com CPF inválido:");
 		assertTrue(thrown.getMessage().contains("O campo CPF de Cliente informado é inválido."));
-	} 
-
+	}
+	
+	@Timeout(100)
 	@Test
 	void nao_deve_aceitar_cpf_com_numeros_iguais() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> new Cliente("22222222222", "José Neto"),
-				"Esperado IllegalArgumentException ao tentar criar Funcionário com CPF com números iguais:");
+				"Esperado IllegalArgumentException ao tentar criar Cliente com CPF com números iguais:");
 		assertTrue(thrown.getMessage().contains("O campo CPF de Cliente informado é inválido."));
 	}
-	
+
 	@Test
 	void nao_deve_aceitar_cpf_nulo() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> new Cliente(null, "José Neto"),
-				"Esperado IllegalArgumentException ao tentar criar Funcionário com CPF Null:");
+				"Esperado IllegalArgumentException ao tentar criar Cliente com CPF Null:");
 		assertTrue(thrown.getMessage().contains("O campo CPF de Cliente deve ser preenchido."));
 	}
 
@@ -57,7 +65,7 @@ public class ClienteTest {
 	void nao_deve_aceitar_cpf_vazio() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> new Cliente("", "José Neto"),
-				"Esperado IllegalArgumentException ao tentar criar Funcionário com CPF vazio:");
+				"Esperado IllegalArgumentException ao tentar criar Cliente com CPF vazio:");
 		assertTrue(thrown.getMessage().contains("O campo CPF de Cliente não deve ser vazio."));
 	}
 
@@ -82,8 +90,7 @@ public class ClienteTest {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> new Cliente("456398228AA", "José Neto"),
 				"Esperado IllegalArgumentException ao tentar criar Cliente com CPF contendo Letras:");
-		assertTrue(thrown.getMessage()
-				.contains("O campo CPF de Cliente não é permitido conter pontuação, letras e caracter especial."));
+		assertTrue(thrown.getMessage().contains("O campo CPF de Cliente não é permitido conter pontuação, letras e caracter especial."));
 	}
 
 	@Test
@@ -91,24 +98,22 @@ public class ClienteTest {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> new Cliente("456398228!*", "José Neto"),
 				"Esperado IllegalArgumentException ao tentar criar Cliente com CPF contendo caracter especial:");
-		assertTrue(thrown.getMessage()
-				.contains("O campo CPF de Cliente não é permitido conter pontuação, letras e caracter especial."));
+		assertTrue(thrown.getMessage().contains("O campo CPF de Cliente não é permitido conter pontuação, letras e caracter especial."));
 	}
 
 	@Test
 	void nao_deve_aceitar_cpf_com_maskara() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> new Cliente("463.398.22811", "José Neto"),
-				"Esperado IllegalArgumentException ao tentar criar Funcionário com CPF contendo maskara:");
-		assertTrue(thrown.getMessage()
-				.contains("O campo CPF de Cliente não é permitido conter pontuação, letras e caracter especial."));
+				"Esperado IllegalArgumentException ao tentar criar Cliente com CPF contendo maskara:");
+		assertTrue(thrown.getMessage().contains("O campo CPF de Cliente não é permitido conter pontuação, letras e caracter especial."));
 	}
 
 	@Test
 	void nao_deve_aceitar_cpf_com_espaco() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> new Cliente(" 46339 8 228 11", "José Neto"),
-				"Esperado IllegalArgumentException ao tentar criar Funcionário com CPF contendo espaço:");
+				"Esperado IllegalArgumentException ao tentar criar Cliente com CPF contendo espaço:");
 		assertTrue(thrown.getMessage().contains("O CPF de Cliente não deve conter espaço."));
 	}
 
@@ -135,7 +140,7 @@ public class ClienteTest {
 	void nao_deve_aceitar_nome_nulo() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> new Cliente("46339822819", null),
-				"Esperado IllegalArgumentException ao tentar criar Funcionário com nome Null: ");
+				"Esperado IllegalArgumentException ao tentar criar Cliente com nome Null: ");
 		assertEquals("O campo Nome de Cliente deve ser preenchido.", thrown.getMessage());
 	}
 
@@ -143,7 +148,7 @@ public class ClienteTest {
 	void nao_deve_aceitar_nome_vazio() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> new Cliente("46339822819", ""),
-				"Esperado IllegalArgumentException ao tentar criar Funcionário com nome vazio: ");
+				"Esperado IllegalArgumentException ao tentar criar Cliente com nome vazio: ");
 		assertEquals("O campo Nome de Cliente não deve ser vazio.", thrown.getMessage());
 	}
 
@@ -168,8 +173,7 @@ public class ClienteTest {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> new Cliente("46339822819", "Joao# Victor"),
 				"Esperado IllegalArgumentException ao tentar criar Cliente com nome contendo caracter especial :");
-		assertEquals("O campo Nome de Cliente não é permitido conter pontuação, caracter especial e numérico.",
-				thrown.getMessage());
+		assertEquals("O campo Nome de Cliente não é permitido conter pontuação, caracter especial e numérico.",thrown.getMessage());
 	}
 
 	@Test
@@ -177,8 +181,7 @@ public class ClienteTest {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> new Cliente("46339822819", "Joao. Victor."),
 				"Esperado IllegalArgumentException ao tentar criar Cliente com nome contendo pontuação:");
-		assertEquals("O campo Nome de Cliente não é permitido conter pontuação, caracter especial e numérico.",
-				thrown.getMessage());
+		assertEquals("O campo Nome de Cliente não é permitido conter pontuação, caracter especial e numérico.",thrown.getMessage());
 	}
 
 	@Test
@@ -186,8 +189,7 @@ public class ClienteTest {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> new Cliente("46339822819", "João Victor01"),
 				"Esperado IllegalArgumentException ao tentar criar Cliente com nome contendo caracter númerico:");
-		assertEquals("O campo Nome de Cliente não é permitido conter pontuação, caracter especial e numérico.",
-				thrown.getMessage());
+		assertEquals("O campo Nome de Cliente não é permitido conter pontuação, caracter especial e numérico.",thrown.getMessage());
 	}
 
 //EMAIL
@@ -256,7 +258,7 @@ public class ClienteTest {
 				"Esperado IllegalArgumentException ao tentar criar Cliente com Email contendo menos de 5 caracteres:");
 		assertEquals("O campo Email de Cliente deve ter no minimo 5 caracteres.", thrown.getMessage());
 	}
-	
+
 	// Telefone
 	@Test
 	void deve_aceitar_lista_telefone_valida() {
@@ -358,16 +360,23 @@ public class ClienteTest {
 		final String CPF = "46339822819";
 		final String USERACRIACAO = "CLIENTEA";
 		final String USERALTERACAO = "CLIENTEB";
-
+		LocalDateTime dataCriacao = LocalDateTime.now().withNano(0);
+		LocalDateTime dataAlteracao = LocalDateTime.now().withNano(0);
+		
 		Cliente cliente = new Cliente(CPF, NOME);
 		cliente.setEmail(EMAIL);
 		cliente.setUsuarioCriacao(USERACRIACAO);
 		cliente.setUsuarioAlteracao(USERALTERACAO);
+		cliente.setDataCriacao(dataCriacao);
+		cliente.setDataAlteracao(dataAlteracao);
 
 		assertTrue(cliente.toString().contains(NOME));
 		assertTrue(cliente.toString().contains(CPF));
 		assertTrue(cliente.toString().contains(EMAIL));
 		assertTrue(cliente.toString().contains(USERACRIACAO));
 		assertTrue(cliente.toString().contains(USERALTERACAO));
+		assertTrue(cliente.toString().contains(dataAlteracao.format(FORMATTER_DATA_HORA)));
+		assertTrue(cliente.toString().contains(dataCriacao.format(FORMATTER_DATA_HORA)));
+		
 	}
 }

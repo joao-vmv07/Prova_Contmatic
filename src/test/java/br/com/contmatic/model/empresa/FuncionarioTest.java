@@ -24,53 +24,62 @@ public class FuncionarioTest {
 		Funcionario funcionario = new Funcionario("46339822819", "João");
 		assertEquals("46339822819", funcionario.getCpf());
 	}
- 
+
 	@Test
 	void nao_deve_aceitar_cpf_invalido() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Funcionario("46339822815", "João"), "Expected doThing() to throw, but it didn't");
+				() -> new Funcionario("46339822815", "João"),
+				"Esperado IllegalArgumentException ao tentar criar Funcionário com nome Null:");
 		assertTrue(thrown.getMessage().contains("O campo CPF de Funcionário informado é inválido."));
 	}
 
 	@Test
 	void nao_deve_aceitar_cpf_com_numeros_iguais() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Funcionario("22222222222", "João"), "Expected doThing() to throw, but it didn't");
+				() -> new Funcionario("22222222222", "João"),
+				"Esperado IllegalArgumentException ao tentar criar Funcionário com CPF contendo Números Iguais:");
 		assertEquals("O campo CPF de Funcionário informado é inválido.", thrown.getMessage());
 	}
 
 	@Test
 	void nao_deve_aceitar_cpf_nulo() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Funcionario(null, "João"), "Expected doThing() to throw, but it didn't");
+				() -> new Funcionario(null, "João"), "Esperado IllegalArgumentException ao tentar criar Funcionário com CPF Null:");
 		assertTrue(thrown.getMessage().contains("O campo CPF de Funcionário deve ser preenchido."));
 	}
 
 	@Test
 	void nao_deve_aceitar_cpf_vazio() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Funcionario("", "Joao"), "Expected doThing() to throw, but it didn't");
+				() -> new Funcionario("", "Joao"), "Esperado IllegalArgumentException ao tentar criar Funcionário com CPF vazio:");
+		assertTrue(thrown.getMessage().contains("O campo CPF de Funcionário não deve ser vazio."));
+	}
+	
+	@Test
+	void nao_deve_aceitar_cpf_vazio_espaco() {
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> new Funcionario("", "Joao"), "Esperado IllegalArgumentException ao tentar criar Funcionário com CPF vazio com espaço:");
 		assertTrue(thrown.getMessage().contains("O campo CPF de Funcionário não deve ser vazio."));
 	}
 
 	@Test
 	void nao_deve_aceitar_cpf_com_mais_de_11() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Funcionario("466398222142", "João"), "Expected doThing() to throw, but it didn't");
+				() -> new Funcionario("466398222142", "João"), "Esperado IllegalArgumentException ao tentar criar Funcionário com CPF contendo mais de 11 Números:");
 		assertTrue(thrown.getMessage().contains("O campo CPF de Funcionário deve conter 11 digitos."));
 	}
 
 	@Test
 	void nao_deve_aceitar_cpf_com_menos_de_11() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Funcionario("42698471", "João"), "Expected doThing() to throw, but it didn't");
+				() -> new Funcionario("42698471", "João"), "Esperado IllegalArgumentException ao tentar criar Funcionário com CPF contendo menos de 11 Números");
 		assertTrue(thrown.getMessage().contains("O campo CPF de Funcionário deve conter 11 digitos."));
 	}
 
 	@Test
 	void nao_deve_aceitar_cpf_com_letras() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Funcionario("456398228AA", "João"), "Expected doThing() to throw, but it didn't");
+				() -> new Funcionario("456398228AA", "João"), "Esperado IllegalArgumentException ao tentar criar Funcionário com CPF contendo Letras");
 		assertTrue(thrown.getMessage()
 				.contains("O campo CPF de Funcionário não é permitido conter pontuação, letras e caracter especial."));
 	}
@@ -78,7 +87,7 @@ public class FuncionarioTest {
 	@Test
 	void nao_deve_aceitar_cpf_com_caracter_especial() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Funcionario("456398228!*", "João"), "Expected doThing() to throw, but it didn't");
+				() -> new Funcionario("456398228!*", "João"), "Esperado IllegalArgumentException ao tentar criar Funcionário com CPF contendo caracter especial");
 		assertTrue(thrown.getMessage()
 				.contains("O campo CPF de Funcionário não é permitido conter pontuação, letras e caracter especial."));
 	}
@@ -86,7 +95,7 @@ public class FuncionarioTest {
 	@Test
 	void nao_deve_aceitar_cpf_com_maskara() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Funcionario("463.398.22811", "Joao"), "Expected doThing() to throw, but it didn't");
+				() -> new Funcionario("463.398.22811", "Joao"), "Esperado IllegalArgumentException ao tentar criar Funcionário com CPF contendo Mask");
 		assertTrue(thrown.getMessage()
 				.contains("O campo CPF de Funcionário não é permitido conter pontuação, letras e caracter especial."));
 	}
@@ -94,7 +103,7 @@ public class FuncionarioTest {
 	@Test
 	void nao_deve_aceitar_cpf_com_espaco() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Funcionario("463398 22 811", "Joao"), "Expected doThing() to throw, but it didn't");
+				() -> new Funcionario("463398 22 811", "Joao"), "Esperado IllegalArgumentException ao tentar criar Funcionário com CPF contendo espaço");
 		assertEquals("O campo CPF de Funcionário não deve conter espaço.", thrown.getMessage());
 	}
 
@@ -121,7 +130,7 @@ public class FuncionarioTest {
 	void nao_deve_aceitar_nome_nulo() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> new Funcionario("46339822819", null),
-				"Esperado IllegalArgumentException ao tentar criar Funcionário com nome Null: ");
+				"Esperado IllegalArgumentException ao tentar criar Funcionário com nome Null:");
 		assertEquals("O campo Nome de Funcionário deve ser preenchido.", thrown.getMessage());
 	}
 
@@ -129,7 +138,15 @@ public class FuncionarioTest {
 	void nao_deve_aceitar_nome_vazio() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> new Funcionario("46339822819", ""),
-				"Esperado IllegalArgumentException ao tentar criar Funcionário com nome vazio: ");
+				"Esperado IllegalArgumentException ao tentar criar Funcionário com Nome vazio:");
+		assertEquals("O campo Nome de Funcionário não deve ser vazio.", thrown.getMessage());
+	}
+	
+	@Test
+	void nao_deve_aceitar_nome_vazio_com_espaco() {
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> new Funcionario("46339822819", ""),
+				"Esperado IllegalArgumentException ao tentar criar Funcionário com Nome vazio com espaço:");
 		assertEquals("O campo Nome de Funcionário não deve ser vazio.", thrown.getMessage());
 	}
 
@@ -137,7 +154,7 @@ public class FuncionarioTest {
 	void nao_deve_aceitar_nome_com_mais_40_caracteres() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> new Funcionario("46339822819", "Elias Dias Souza Alecrim Dourado Teixeira da Silva"),
-				"Esperado IllegalArgumentException ao tentar criar Funcionário com nome maior que 40 caracteres: ");
+				"Esperado IllegalArgumentException ao tentar criar Funcionário com Nome maior que 40 caracteres: ");
 		assertEquals("O campo Nome de Funcionário não deve ter mais que 40 caracteres.", thrown.getMessage());
 	}
 
@@ -153,7 +170,7 @@ public class FuncionarioTest {
 	void nao_deve_aceitar_nome_com_caracter_especial() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> new Funcionario("46339822819", "Joao# Victor"),
-				"Esperado IllegalArgumentException ao tentar criar Funcionário com nome contendo caracter especial :");
+				"Esperado IllegalArgumentException ao tentar criar Funcionário com Nome contendo caracter especial :");
 		assertEquals("O campo Nome de Funcionário não é permitido conter pontuação, caracter especial e numérico.",
 				thrown.getMessage());
 	}
@@ -161,7 +178,7 @@ public class FuncionarioTest {
 	@Test
 	void nao_deve_aceitar_nome_com_caracter_pontuacao() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Funcionario("46339822819", "Joao. Victor."), "Expected doThing() to throw, but it didn't");
+				() -> new Funcionario("46339822819", "Joao. Victor."), "Esperado IllegalArgumentException ao tentar criar Funcionário com Nome contendo caracter pontuação");
 		assertEquals("O campo Nome de Funcionário não é permitido conter pontuação, caracter especial e numérico.",
 				thrown.getMessage());
 	}
@@ -169,7 +186,7 @@ public class FuncionarioTest {
 	@Test
 	void nao_deve_aceitar_nome_com_caracter_numerico() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Funcionario("46339822819", "João Victor01"), "Expected doThing() to throw, but it didn't");
+				() -> new Funcionario("46339822819", "João Victor01"), "Esperado IllegalArgumentException ao tentar criar Funcionário com Nome contendo caracter Númerico");
 		assertEquals("O campo Nome de Funcionário não é permitido conter pontuação, caracter especial e numérico.",
 				thrown.getMessage());
 	}
@@ -186,7 +203,7 @@ public class FuncionarioTest {
 	void nao_deve_aceitar_email_sem_dominio() {
 		Funcionario funcionario = new Funcionario("46339822819", "João");
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> funcionario.setEmail("joaovictor.com"), "Expected doThing() to throw, but it didn't");
+				() -> funcionario.setEmail("joaovictor.com"), "Esperado IllegalArgumentException ao tentar criar Funcionário com Email sem dominio");
 		assertEquals("O campo Email de Funcionário é inválido.", thrown.getMessage());
 	}
 
@@ -194,7 +211,7 @@ public class FuncionarioTest {
 	void nao_deve_aceitar_email_nullo() {
 		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> funcionario.setEmail(null),
-				"Expected doThing() to throw, but it didn't");
+				"Esperado IllegalArgumentException ao tentar criar Funcionário com Email Null");
 		assertEquals("O campo Email de Funcionário deve ser preenchido.", thrown.getMessage());
 	}
 
@@ -202,7 +219,7 @@ public class FuncionarioTest {
 	void nao_deve_aceitar_email_vazio() {
 		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> funcionario.setEmail(""),
-				"Expected doThing() to throw, but it didn't");
+				"Esperado IllegalArgumentException ao tentar criar Funcionário com Email vazio");
 		assertEquals("O campo Email de Funcionário não deve ser vazio.", thrown.getMessage());
 	}
 
@@ -210,7 +227,7 @@ public class FuncionarioTest {
 	void nao_deve_aceitar_email_vazio_com_espaco() {
 		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> funcionario.setEmail(" "),
-				"Expected doThing() to throw, but it didn't");
+				"Esperado IllegalArgumentException ao tentar criar Funcionário com Email vazio com espaço");
 		assertEquals("O campo Email de Funcionário não deve ser vazio.", thrown.getMessage());
 	}
 
@@ -226,7 +243,7 @@ public class FuncionarioTest {
 	void nao_deve_aceitar_email_com_dois_dominio() {
 		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> funcionario.setEmail("joaovictor@gmail@yahoo"), "Expected doThing() to throw, but it didn't");
+				() -> funcionario.setEmail("joaovictor@gmail@yahoo"), "Esperado IllegalArgumentException ao tentar criar Funcionário com Email com dois dominios");
 		assertEquals("O campo Email de Funcionário é inválido.", thrown.getMessage());
 	}
 
@@ -242,7 +259,7 @@ public class FuncionarioTest {
 	void nao_deve_aceitar_idade_null() {
 		Funcionario funcionario = new Funcionario("46339822819", "João");
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> funcionario.setIdade(null),
-				"Expected doThing() to throw, but it didn't");
+				"Esperado IllegalArgumentException ao tentar criar Funcionário com Idade Null ");
 		assertEquals("O campo Idade de Funcionário deve ser preenchido.", thrown.getMessage());
 	}
 
@@ -250,7 +267,7 @@ public class FuncionarioTest {
 	void nao_deve_aceitar_idade_vazio() {
 		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> funcionario.setIdade(""),
-				"Expected doThing() to throw, but it didn't");
+				"Esperado IllegalArgumentException ao tentar criar Funcionário com Idade vazio ");
 		assertEquals("O campo Idade de Funcionário não deve ser vazio.", thrown.getMessage());
 	}
 
@@ -258,7 +275,7 @@ public class FuncionarioTest {
 	void nao_deve_aceitar_idade_vazio_com_espaco() {
 		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> funcionario.setIdade(" "),
-				"Expected doThing() to throw, but it didn't");
+				"Esperado IllegalArgumentException ao tentar criar Funcionário com Idade vazio com espaço");
 		assertEquals("O campo Idade de Funcionário não deve ser vazio.", thrown.getMessage());
 	}
 
@@ -266,7 +283,7 @@ public class FuncionarioTest {
 	void nao_deve_aceitar_idade_com_espaco() {
 		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> funcionario.setIdade("1 9"), "Expected doThing() to throw, but it didn't");
+				() -> funcionario.setIdade("1 9"), "Esperado IllegalArgumentException ao tentar criar Funcionário com Idade contendo espaço");
 		assertEquals("O campo Idade de Funcionário não deve conter espaço.", thrown.getMessage());
 	}
 
@@ -274,7 +291,7 @@ public class FuncionarioTest {
 	void nao_deve_aceitar_idade_com_letras() {
 		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> funcionario.setIdade("25A"), "Expected doThing() to throw, but it didn't");
+				() -> funcionario.setIdade("25A"), "Esperado IllegalArgumentException ao tentar criar Funcionário com Idade contendo Letras");
 		assertEquals("O campo Idade de Funcionário não é permitido conter pontuação, letras e caracter especial.",
 				thrown.getMessage());
 	}
@@ -283,7 +300,7 @@ public class FuncionarioTest {
 	void nao_deve_aceitar_idade_com_caracter_especial() {
 		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> funcionario.setIdade("$22"), "Expected doThing() to throw, but it didn't");
+				() -> funcionario.setIdade("$22"), "Esperado IllegalArgumentException ao tentar criar Funcionário com Idade contendo caracter especial");
 		assertEquals("O campo Idade de Funcionário não é permitido conter pontuação, letras e caracter especial.",
 				thrown.getMessage());
 	}
@@ -302,7 +319,7 @@ public class FuncionarioTest {
 		Funcionario funcionario = new Funcionario("46339822819", "Funcionario");
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> funcionario.setdataNascimento(LocalDate.of(2010, 10, 10)),
-				"Expected doThing() to throw, but it didn't");
+				"Esperado IllegalArgumentException ao tentar criar Funcionário com Data Nascimento menor que 14 anos ");
 		assertEquals("O campo Data Nascimento de Funcionário é inválido idade menor que 14 anos.", thrown.getMessage());
 	}
 
@@ -311,7 +328,7 @@ public class FuncionarioTest {
 		Funcionario funcionario = new Funcionario("46339822819", "Funcionario");
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> funcionario.setdataNascimento(LocalDate.of(1900, 10, 10)),
-				"Expected doThing() to throw, but it didn't");
+				"Esperado IllegalArgumentException ao tentar criar Funcionário com Data Nascimento maior que 80 anos");
 		assertEquals("O campo Data Nascimento de Funcionário é inválido idade superior a 80 anos", thrown.getMessage());
 	}
 
@@ -320,7 +337,7 @@ public class FuncionarioTest {
 		Funcionario funcionario = new Funcionario("46339822819", "Funcionario");
 		DateTimeException thrown = assertThrows(DateTimeException.class,
 				() -> funcionario.setdataNascimento(LocalDate.of(20, 10, 2000)),
-				"Expected doThing() to throw, but it didn't");
+				"Esperado DateTimeException ao tentar criar Funcionário com Data Nascimento formato incorreto");
 		assertEquals("Invalid value for DayOfMonth (valid values 1 - 28/31): 2000", thrown.getMessage());
 	}
 
@@ -329,7 +346,7 @@ public class FuncionarioTest {
 		Funcionario funcionario = new Funcionario("46339822819", "Funcionario");
 		DateTimeException thrown = assertThrows(DateTimeException.class,
 				() -> funcionario.setdataNascimento(LocalDate.of(2000, 10, 45)),
-				"Expected doThing() to throw, but it didn't");
+				"Esperado DateTimeException ao tentar criar Funcionário com Data Nascimento com mes maior que 31 dias");
 		assertEquals("Invalid value for DayOfMonth (valid values 1 - 28/31): 45", thrown.getMessage());
 	}
 
@@ -338,15 +355,15 @@ public class FuncionarioTest {
 		Funcionario funcionario = new Funcionario("46339822819", "Funcionario");
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> funcionario.setdataNascimento(LocalDate.of(2024, 10, 20)),
-				"Expected doThing() to throw, but it didn't");
+				"Esperado IllegalArgumentException ao tentar criar Funcionário com Data Nascimento com futuro ao Atual");
 		assertEquals("O campo Data Nascimento de Funcionário é inválido idade menor que 14 anos.", thrown.getMessage());
 	}
 
 	@Test
-	void nao_deve_aceitar_data_atual_como_data_nascimento() {
+	void nao_deve_aceitar_data_atual_hoje_como_data_nascimento() {
 		Funcionario funcionario = new Funcionario("46339822819", "Funcionario");
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> funcionario.setdataNascimento(LocalDate.now()), "Expected doThing() to throw, but it didn't");
+				() -> funcionario.setdataNascimento(LocalDate.now()), "Esperado IllegalArgumentException ao tentar criar Funcionário com Data Nascimento nascido no Dia atual");
 		assertEquals("O campo Data Nascimento de Funcionário é inválido idade menor que 14 anos.", thrown.getMessage());
 	}
 
@@ -369,7 +386,7 @@ public class FuncionarioTest {
 	void nao_deve_aceitar_status_null() {
 		Funcionario funcionario = new Funcionario("46339822819", "Funcionario");
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> funcionario.setStatus(null), "Expected doThing() to throw, but it didn't");
+				() -> funcionario.setStatus(null), "Esperado IllegalArgumentException ao tentar criar Funcionário com Status Null");
 		assertEquals("O campo Status do Funcionário deve ser preenchido.", thrown.getMessage());
 	}
 
@@ -386,7 +403,7 @@ public class FuncionarioTest {
 	void nao_deve_aceitar_salario_null() {
 		Funcionario funcionario = new Funcionario("46339822819", "João");
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> funcionario.setSalario(null), "Expected doThing() to throw, but it didn't");
+				() -> funcionario.setSalario(null), "Esperado IllegalArgumentException ao tentar criar Funcionário com Salario Null ");
 		assertEquals("O campo Salario do Funcionário deve ser preenchido.", thrown.getMessage());
 	}
 
@@ -395,7 +412,7 @@ public class FuncionarioTest {
 		NumberFormatException e = new NumberFormatException();
 		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
 		NumberFormatException thrown = assertThrows(NumberFormatException.class,
-				() -> funcionario.setSalario(new BigDecimal("")), "Expected doThing() to throw, but it didn't");
+				() -> funcionario.setSalario(new BigDecimal("")), "Esperado IllegalArgumentException ao tentar criar Funcionário com Salario vazio");
 		assertEquals(e.getMessage(), thrown.getMessage());
 	}
 
@@ -404,7 +421,7 @@ public class FuncionarioTest {
 		NumberFormatException e = new NumberFormatException();
 		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
 		NumberFormatException thrown = assertThrows(NumberFormatException.class,
-				() -> funcionario.setSalario(new BigDecimal(" ")), "Expected doThing() to throw, but it didn't");
+				() -> funcionario.setSalario(new BigDecimal(" ")), "Esperado IllegalArgumentException ao tentar criar Funcionário com Salario vazio com espaço");
 		assertEquals(e.getMessage(), thrown.getMessage());
 	}
 
@@ -413,7 +430,7 @@ public class FuncionarioTest {
 		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
 		BigDecimal salario = BigDecimal.valueOf(1100.00);
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> funcionario.setSalario(salario), "Expected doThing() to throw, but it didn't");
+				() -> funcionario.setSalario(salario), "Esperado IllegalArgumentException ao tentar criar Funcionário com Salario menor que teto salarial");
 		assertEquals("O campo Salario de Funcionario deve conter valor minímo de R$1.212,00", thrown.getMessage());
 	}
 
@@ -422,7 +439,7 @@ public class FuncionarioTest {
 		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
 		BigDecimal salario = BigDecimal.valueOf(999999.00);
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> funcionario.setSalario(salario), "Expected doThing() to throw, but it didn't");
+				() -> funcionario.setSalario(salario), "Esperado IllegalArgumentException ao tentar criar Funcionário com Salario maior que teto salarial");
 		assertEquals("O campo Salario de Funcionario deve conter valor maximo R$99.000,00", thrown.getMessage());
 	}
 
@@ -431,7 +448,7 @@ public class FuncionarioTest {
 		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
 		BigDecimal salario = BigDecimal.valueOf(-1100.00);
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> funcionario.setSalario(salario), "Expected doThing() to throw, but it didn't");
+				() -> funcionario.setSalario(salario), "Esperado IllegalArgumentException ao tentar criar Funcionário com Salario valor negativo");
 		assertEquals("O campo Salario de Funcionario deve conter valor minímo de R$1.212,00", thrown.getMessage());
 	}
 
@@ -439,7 +456,7 @@ public class FuncionarioTest {
 	void nao_deve_aceitar_salario_com_letras() {
 		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> funcionario.setSalario(new BigDecimal("120A.00")), "Expected doThing() to throw, but it didn't");
+				() -> funcionario.setSalario(new BigDecimal("120A.00")), "Esperado IllegalArgumentException ao tentar criar Funcionário com Salario contendo Letras");
 		assertEquals(null, thrown.getMessage());
 	}
 
@@ -447,10 +464,10 @@ public class FuncionarioTest {
 	void nao_deve_aceitar_salario_com_caracteres_especial() {
 		Funcionario funcionario = new Funcionario("46339822819", "João Victor");
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> funcionario.setSalario(new BigDecimal("120@%.00")), "Expected doThing() to throw, but it didn't");
+				() -> funcionario.setSalario(new BigDecimal("120@%.00")), "Esperado IllegalArgumentException ao tentar criar Funcionário com Salario contendo caracter especial");
 		assertEquals(null, thrown.getMessage());
-	} 
-	
+	}
+
 //Equals
 	@Test
 	void equals_objeto_valores_iguais() {
@@ -488,7 +505,7 @@ public class FuncionarioTest {
 		final Boolean STATUS = true;
 		final BigDecimal SALARIO = valueOf(2000.00);
 		LocalDateTime DATA_CRIACAO = now();
-		final LocalDateTime DATA_ALT = now();
+		LocalDateTime DATA_ALT = now();
 		final String USERCRIACAO = "Funcionario A";
 		final String USERALTERACAO = "Funcionario C";
 

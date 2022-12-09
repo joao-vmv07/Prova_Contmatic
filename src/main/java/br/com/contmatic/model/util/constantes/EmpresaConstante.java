@@ -32,13 +32,13 @@ public final class EmpresaConstante {
 	
 	public static final String CNPJ_VAZIO_MESSAGE = "O campo CNPJ de Empresa não deve ser vazio.";
 	
-	public static final String RAZAO_SOCIAL_TAMANHO_MAX_MESSAGE = "O campo razão social de Empresa é permitido no maximo 40 caracteres.";
+	public static final String RAZAO_SOCIAL_TAMANHO_MAX_MESSAGE = "O campo Razão Social de Empresa é permitido no maximo 40 caracteres.";
 
-	public static final String RAZAO_SOCIAL_TAMANHO_MIN_MESSAGE = "O campo razão social de Empresa deve conter no mínimo 3 caracteres.";
+	public static final String RAZAO_SOCIAL_TAMANHO_MIN_MESSAGE = "O campo Razão Social de Empresa deve conter no mínimo 3 caracteres.";
 	
-	public static final String RAZAO_SOCIAL_TAMANHO_NULL_MESSAGE = "O campo razão social de Empresa deve ser preenchido";
+	public static final String RAZAO_SOCIAL_TAMANHO_NULL_MESSAGE = "O campo Razão Social de Empresa deve ser preenchido.";
 	
-	public static final String RAZAO_SOCIAL_VAZIO_MESSAGE = "O campo razão social de Empresa não deve ser vazio.";
+	public static final String RAZAO_SOCIAL_VAZIO_MESSAGE = "O campo Razão Social de Empresa não deve ser vazio.";
 	
 	public static final String NOME_FANTASIA_TAMANHO_MAX_MESSAGE = "O campo Nome Fantasia de Empresa é permitido no maximo 40 caracteres.";
 
@@ -56,13 +56,13 @@ public final class EmpresaConstante {
 	
 	public static final String LISTA_TELEFONE_TAMANHO_MAX_MESSAGE = "O campo Telefone de Empresa deve conter no maximo três registros de contato.";
 	
-	public static final String ENDERECO_NULL_MESSAGE = "O campo Endereco de Empresa deve ser preenchido.";
+	public static final String ENDERECO_NULL_MESSAGE = "O campo Endereço de Empresa deve ser preenchido.";
 	
-	public static final String ENDERECO_VAZIO_MESSAGE = "O campo Endereco de Empresa não deve ser vazio.";
+	public static final String ENDERECO_VAZIO_MESSAGE = "O campo Endereço de Empresa não deve ser vazio.";
 	
-	public static final String LISTA_ENDERECO_TAMANHO_MIN_MESSAGE = "O campo Endereco de Empresa deve conter no mínimo um registro de localidade.";
+	public static final String LISTA_ENDERECO_TAMANHO_MIN_MESSAGE = "O campo Endereço de Empresa deve conter no mínimo um registro de localidade.";
 	
-	public static final String LISTA_ENDERECO_TAMANHO_MAX_MESSAGE = "O campo Endereco de Empresa deve conter no maximo dois registros de localidade.";
+	public static final String LISTA_ENDERECO_TAMANHO_MAX_MESSAGE = "O campo Endereço de Empresa deve conter no maximo dois registros de localidade.";
 	
 	private EmpresaConstante() {
 
