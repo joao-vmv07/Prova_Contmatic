@@ -1,6 +1,5 @@
 package br.com.contmatic.model.empresa;
 
-import static br.com.contmatic.model.util.constantes.DataValidacaoConstante.FORMATTER_DATA_HORA;
 import static java.time.LocalDateTime.now;
 import static java.time.LocalDateTime.of;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -540,7 +539,7 @@ public class EmpresaTest {
 //toString
 	@Test
 	void deve_conter_valores_dos_campos_tostring() {
-		final String CNPJ = "38334510000178";
+		final String CNPJ = "17081431000122";
 		final String NOME = "VIVO";
 		final String RAZAO = "Vivo Telecomunicações";
 		final String USERCRIACAO = "João";
@@ -572,7 +571,7 @@ public class EmpresaTest {
 		assertTrue(empresa.toString().contains(USERALTERACAO));
 		assertTrue(empresa.toString().contains(enderecos.toString()));
 		assertTrue(empresa.toString().contains(telefones.toString()));
-		assertTrue(empresa.toString().contains(DATA_CRIACAO.format(FORMATTER_DATA_HORA)));
-		assertTrue(empresa.toString().contains(DATA_ALTERACAO.format(FORMATTER_DATA_HORA)));
+		assertTrue(empresa.toString().contains(DATA_CRIACAO.toString()));
+		assertTrue(empresa.toString().contains(DATA_ALTERACAO.toString()));
 	}
 }

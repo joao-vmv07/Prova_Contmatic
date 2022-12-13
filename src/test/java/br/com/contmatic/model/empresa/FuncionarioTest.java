@@ -1,7 +1,6 @@
 package br.com.contmatic.model.empresa;
 
 import static br.com.contmatic.model.util.constantes.DataValidacaoConstante.FORMATTER_DATA;
-import static br.com.contmatic.model.util.constantes.DataValidacaoConstante.FORMATTER_DATA_HORA;
 import static java.math.BigDecimal.valueOf;
 import static java.time.LocalDate.of;
 import static java.time.LocalDateTime.now;
@@ -525,8 +524,8 @@ public class FuncionarioTest {
 		assertTrue(funcionario.toString().contains(IDADE));
 		assertTrue(funcionario.toString().contains(DATANASCIMENTO.format(FORMATTER_DATA)));
 		assertTrue(funcionario.toString().contains(STATUS.toString()));
-		assertTrue(funcionario.toString().contains(DATA_CRIACAO.format(FORMATTER_DATA_HORA)));
-		assertTrue(funcionario.toString().contains(DATA_ALT.format(FORMATTER_DATA_HORA)));
+		assertTrue(funcionario.toString().contains(DATA_CRIACAO.toString()));
+		assertTrue(funcionario.toString().contains(DATA_ALT.toString()));
 		assertTrue(funcionario.toString().contains(USERALTERACAO));
 		assertTrue(funcionario.toString().contains(USERCRIACAO));
 	}

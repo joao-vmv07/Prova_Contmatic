@@ -29,16 +29,20 @@ public class CNPJValidacao {
 		 || calculoNumeroVerificador(cnpj, LOGICA_CNPJ_VERIFICADOR_2) != parseInt(valueOf((cnpj.charAt(POSICAO_VERIFICADOR_2))))) {
 				throw new IllegalArgumentException(CNPJ_INVALIDO_MESSAGE);
 		}
-	}
+	} 
 	
 	private static String inverterCNPJ(String cnpj) {
 		return new StringBuilder(cnpj).reverse().toString();
 	}
 	
 	private static int calculoNumeroVerificador(String cnpj, int logicaCnpj) {
-		int soma = 0;
+		int resultado = NUMERO_VERIFICADOR_FORMULA - (somaNumeroVerificador(logicaCnpj, inverterCNPJ(cnpj)) % NUMERO_VERIFICADOR_FORMULA);
+		return resultado > VALOR_MAX_DIGITO_VERIFICADOR ? VALOR_MIN_DIGITO_VERIFICADOR : resultado;
+	}
+ 
+	private static int somaNumeroVerificador(int logicaCnpj, String cnpjInvertido) {
 		int multiplicador = 1;
-		String cnpjInvertido = inverterCNPJ(cnpj);
+		int soma = 0;
 		for (int contador = logicaCnpj; contador < TAMANHO_CNPJ; contador++) {
 			multiplicador++;
 			if (multiplicador > VALOR_MAX_MULTIPLICADOR) {
@@ -46,7 +50,6 @@ public class CNPJValidacao {
 			}
 			soma += parseInt(valueOf(cnpjInvertido.charAt(contador))) * multiplicador;
 		}
-		int resultado = NUMERO_VERIFICADOR_FORMULA - (soma % NUMERO_VERIFICADOR_FORMULA);
-		return resultado > VALOR_MAX_DIGITO_VERIFICADOR ? VALOR_MIN_DIGITO_VERIFICADOR : resultado;
+		return soma;
 	}
 }

@@ -1,9 +1,12 @@
 package br.com.contmatic.model.telefone;
 
+import static java.time.LocalDateTime.now;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -11,6 +14,7 @@ import org.junit.jupiter.api.Test;
 public class TelefoneTest {
 	
 	private static Telefone telefoneBefore;
+	
 	@BeforeAll
 	static void criarTelefone() {
 		telefoneBefore = new Telefone("55", "11", "980102211");
@@ -71,6 +75,13 @@ public class TelefoneTest {
 		assertEquals("O campo DDI de Telefone deve conter dois números.", thrown.getMessage());
 	} 
 	
+	@Test
+	void nao_deve_aceitar_ddi_com_barra() {
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> telefoneBefore.setDdi("11/"), "Esperado IllegalArgumentException ao tentar criar Telefone com letra no campo DDI:");
+		assertEquals("O campo DDI de Telefone deve conter somente números.", thrown.getMessage());
+	} 
+	
 //DDD
 	@Test
 	void deve_aceitar_ddd_valido() {
@@ -103,6 +114,13 @@ public class TelefoneTest {
 	void nao_deve_aceitar_ddd_com_letras() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
 				() -> telefoneBefore.setDdd("1D"), "Esperado IllegalArgumentException ao tentar criar Telefone com letra no campo DDD:");
+		assertEquals("O campo DDD de Telefone deve conter somente números.", thrown.getMessage());
+	} 
+	
+	@Test
+	void nao_deve_aceitar_ddd_com_barra() {
+		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+				() -> telefoneBefore.setDdd("11/"), "Esperado IllegalArgumentException ao tentar criar Telefone com letra no campo DDD:");
 		assertEquals("O campo DDD de Telefone deve conter somente números.", thrown.getMessage());
 	} 
 	
@@ -149,35 +167,36 @@ public class TelefoneTest {
 	@Test
 	void nao_deve_aceitar_numero_null() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> telefoneBefore.setNumero(null), "Esperado IllegalArgumentException ao tentar criar Telefone com DDD Null:");
+				() -> telefoneBefore.setNumero(null), "Esperado IllegalArgumentException ao tentar criar Telefone com Número Null:");
 		assertEquals("O campo Número de Telefone deve ser preenchido.", thrown.getMessage());
 	} 
 	
 	@Test
 	void nao_deve_aceitar_numero_vazio() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> telefoneBefore.setNumero(""), "Esperado IllegalArgumentException ao tentar criar Telefone com DDD Null:");
+				() -> telefoneBefore.setNumero(""), "Esperado IllegalArgumentException ao tentar criar Telefone com Número vazio:");
 		assertEquals("O campo Número de Telefone não deve ser vazio.", thrown.getMessage());
 	} 
 	
 	@Test
 	void nao_deve_aceitar_numero_vazio_com_espaco() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> telefoneBefore.setNumero(" "), "Esperado IllegalArgumentException ao tentar criar Telefone com DDD Null:");
+				() -> telefoneBefore.setNumero(""), "Esperado IllegalArgumentException ao tentar criar Telefone com Número vazio com espaço:");
 		assertEquals("O campo Número de Telefone não deve ser vazio.", thrown.getMessage());
 	} 
+	
 	
 	@Test
 	void nao_deve_aceitar_numero_com_letras() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> telefoneBefore.setNumero("1D"), "Esperado IllegalArgumentException ao tentar criar Telefone com letra no campo DDD:");
+				() -> telefoneBefore.setNumero("1D"), "Esperado IllegalArgumentException ao tentar criar Telefone com letra no campo Número:");
 		assertEquals("O campo Número de Telefone deve conter somente números.", thrown.getMessage());
 	} 
 	
 	@Test
 	void nao_deve_aceitar_numero_com_caracter_especial() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> telefoneBefore.setNumero("96797!#64"), "Esperado IllegalArgumentException ao tentar criar Telefone com letra no campo DDD:");
+				() -> telefoneBefore.setNumero("96797!#64"), "Esperado IllegalArgumentException ao tentar criar Telefone com caracter especial no campo Número:");
 		assertEquals("O campo Número de Telefone deve conter somente números.", thrown.getMessage());
 	} 
 	 
@@ -191,14 +210,14 @@ public class TelefoneTest {
 	@Test
 	void nao_deve_aceitar_numero_com_tamanho_menor_que_8() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> telefoneBefore.setNumero("552859"), "Esperado IllegalArgumentException ao tentar criar Telefone com menos de 2 números no campo DDD:");
+				() -> telefoneBefore.setNumero("552859"), "Esperado IllegalArgumentException ao tentar criar Telefone com menos de 8 números no campo Número:");
 		assertEquals("O campo Número de Telefone esta inválido, deve ser prenchido com registro Celular/Comercial ou Telefone Fixo.", thrown.getMessage());
 	}
 	
 	@Test
 	void nao_deve_aceitar_numero_com_barra() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> telefoneBefore.setNumero("96797/64"), "Esperado IllegalArgumentException ao tentar criar Telefone com letra no campo DDD:");
+				() -> telefoneBefore.setNumero("96797/64"), "Esperado IllegalArgumentException ao tentar criar Telefone com barra no campo Número:");
 		assertEquals("O campo Número de Telefone deve conter somente números.", thrown.getMessage());
 	} 
 	
@@ -206,7 +225,7 @@ public class TelefoneTest {
 	@Test
 	void nao_deve_aceitar_numero_com_barra_invertida() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> telefoneBefore.setNumero("967\\636"), "Esperado IllegalArgumentException ao tentar criar Telefone com letra no campo DDD:");
+				() -> telefoneBefore.setNumero("967\\636"), "Esperado IllegalArgumentException ao tentar criar Telefone com barra ivertida no campo Número:");
 		assertEquals("O campo Número de Telefone deve conter somente números.", thrown.getMessage());
 	} 
 	
@@ -264,14 +283,26 @@ public class TelefoneTest {
 		final String DDD = "11";
 		final String DDI = "55";
 		final String NUMERO = "55285908";
+		LocalDateTime DATA_CRIACAO = now();
+		LocalDateTime DATA_ALT = now();
+		final String USERCRIACAO = "USER A";
+		final String USERALTERACAO = "USER C";
 		
 		Telefone telefone = new Telefone(DDI, DDD, NUMERO);
 		telefone.setDdd(DDD);
 		telefone.setDdi(DDI);
 		telefone.setNumero(NUMERO);
+		telefone.setDataCriacao(DATA_CRIACAO);
+		telefone.setDataAlteracao(DATA_ALT);
+		telefone.setUsuarioCriacao(USERCRIACAO);
+		telefone.setUsuarioAlteracao(USERALTERACAO);
 		
 		assertTrue(telefone.toString().contains(NUMERO));
 		assertTrue(telefone.toString().contains(DDI));
 		assertTrue(telefone.toString().contains(DDD));
-	} 
-}
+		assertTrue(telefone.toString().contains(DATA_CRIACAO.toString()));
+		assertTrue(telefone.toString().contains(DATA_ALT.toString()));
+		assertTrue(telefone.toString().contains(USERALTERACAO));
+		assertTrue(telefone.toString().contains(USERCRIACAO));
+	}
+} 

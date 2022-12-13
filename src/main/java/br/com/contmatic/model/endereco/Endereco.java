@@ -55,7 +55,9 @@ import static br.com.contmatic.model.util.validacao.Validacao.checkVazio;
 
 import java.util.Objects;
 
-public class Endereco {
+import br.com.contmatic.model.empresa.Auditoria;
+
+public class Endereco extends Auditoria {
 
 	private String logradouro;
 
@@ -67,13 +69,13 @@ public class Endereco {
 
 	private String pais;
 
-	private String uf;
+	private String uf; //Posso criar Enum de UF
 
 	private String municipio;
 
 	public Endereco(String cep, Integer numero) {
 		this.setCep(cep);
-		this.setNumero(numero); 
+		this.setNumero(numero);
 	}
 
 	public String getCep() {
@@ -186,6 +188,7 @@ public class Endereco {
 	public String toString() {
 		return new StringBuilder().append("Endereco Logradouro=").append(logradouro).append(", Numero=").append(numero)
 				.append(", Bairro=").append(bairro).append(", Cep=").append(cep).append(", Pais=").append(pais)
-				.append(", UF=").append(uf).append(", Municipio=").append(municipio).append("]").toString();
+				.append(", UF=").append(uf).append(", Municipio=").append(municipio).append("]")
+				.append(super.toString()).toString(); 
 	}
 }

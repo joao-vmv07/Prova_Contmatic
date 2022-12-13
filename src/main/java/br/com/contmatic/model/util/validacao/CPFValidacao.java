@@ -44,15 +44,19 @@ public class CPFValidacao {
 			}
 		}
 		return totalNumerosRepetidos;
-	}
+	} 
 
 	private static int calculoNumeroVerificador(String cpf, int logicaDigitoMultiplicador, int logicaBuscarDigito) {
-		int soma = 0;
+		int numeroVerificador = LOGICA_NUMERO_VERIFCADOR - (somaNumeroVerificador(cpf, logicaDigitoMultiplicador, logicaBuscarDigito) % LOGICA_NUMERO_VERIFCADOR);
+		return numeroVerificador > VALOR_MAX_DIGITO_VERIFICADOR ? VALOR_MIN_DIGITO_VERIFICADOR : numeroVerificador;
+	}
+	
+	private static int somaNumeroVerificador(String cpf, int logicaDigitoMultiplicador, int logicaBuscarDigito) {
+		int soma = 0; 
 		for (int contador = 0; contador < logicaBuscarDigito; contador++) {
 			soma += parseInt(valueOf(cpf.charAt(contador))) * logicaDigitoMultiplicador;
 			logicaDigitoMultiplicador--;
 		}
-		int numeroVerificador = LOGICA_NUMERO_VERIFCADOR - (soma % LOGICA_NUMERO_VERIFCADOR);
-		return numeroVerificador > VALOR_MAX_DIGITO_VERIFICADOR ? VALOR_MIN_DIGITO_VERIFICADOR : numeroVerificador;
+		return soma;
 	}
 }

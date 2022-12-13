@@ -1,9 +1,12 @@
 package br.com.contmatic.model.endereco;
 
+import static java.time.LocalDateTime.now;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -485,6 +488,10 @@ public class EnderecoTest {
 		final String PAIS = "BRASIL";
 		final String UF = "SP";
 		final String MUNICIPIO = "OSASCO";
+		LocalDateTime DATA_CRIACAO = now();
+		LocalDateTime DATA_ALT = now();
+		final String USERCRIACAO = "USER A";
+		final String USERALTERACAO = "USER C";
 
 		Endereco endereco = new Endereco(CEP, NUMERO);
 
@@ -493,7 +500,11 @@ public class EnderecoTest {
 		endereco.setPais(PAIS);
 		endereco.setUf(UF);
 		endereco.setMunicipio(MUNICIPIO);
-
+		endereco.setDataCriacao(DATA_CRIACAO);
+		endereco.setDataAlteracao(DATA_ALT);
+		endereco.setUsuarioCriacao(USERCRIACAO);
+		endereco.setUsuarioAlteracao(USERALTERACAO);
+		
 		assertTrue(endereco.toString().contains(CEP));
 		assertTrue(endereco.toString().contains(NUMERO.toString()));
 		assertTrue(endereco.toString().contains(BAIRRO));
@@ -501,5 +512,6 @@ public class EnderecoTest {
 		assertTrue(endereco.toString().contains(PAIS));
 		assertTrue(endereco.toString().contains(UF));
 		assertTrue(endereco.toString().contains(MUNICIPIO));
+	
 	}
 }

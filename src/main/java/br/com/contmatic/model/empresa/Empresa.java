@@ -145,7 +145,7 @@ public class Empresa extends Auditoria {
 		return Objects.equals(cnpj, other.cnpj);
 	} 
 	
-	@Override
+	@Override 
 	public String toString() {
 		return new StringBuilder().append("Cnpj:").append(cnpj).append(" Razao Social:").append(razaoSocial)
 				.append(" Nome Fantasia:").append(nomeFantasia).append(" Enderecos:").append(enderecos)

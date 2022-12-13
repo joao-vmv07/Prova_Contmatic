@@ -58,7 +58,6 @@ public final class AuditoriaConstante {
 	
 	public static final String DATA_CRIACAO_INVALIDA_MINUTO= "A Data Criação informada de Auditoria é invalida Minuto incorreto.";
 	
-	
 	private AuditoriaConstante() {
 		
 	}

@@ -1,6 +1,5 @@
 package br.com.contmatic.model.empresa;
 
-import static br.com.contmatic.model.util.constantes.DataValidacaoConstante.FORMATTER_DATA_HORA;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -10,7 +9,6 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.Ignore;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
@@ -375,8 +373,8 @@ public class ClienteTest {
 		assertTrue(cliente.toString().contains(EMAIL));
 		assertTrue(cliente.toString().contains(USERACRIACAO));
 		assertTrue(cliente.toString().contains(USERALTERACAO));
-		assertTrue(cliente.toString().contains(dataAlteracao.format(FORMATTER_DATA_HORA)));
-		assertTrue(cliente.toString().contains(dataCriacao.format(FORMATTER_DATA_HORA)));
+		assertTrue(cliente.toString().contains(dataAlteracao.toString()));
+		assertTrue(cliente.toString().contains(dataCriacao.toString()));
 		
 	}
 }

@@ -2,6 +2,8 @@ package br.com.contmatic.model.util.validacao;
 
 import java.math.BigDecimal;
 
+import br.com.contmatic.model.telefone.TelefoneType;
+
 public final class Validacao {
 
 	private static final int VALOR_DE_RETORNO = 0;
@@ -73,5 +75,12 @@ public final class Validacao {
 		if(numero <= VALOR_DE_RETORNO) {
 			throw new IllegalArgumentException(message);
 		}
-	} 
+	}
+	
+	public static void checkTipoTelefone(Object obj, TelefoneType telefoneType, String message) {
+        if(obj.toString().length() != telefoneType.getTamanho()) {
+            throw new IllegalArgumentException(message);
+        }
+    }
+
 }
