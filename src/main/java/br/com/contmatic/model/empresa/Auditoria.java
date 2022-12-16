@@ -108,7 +108,7 @@ public abstract class Auditoria {
 
     @Override
     public String toString() {
-        return new StringBuilder().append("Auditoria [DataCriacao=").append(dataCriacao).append(", DataAlteracao=").append(dataAlteracao).append(", UsuarioCriacao=").append(usuarioCriacao)
+        return new StringBuilder().append(" Auditoria [DataCriacao=").append(dataCriacao).append(", DataAlteracao=").append(dataAlteracao).append(", UsuarioCriacao=").append(usuarioCriacao)
                 .append(", UsuarioAlteracao=").append(usuarioAlteracao).append("]").toString();
     }
 

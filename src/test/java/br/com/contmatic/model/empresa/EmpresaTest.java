@@ -573,5 +573,7 @@ public class EmpresaTest {
 		assertTrue(empresa.toString().contains(telefones.toString()));
 		assertTrue(empresa.toString().contains(DATA_CRIACAO.toString()));
 		assertTrue(empresa.toString().contains(DATA_ALTERACAO.toString()));
+		
+		System.out.println(empresa);
 	}
 }

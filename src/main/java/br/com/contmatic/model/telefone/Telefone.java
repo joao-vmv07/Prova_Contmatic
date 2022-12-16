@@ -12,15 +12,13 @@ import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDI_TAMAN
 import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDI_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.TelefoneConstante.NUMERO_LETRAS_MESSAGE;
 import static br.com.contmatic.model.util.constantes.TelefoneConstante.NUMERO_NULL_MESSAGE;
-import static br.com.contmatic.model.util.constantes.TelefoneConstante.NUMERO_TAMANHO_MAX;
-import static br.com.contmatic.model.util.constantes.TelefoneConstante.NUMERO_TAMANHO_MIN;
 import static br.com.contmatic.model.util.constantes.TelefoneConstante.NUMERO_TIPO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.TelefoneConstante.NUMERO_VAZIO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.TelefoneConstante.TELEFONE_TIPO_NULL_MESSAGE;
 import static br.com.contmatic.model.util.validacao.Validacao.checkContemNumero;
 import static br.com.contmatic.model.util.validacao.Validacao.checkNull;
-import static br.com.contmatic.model.util.validacao.Validacao.checkTamahhoMaximo;
-import static br.com.contmatic.model.util.validacao.Validacao.checkTamahhoMinimo;
 import static br.com.contmatic.model.util.validacao.Validacao.checkTamanhoFixo;
+import static br.com.contmatic.model.util.validacao.Validacao.checkTipoTelefone;
 import static br.com.contmatic.model.util.validacao.Validacao.checkVazio;
 
 import java.util.Objects;
@@ -49,11 +47,10 @@ public class Telefone extends Auditoria {
     }
 
     public void setNumero(String numero) {
-        checkNull(numero, NUMERO_NULL_MESSAGE);
+        checkNull(numero, NUMERO_NULL_MESSAGE); 
         checkVazio(numero, NUMERO_VAZIO_MESSAGE);
         checkContemNumero(numero, NUMERO_LETRAS_MESSAGE);
-        checkTamahhoMinimo(numero, NUMERO_TAMANHO_MIN, NUMERO_TIPO_MESSAGE);
-        checkTamahhoMaximo(numero, NUMERO_TAMANHO_MAX, NUMERO_TIPO_MESSAGE);
+        checkTipoTelefone(numero, NUMERO_TIPO_MESSAGE);
         this.numero = numero;
     }
 
@@ -80,6 +77,16 @@ public class Telefone extends Auditoria {
         checkTamanhoFixo(ddi, DDI_TAMANHO_FIXO, DDI_TAMANHO_FIXO_MESSAGE);
         this.ddi = ddi;
     } 
+    
+    public TelefoneType getTelefoneType() {
+        return telefoneType;
+    }
+
+    public void setTelefoneType(TelefoneType telefoneType) {
+        checkNull(telefoneType, TELEFONE_TIPO_NULL_MESSAGE);
+        this.telefoneType = telefoneType;
+    }
+
 
     @Override
     public int hashCode() {
@@ -100,6 +107,6 @@ public class Telefone extends Auditoria {
     
     @Override
     public String toString() {
-        return new StringBuilder().append(" Telefone [DDI=").append(ddi).append(", DDD=").append(ddd).append(", Numero=").append(numero).append("]").append(super.toString()).toString();
+        return new StringBuilder().append(" Telefone [DDI=").append(ddi).append(", DDD=").append(ddd).append(", Numero=").append(numero).append("]").append(" Tipo:").append(getTelefoneType()).append(super.toString()).toString();
     }
 }

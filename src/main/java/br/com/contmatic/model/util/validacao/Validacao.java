@@ -1,8 +1,10 @@
 package br.com.contmatic.model.util.validacao;
 
-import java.math.BigDecimal;
+import static br.com.contmatic.model.telefone.TelefoneType.CELULAR;
+import static br.com.contmatic.model.telefone.TelefoneType.COMERCIAL;
+import static br.com.contmatic.model.telefone.TelefoneType.FIXO;
 
-import br.com.contmatic.model.telefone.TelefoneType;
+import java.math.BigDecimal;
 
 public final class Validacao {
 
@@ -77,10 +79,21 @@ public final class Validacao {
 		}
 	}
 	
-	public static void checkTipoTelefone(Object obj, TelefoneType telefoneType, String message) {
-        if(obj.toString().length() != telefoneType.getTamanho()) {
-            throw new IllegalArgumentException(message);
-        }
-    }
-
+	public static void checkTipoTelefone(Object telefone, String message) {
+	    if(!(isTelefoneCelular(telefone) || isTelefoneComercial(telefone) || isTelefoneFixo(telefone))) {
+	        throw new IllegalArgumentException(message);
+	    }
+    } 
+	
+	private static boolean isTelefoneComercial(Object telefone) {
+	  return telefone.toString().length() == COMERCIAL.getTamanho();
+	}
+	
+	private static boolean isTelefoneCelular(Object telefone) {
+	      return telefone.toString().length() == CELULAR.getTamanho();
+	 }
+	
+	private static boolean isTelefoneFixo(Object telefone) {
+	      return telefone.toString().length() == FIXO.getTamanho();
+	}
 }

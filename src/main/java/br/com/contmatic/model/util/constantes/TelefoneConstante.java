@@ -33,6 +33,8 @@ public final class TelefoneConstante {
 	public static final String NUMERO_TIPO_MESSAGE = "O campo Número de Telefone esta inválido, deve ser prenchido com registro Celular/Comercial ou Telefone Fixo.";
 	
 	public static final String NUMERO_VAZIO_MESSAGE = "O campo Número de Telefone não deve ser vazio.";
+
+	public static final String TELEFONE_TIPO_NULL_MESSAGE = "O campo Tipo de Telefone deve ser preenchido.";
 	
 	private TelefoneConstante() {
 		

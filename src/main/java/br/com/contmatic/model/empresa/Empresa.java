@@ -46,6 +46,7 @@ import java.util.Set;
 
 import br.com.contmatic.model.endereco.Endereco;
 import br.com.contmatic.model.telefone.Telefone;
+import br.com.contmatic.model.telefone.TelefoneType;
 
 public class Empresa extends Auditoria {
 
