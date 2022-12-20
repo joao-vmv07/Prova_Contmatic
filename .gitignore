@@ -1,2 +1,5 @@
 
 target/classes/META-INF/maven/br.com.contmatic/Empresa/pom.properties
+.classpath
+.factorypath
+.classpath

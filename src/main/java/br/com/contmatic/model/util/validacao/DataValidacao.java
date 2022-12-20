@@ -1,5 +1,7 @@
 package br.com.contmatic.model.util.validacao;
 
+import static java.time.LocalDateTime.now;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -8,7 +10,7 @@ public class DataValidacao {
 	private DataValidacao() {
 	}
 
-	private static LocalDateTime dataAtual = LocalDateTime.now();
+	private static LocalDateTime dataAtual = now();
 
 	public static void checkDataNascimentoIdadeMinima(LocalDate data, int valorMinimo, String message) {
 		if (dataAtual.getYear() - data.getYear() < valorMinimo) {

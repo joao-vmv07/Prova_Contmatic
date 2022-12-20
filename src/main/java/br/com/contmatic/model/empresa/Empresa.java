@@ -44,24 +44,34 @@ import static br.com.contmatic.model.util.validacao.Validacao.checkVazio;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import br.com.contmatic.model.endereco.Endereco;
 import br.com.contmatic.model.telefone.Telefone;
-
+import lombok.Getter;
+import lombok.Setter;
+@Getter
+@Setter
 public class Empresa extends Auditoria {
 
-	private String cnpj;
+    @Size(min = 14, max = 14, message = CNPJ_TAMANHO_MESSAGE)
+    @NotNull(message = CNPJ_NULL_MESSAGE )
+    @NotBlank()
+    private String cnpj;
+ 
+    private String razaoSocial;
 
-	private String razaoSocial;
+    private String nomeFantasia;
 
-	private String nomeFantasia;
+    private Set<Endereco> enderecos;
 
-	private Set<Endereco> enderecos;
-
-	private Set<Telefone> telefones;
+    private Set<Telefone> telefones;
 
 	public Empresa(String cnpj) {
 		super();
-		this.setCnpj(cnpj);
+		this.setCnpj(cnpj); 
 	}
 
 	public String getCnpj() {
@@ -69,15 +79,15 @@ public class Empresa extends Auditoria {
 	}
 
 	public void setCnpj(String cnpj) {
-		checkNull(cnpj, CNPJ_NULL_MESSAGE);
+	    checkNull(cnpj, CNPJ_NULL_MESSAGE);
 		checkVazio(cnpj, CNPJ_VAZIO_MESSAGE);
-		checkEspaco(cnpj, CNPJ_ESPACO_MESSAGE);
-		checkContemNumero(cnpj, CNPJ_LETRAS_MASK_MESSAGE); 
+    	checkEspaco(cnpj, CNPJ_ESPACO_MESSAGE);
+   	    checkContemNumero(cnpj, CNPJ_LETRAS_MASK_MESSAGE); 
 		checkTamanhoFixo(cnpj, CNPJ_TAMANHO_FIXO, CNPJ_TAMANHO_MESSAGE); 
 		checkCNPJ(cnpj);
 		this.cnpj = cnpj; 
 	}
-
+		
 	public String getRazaoSocial() {
 		return razaoSocial;
 	}
@@ -88,7 +98,7 @@ public class Empresa extends Auditoria {
 		checkTamahhoMinimo(razaoSocial, RAZAO_SOCIAL_TAMANHO_MIN, RAZAO_SOCIAL_TAMANHO_MIN_MESSAGE);
 		checkTamahhoMaximo(razaoSocial, RAZAO_SOCIAL_TAMANHO_MAX, RAZAO_SOCIAL_TAMANHO_MAX_MESSAGE);
 		this.razaoSocial = razaoSocial;
-	}
+}
 
 	public Set<Endereco> getEnderecos() {
 		return enderecos;
@@ -115,7 +125,7 @@ public class Empresa extends Auditoria {
 
 	public String getNomeFantasia() {
 		return nomeFantasia;
-	}
+}
 
 	public void setNomeFantasia(String nomeFantasia) {
 		checkNull(nomeFantasia, NOME_FANTASIA_NULL_MESSAGE);

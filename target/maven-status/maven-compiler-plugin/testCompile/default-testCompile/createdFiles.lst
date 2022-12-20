@@ -1,0 +1,6 @@
+br\com\contmatic\model\endereco\EnderecoTest.class
+br\com\contmatic\model\empresa\ClienteTest.class
+br\com\contimatic\model\util\TestRunner.class
+br\com\contmatic\model\empresa\EmpresaTest.class
+br\com\contmatic\model\empresa\FuncionarioTest.class
+br\com\contmatic\model\telefone\TelefoneTest.class
