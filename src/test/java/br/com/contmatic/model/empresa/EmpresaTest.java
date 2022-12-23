@@ -12,31 +12,39 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
+import org.hibernate.validator.constraints.br.CNPJ;
+import org.junit.BeforeClass;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import br.com.contmatic.model.endereco.Endereco;
 import br.com.contmatic.model.telefone.Telefone;
+import br.com.six2six.fixturefactory.Fixture;
+import br.com.six2six.fixturefactory.Rule;
+import br.com.six2six.fixturefactory.function.impl.UniqueRandomFunction;
+import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 
 public class EmpresaTest {
 
 	private static Empresa empresaBefore;
+//	private static ValidatorFactory factory;
+//	private static Validator validator;
 
+	
 	@BeforeAll
-	static void criarObjEmpresa() {
-		empresaBefore = new Empresa("17081431000122");
+	public static void setUp() {
+	    FixtureFactoryLoader.loadTemplates("br.com.contmatic.templeate");
+	     empresaBefore = Fixture.from(Empresa.class).gimme("valid");
 	}
-
+	
 	@Test
 	void deve_aceitar_cnpj_valido() {
-		Empresa empresa = new Empresa("17081431000122");
-		assertEquals("17081431000122", empresa.getCnpj());
-	}
-
-	@Test
-	void deve_aceitar_cnpj_valido_2() {
-		Empresa empresa = new Empresa("84866772000109");
-		assertEquals("84866772000109", empresa.getCnpj());
+		assertEquals("17081431000122", empresaBefore.getCnpj());
 	}
 
 	@Test
@@ -304,7 +312,7 @@ public class EmpresaTest {
 				thrown.getMessage());
 	}
 
-	// Equals
+//Equals
 	@Test
 	void deve_aceitar_objeto_com_valores_iguais() {
 		Empresa empresaA = new Empresa("17081431000122");
@@ -573,7 +581,18 @@ public class EmpresaTest {
 		assertTrue(empresa.toString().contains(telefones.toString()));
 		assertTrue(empresa.toString().contains(DATA_CRIACAO.toString()));
 		assertTrue(empresa.toString().contains(DATA_ALTERACAO.toString()));
-		
-		System.out.println(empresa);
 	}
+	
+	
+// @Test
+//  void exampleValidatioBean() {
+//      factory = Validation.buildDefaultValidatorFactory();
+//      validator = factory.getValidator();
+//      
+//      Empresa empresaA = new Empresa(null);
+//      Set<ConstraintViolation<Empresa>> violations = validator.validate(empresaA);
+//      for (ConstraintViolation<Empresa> violation : violations) {
+//          System.out.println(violation.getMessage()); 
+//      }
+//  }
 }

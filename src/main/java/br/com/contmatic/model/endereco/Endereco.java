@@ -69,9 +69,11 @@ public class Endereco extends Auditoria {
 
 	private String pais;
 
-	private String uf; //Posso criar Enum de UF
+	private String uf; 
 
 	private String municipio;
+	
+	private EstadoUF estadoUF;
 
 	public Endereco(String cep, Integer numero) {
 		this.setCep(cep);
@@ -166,8 +168,16 @@ public class Endereco extends Auditoria {
 		checkTamahhoMaximo(numero, NUMERO_TAMANHO_MAX, NUMERO_TAMANHO_MAX_MESSAGE);
 		this.numero = numero;
 	}
+	
+	public EstadoUF getEstadoUF() {
+        return estadoUF;
+    }
 
-	@Override
+    public void setEstadoUF(EstadoUF estadoUF) {
+        this.estadoUF = estadoUF;
+    }
+
+    @Override
 	public int hashCode() {
 		return Objects.hash(cep, numero);
 	}

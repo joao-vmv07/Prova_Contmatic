@@ -1,6 +1,7 @@
 package br.com.contmatic.model.empresa;
 
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_ESPACO_MESSAGE;
+
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_LETRAS_MASK_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_TAMANHO_FIXO;
@@ -52,6 +53,7 @@ import br.com.contmatic.model.endereco.Endereco;
 import br.com.contmatic.model.telefone.Telefone;
 import lombok.Getter;
 import lombok.Setter;
+
 @Getter
 @Setter
 public class Empresa extends Auditoria {
