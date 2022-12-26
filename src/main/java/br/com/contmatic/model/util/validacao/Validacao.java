@@ -85,15 +85,15 @@ public final class Validacao {
 	    }
     } 
 	
-	private static boolean isTelefoneComercial(Object telefone) {
+	public static boolean isTelefoneComercial(Object telefone) {
 	  return telefone.toString().length() == COMERCIAL.getTamanho();
 	}
 	
-	private static boolean isTelefoneCelular(Object telefone) {
+	public static boolean isTelefoneCelular(Object telefone) {
 	      return telefone.toString().length() == CELULAR.getTamanho();
 	 }
 	
-	private static boolean isTelefoneFixo(Object telefone) {
+	public static boolean isTelefoneFixo(Object telefone) {
 	      return telefone.toString().length() == FIXO.getTamanho();
 	}
 }

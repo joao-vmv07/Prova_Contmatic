@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 public class TelefoneTest {
 
     private static Telefone telefoneBefore;
-    private static TelefoneType telefoneType;
 
     @BeforeAll
     static void criarTelefone() {
@@ -292,6 +291,7 @@ public class TelefoneTest {
         LocalDateTime DATA_ALT = now();
         final String USERCRIACAO = "USER A";
         final String USERALTERACAO = "USER C";
+        final TelefoneType tipoTelefoneFixo = TelefoneType.FIXO;
 
         Telefone telefone = new Telefone(DDI, DDD, NUMERO);
         telefone.setDdd(DDD);
@@ -301,7 +301,8 @@ public class TelefoneTest {
         telefone.setDataAlteracao(DATA_ALT);
         telefone.setUsuarioCriacao(USERCRIACAO);
         telefone.setUsuarioAlteracao(USERALTERACAO);
-
+        telefone.setTelefoneType(tipoTelefoneFixo);
+        
         assertTrue(telefone.toString().contains(NUMERO));
         assertTrue(telefone.toString().contains(DDI));
         assertTrue(telefone.toString().contains(DDD));
@@ -309,9 +310,7 @@ public class TelefoneTest {
         assertTrue(telefone.toString().contains(DATA_ALT.toString()));
         assertTrue(telefone.toString().contains(USERALTERACAO));
         assertTrue(telefone.toString().contains(USERCRIACAO));
-    }
-
-    public static void main(String[] args) {
-        System.out.println(telefoneType.getTamanho());
+        
+        System.out.println(telefone);
     }
 }

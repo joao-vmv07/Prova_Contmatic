@@ -11,7 +11,7 @@ public enum TelefoneType {
     private int tamanho;
 
     public String getDescricao() {
-        return descricao;
+     return descricao;
     }
 
     public int getTamanho() {
@@ -22,4 +22,5 @@ public enum TelefoneType {
         this.descricao = descricao;
         this.tamanho = tamanho;
     }
+    
 }

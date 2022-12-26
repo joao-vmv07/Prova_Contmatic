@@ -78,7 +78,7 @@ public class Telefone extends Auditoria {
         this.ddi = ddi;
     } 
     
-    public TelefoneType getTelefoneType() {
+    public TelefoneType getTelefoneType() {  
         return telefoneType;
     }
 
