@@ -3,7 +3,6 @@ package br.com.contmatic.model.empresa;
 import static br.com.contmatic.model.util.constantes.DataValidacaoConstante.FORMATTER_DATA;
 import static java.math.BigDecimal.valueOf;
 import static java.time.LocalDate.of;
-import static java.time.LocalDateTime.now;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -12,8 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.math.BigDecimal;
 import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-
+import org.joda.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 
 public class FuncionarioTest {
@@ -503,8 +501,8 @@ public class FuncionarioTest {
 		final LocalDate DATANASCIMENTO = of(2000, 12, 20);
 		final Boolean STATUS = true;
 		final BigDecimal SALARIO = valueOf(2000.00);
-		LocalDateTime DATA_CRIACAO = now();
-		LocalDateTime DATA_ALT = now();
+		LocalDateTime DATA_CRIACAO = LocalDateTime.now();
+		LocalDateTime DATA_ALT = LocalDateTime.now();
 		final String USERCRIACAO = "Funcionario A";
 		final String USERALTERACAO = "Funcionario C";
 

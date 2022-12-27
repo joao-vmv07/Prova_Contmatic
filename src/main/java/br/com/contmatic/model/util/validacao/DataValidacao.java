@@ -1,17 +1,18 @@
 package br.com.contmatic.model.util.validacao;
 
-import static java.time.LocalDateTime.now;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+
+
 
 public class DataValidacao {
 
 	private DataValidacao() {
 	}
 
-	private static LocalDateTime dataAtual = now();
-
+	private static LocalDateTime dataAtual = LocalDateTime.now();
+	        
 	public static void checkDataNascimentoIdadeMinima(LocalDate data, int valorMinimo, String message) {
 		if (dataAtual.getYear() - data.getYear() < valorMinimo) {
 			throw new IllegalArgumentException(message);
@@ -23,35 +24,16 @@ public class DataValidacao {
 			throw new IllegalArgumentException(message);
 		}
 	}
-
-	public static void checkValorMes(LocalDateTime data, String message) {
-		if (data.getMonth() != dataAtual.getMonth()) {
-			throw new IllegalArgumentException(message);
-		}
+	
+	public static void checkDataDepoisAtual(LocalDateTime data, String message) {
+	    if(data.withMillisOfSecond(0).isAfter(data.withMillisOfSecond(0))) {
+	        throw new IllegalArgumentException(message);
+	    }
 	}
-
-	public static void checkValorAno(LocalDateTime data, String message) {
-		if (data.getYear() != dataAtual.getYear()) {
-			throw new IllegalArgumentException(message);
-		}
-	}
-
-	public static void checkValorDia(LocalDateTime data, String message) {
-		if (data.getDayOfMonth() != dataAtual.getDayOfMonth()) {
-			throw new IllegalArgumentException(message);
-		}
-	}
-
-	public static void checkValorHora(LocalDateTime data, String message) {
-		if (data.getHour() != dataAtual.getHour()) {
-			throw new IllegalArgumentException(message);
-		}
-	}
-
-	public static void checkValorMinuto(LocalDateTime data, String message) {
-		if (data.getMinute() != dataAtual.getMinute()) {
-			throw new IllegalArgumentException(message);
-		}
-	}
-
+	
+	public static void checkDataAntesAtual(LocalDateTime data, String message) {
+        if(data.withMillisOfSecond(0).isBefore(dataAtual.withMillisOfSecond(0))) {
+            throw new IllegalArgumentException(message);
+        }
+    }
 }

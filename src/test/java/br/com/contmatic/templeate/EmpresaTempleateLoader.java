@@ -35,8 +35,5 @@ public class EmpresaTempleateLoader implements TemplateLoader {
             add("telefones", telefones);
             add("enderecos", enderecos);
         }});
-        
     }
-  
-
 }

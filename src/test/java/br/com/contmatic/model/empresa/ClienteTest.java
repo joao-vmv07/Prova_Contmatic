@@ -5,10 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.LocalDateTime;
+
 import java.util.HashSet;
 import java.util.Set;
 
+import org.joda.time.LocalDateTime;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
@@ -358,8 +359,8 @@ public class ClienteTest {
 		final String CPF = "46339822819";
 		final String USERACRIACAO = "CLIENTEA";
 		final String USERALTERACAO = "CLIENTEB";
-		LocalDateTime dataCriacao = LocalDateTime.now().withNano(0);
-		LocalDateTime dataAlteracao = LocalDateTime.now().withNano(0);
+		LocalDateTime dataCriacao = LocalDateTime.now();
+		LocalDateTime dataAlteracao = LocalDateTime.now();
 		
 		Cliente cliente = new Cliente(CPF, NOME);
 		cliente.setEmail(EMAIL);

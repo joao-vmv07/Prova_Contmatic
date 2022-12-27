@@ -1,14 +1,14 @@
 package br.com.contmatic.model.empresa;
 
-import static java.time.LocalDateTime.now;
-import static java.time.LocalDateTime.of;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.DateTimeException;
-import java.time.LocalDateTime;
+
+import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -32,8 +32,9 @@ import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 public class EmpresaTest {
 
 	private static Empresa empresaBefore;
-//	private static ValidatorFactory factory;
-//	private static Validator validator;
+	private static LocalDateTime data = LocalDateTime.now();
+	private static ValidatorFactory factory;
+	private static Validator validator;
 
 	
 	@BeforeAll
@@ -357,192 +358,192 @@ public class EmpresaTest {
 //DataAlteração
 	@Test
 	void aceitar_data_alteracao_valida() {
-		empresaBefore.setDataAlteracao(now().withNano(0));
-		assertEquals(now().withNano(0), empresaBefore.getDataAlteracao());
+		empresaBefore.setDataAlteracao(data);
+		assertEquals(data, empresaBefore.getDataAlteracao());
 	}
 
 	@Test
 	void nao_deve_aceitar_data_alteracao_mes_maior_que_atual() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setDataAlteracao(of(2022, 1, 2, 10, 25)),
+				() -> empresaBefore.setDataAlteracao(new LocalDateTime(2022,01,27,0,0,0,0)),
 				"Esperado IllegalArgumentException ao tentar definir Data de Aleração mês maior que atual em Auditoria");
-		assertEquals("A Data Alteração informada de Auditoria é invalida Mês incorreto.", thrown.getMessage());
+		assertEquals("A Data Alteração informada de Auditoria é invalida.", thrown.getMessage());
 	}
 
-	@Test
-	void nao_deve_aceitar_data_alteracao_mes_menor_que_atual() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setDataAlteracao(of(2022, 3, 2, 10, 25)),
-				"Esperado IllegalArgumentException ao tentar definir Data de Aleração mês menor que atual em Auditoria");
-		assertEquals("A Data Alteração informada de Auditoria é invalida Mês incorreto.", thrown.getMessage());
-	}
-
-	@Test
-	void nao_deve_aceitar_data_alteracao_ano_maior_que_atual() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setDataAlteracao(of(2023, 12, 2, 10, 25)),
-				"Esperado IllegalArgumentException ao tentar definir Data de Aleração ano maior que atual em Auditoria");
-		assertEquals("A Data Alteração informada de Auditoria é invalida Ano incorreto.", thrown.getMessage());
-	}
-
-	@Test
-	void nao_deve_aceitar_data_alteracao_ano_menor_que_atual() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setDataAlteracao(of(2010, 12, 2, 10, 25)),
-				"Esperado IllegalArgumentException ao tentar definir Data de Aleração ano menor que atual em Auditoria");
-		assertEquals("A Data Alteração informada de Auditoria é invalida Ano incorreto.", thrown.getMessage());
-	}
-
-	@Test
-	void nao_deve_aceitar_data_alteracao_dia_maior_que_atual() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setDataAlteracao(of(2022, 12, 30, 10, 25)),
-				"Esperado IllegalArgumentException ao tentar definir Data de Aleração dia maior que atual em Auditoria");
-		assertEquals("A Data Alteração informada de Auditoria é invalida Dia incorreto.", thrown.getMessage());
-	}
-
-	@Test
-	void nao_deve_aceitar_data_alteracao_dia_menor_que_atual() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setDataAlteracao(of(2022, 12, 1, 10, 25)),
-				"Esperado IllegalArgumentException ao tentar definir Data de Aleração dia menor que atual em Auditoria");
-		assertEquals("A Data Alteração informada de Auditoria é invalida Dia incorreto.", thrown.getMessage());
-	}
-
-	@Test
-	void nao_deve_aceitar_data_alteracao_hora_menor_que_atual() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setDataAlteracao(now().withHour(1)),
-				"Esperado IllegalArgumentException ao definir Horário de Data Alteração menor que atual em Auditoria");
-		assertEquals("A Data Alteração informada de Auditoria é invalida Hora incorreto.", thrown.getMessage());
-	}
-
-	@Test
-	void nao_deve_aceitar_data_alteracao_hora_maior_que_atual() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setDataAlteracao(now().withHour(18)),
-				"Esperado IllegalArgumentException ao tentar definir Horário de Data Alteração maior que atual em Auditoria");
-		assertEquals("A Data Alteração informada de Auditoria é invalida Hora incorreto.", thrown.getMessage());
-	}
-
-	@Test
-	void nao_deve_aceitar_data_alteracao_minutos_menor_que_atual() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setDataAlteracao(now().withMinute(1)),
-				"Esperado IllegalArgumentException ao definir Minutos de Data Alteração menor que atual em Auditoria");
-		assertEquals("A Data Alteração informada de Auditoria é invalida Minuto incorreto.", thrown.getMessage());
-	}
-
-	@Test
-	void nao_deve_aceitar_data_alteracao_minutos_maior_que_atual() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setDataAlteracao(now().withMinute(59)),
-				"Esperado IllegalArgumentException ao definir Minutos de Data Alteração maior que atual em Auditoria");
-		assertEquals("A Data Alteração informada de Auditoria é invalida Minuto incorreto.", thrown.getMessage());
-	}
-
-	@Test
-	void nao_deve_aceitar_data_alteracao_com_valor_mes_maior_que_doze() {
-		DateTimeException thrown = assertThrows(DateTimeException.class,
-				() -> empresaBefore.setDataAlteracao(of(20, 2020, 7, 10, 25)),
-				"Expected doThing() to throw, but it didn't");
-		assertEquals("Invalid value for MonthOfYear (valid values 1 - 12): 2020", thrown.getMessage());
-	}
-
-//DataCriação
-	@Test
-	void aceitar_data_criacao_valido() {
-		empresaBefore.setDataCriacao(now().withNano(0));
-		assertEquals(now().withNano(0), empresaBefore.getDataCriacao());
-	}
-
-	@Test
-	void nao_deve_aceitar_data_criacao_mes_menor_que_atual() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setDataCriacao(of(2022, 3, 2, 10, 25)),
-				"Esperado IllegalArgumentException ao definir Data Criação mês menor que atual em Auditoria");
-		assertEquals("A Data Criação informada de Auditoria é invalida Mês incorreto.", thrown.getMessage());
-	}
-
-	@Test
-	void nao_deve_aceitar_data_criacao_mes_maior_que_atual() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setDataCriacao(of(2022, 1, 2, 10, 25)),
-				"Esperado IllegalArgumentException ao definir Data Criação mês maior que atual em Auditoria");
-		assertEquals("A Data Criação informada de Auditoria é invalida Mês incorreto.", thrown.getMessage());
-	}
-
-	@Test
-	void nao_deve_aceitar_data_criacao_ano_maior_que_atual() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setDataCriacao(of(2023, 11, 7, 10, 25)),
-				"Esperado IllegalArgumentException ao definir Data Criação ano maior que atual em Auditoria");
-		assertEquals("A Data Criação informada de Auditoria é invalida Ano incorreto.", thrown.getMessage());
-	}
-
-	@Test
-	void nao_deve_aceitar_data_criacao_ano_menor_que_atual() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setDataCriacao(of(2010, 11, 7, 10, 25)),
-				"Esperado IllegalArgumentException ao definir Data Criação ano menor que atual em Auditoria");
-		assertEquals("A Data Criação informada de Auditoria é invalida Ano incorreto.", thrown.getMessage());
-	}
-
-	@Test
-	void nao_deve_aceitar_data_criacao_com_valor_mes_maior_que_doze() {
-		DateTimeException thrown = assertThrows(DateTimeException.class,
-				() -> empresaBefore.setDataCriacao(of(20, 2020, 7, 10, 25)),
-				"Expected doThing() to throw, but it didn't");
-		assertEquals("Invalid value for MonthOfYear (valid values 1 - 12): 2020", thrown.getMessage());
-	}
-
-	@Test
-	void nao_deve_aceitar_data_criacao_dia_maior_que_atual() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setDataCriacao(of(2022, 12, 30, 10, 25)),
-				"Expected doThing() to throw, but it didn't");
-		assertEquals("A Data Criação informada de Auditoria é invalida Dia incorreto.", thrown.getMessage());
-	}
-
-	@Test
-	void nao_deve_aceitar_data_criacao_dia_menor_que_atual() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setDataCriacao(of(2022, 12, 1, 10, 25)),
-				"Esperado IllegalArgumentException ao definir Data Criação dia menor que atual em Auditoria");
-		assertEquals("A Data Criação informada de Auditoria é invalida Dia incorreto.", thrown.getMessage());
-	}
-
-	@Test
-	void nao_deve_aceitar_data_criacao_hora_menor_que_atual() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setDataCriacao(now().withHour(1)),
-				"Esperado IllegalArgumentException ao tentar definir Horário de Data Criação menor que atual em Auditoria");
-		assertEquals("A Data Criação informada de Auditoria é invalida Hora incorreto.", thrown.getMessage());
-	}
-
-	@Test
-	void nao_deve_aceitar_data_criacao_hora_maior_que_atual() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setDataCriacao(now().withHour(18)),
-				"Esperado IllegalArgumentException ao tentar definir Horário de Data Alteração maior que atual em Auditoria");
-		assertEquals("A Data Criação informada de Auditoria é invalida Hora incorreto.", thrown.getMessage());
-	}
-
-	@Test
-	void nao_deve_aceitar_data_criacao_minutos_menor_que_atual() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setDataCriacao(now().withMinute(1)),
-				"Esperado IllegalArgumentException ao definir Minutos de Data Criação menor que atual em Auditoria");
-		assertEquals("A Data Criação informada de Auditoria é invalida Minuto incorreto.", thrown.getMessage());
-	}
-
-	@Test
-	void nao_deve_aceitar_data_criacao_minutos_maior_que_atual() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setDataAlteracao(now().withMinute(59)),
-				"Esperado IllegalArgumentException ao definir Minutos de Data Criação maior que atual em Auditoria");
-		assertEquals("A Data Alteração informada de Auditoria é invalida Minuto incorreto.", thrown.getMessage());
-	}
+//	@Test
+//	void nao_deve_aceitar_data_alteracao_mes_menor_que_atual() {
+//		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+//				() -> empresaBefore.setDataAlteracao(),
+//				"Esperado IllegalArgumentException ao tentar definir Data de Aleração mês menor que atual em Auditoria");
+//		assertEquals("A Data Alteração informada de Auditoria é invalida.", thrown.getMessage());
+//	}
+//
+//	@Test
+//	void nao_deve_aceitar_data_alteracao_ano_maior_que_atual() {
+//		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+//				() -> empresaBefore.setDataAlteracao(),
+//				"Esperado IllegalArgumentException ao tentar definir Data de Aleração ano maior que atual em Auditoria");
+//		assertEquals("A Data Alteração informada de Auditoria é invalida.", thrown.getMessage());
+//	}
+//
+//	@Test
+//	void nao_deve_aceitar_data_alteracao_ano_menor_que_atual() {
+//		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+//				() -> empresaBefore.setDataAlteracao(),
+//				"Esperado IllegalArgumentException ao tentar definir Data de Aleração ano menor que atual em Auditoria");
+//		assertEquals("A Data Alteração informada de Auditoria é invalida.", thrown.getMessage());
+//	}
+//
+//	@Test
+//	void nao_deve_aceitar_data_alteracao_dia_maior_que_atual() {
+//		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+//				() -> empresaBefore.setDataAlteracao(),
+//				"Esperado IllegalArgumentException ao tentar definir Data de Aleração dia maior que atual em Auditoria");
+//		assertEquals("A Data Alteração informada de Auditoria é invalida.", thrown.getMessage());
+//	}
+//
+//	@Test
+//	void nao_deve_aceitar_data_alteracao_dia_menor_que_atual() {
+//		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+//				() -> empresaBefore.setDataAlteracao(),
+//				"Esperado IllegalArgumentException ao tentar definir Data de Aleração dia menor que atual em Auditoria");
+//		assertEquals("A Data Alteração informada de Auditoria é invalida.", thrown.getMessage());
+//	}
+//
+//	@Test
+//	void nao_deve_aceitar_data_alteracao_hora_menor_que_atual() {
+//		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+//				() -> empresaBefore.setDataAlteracao(),
+//				"Esperado IllegalArgumentException ao definir Horário de Data Alteração menor que atual em Auditoria");
+//		assertEquals("A Data Alteração informada de Auditoria é invalida.", thrown.getMessage());
+//	}
+//
+//	@Test
+//	void nao_deve_aceitar_data_alteracao_hora_maior_que_atual() {
+//		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+//				() -> empresaBefore.setDataAlteracao(),
+//				"Esperado IllegalArgumentException ao tentar definir Horário de Data Alteração maior que atual em Auditoria");
+//		assertEquals("A Data Alteração informada de Auditoria é invalida.", thrown.getMessage());
+//	}
+//
+//	@Test
+//	void nao_deve_aceitar_data_alteracao_minutos_menor_que_atual() {
+//		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+//				() -> empresaBefore.setDataAlteracao(),
+//				"Esperado IllegalArgumentException ao definir Minutos de Data Alteração menor que atual em Auditoria");
+//		assertEquals("A Data Alteração informada de Auditoria é invalida.", thrown.getMessage());
+//	}
+//
+//	@Test
+//	void nao_deve_aceitar_data_alteracao_minutos_maior_que_atual() {
+//		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+//				() -> empresaBefore.setDataAlteracao(),
+//				"Esperado IllegalArgumentException ao definir Minutos de Data Alteração maior que atual em Auditoria");
+//		assertEquals("A Data Alteração informada de Auditoria é invalida.", thrown.getMessage());
+//	}
+//
+//	@Test
+//	void nao_deve_aceitar_data_alteracao_com_valor_mes_maior_que_doze() {
+//		DateTimeException thrown = assertThrows(DateTimeException.class,
+//				() -> empresaBefore.setDataAlteracao(),
+//				"Expected doThing() to throw, but it didn't");
+//		assertEquals("Invalid value for MonthOfYear (valid values 1 - 12): 2020", thrown.getMessage());
+//	}
+//
+////DataCriação
+//	@Test
+//	void aceitar_data_criacao_valido() {
+//		empresaBefore.setDataCriacao();
+//		assertEquals(now().withNano(0), empresaBefore.getDataCriacao());
+//	}
+//
+//	@Test
+//	void nao_deve_aceitar_data_criacao_mes_menor_que_atual() {
+//		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+//				() -> empresaBefore.setDataCriacao(),
+//				"Esperado IllegalArgumentException ao definir Data Criação mês menor que atual em Auditoria");
+//		assertEquals("A Data Criação informada de Auditoria é invalida.", thrown.getMessage());
+//	}
+//
+//	@Test
+//	void nao_deve_aceitar_data_criacao_mes_maior_que_atual() {
+//		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+//				() -> empresaBefore.setDataCriacao(),
+//				"Esperado IllegalArgumentException ao definir Data Criação mês maior que atual em Auditoria");
+//		assertEquals("A Data Criação informada de Auditoria é invalida.", thrown.getMessage());
+//	}
+//
+//	@Test
+//	void nao_deve_aceitar_data_criacao_ano_maior_que_atual() {
+//		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+//				() -> empresaBefore.setDataCriacao(),
+//				"Esperado IllegalArgumentException ao definir Data Criação ano maior que atual em Auditoria");
+//		assertEquals("A Data Criação informada de Auditoria é invalida.", thrown.getMessage());
+//	}
+//
+//	@Test
+//	void nao_deve_aceitar_data_criacao_ano_menor_que_atual() {
+//		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+//				() -> empresaBefore.setDataCriacao(),
+//				"Esperado IllegalArgumentException ao definir Data Criação ano menor que atual em Auditoria");
+//		assertEquals("A Data Criação informada de Auditoria é invalida.", thrown.getMessage());
+//	}
+//
+//	@Test
+//	void nao_deve_aceitar_data_criacao_com_valor_mes_maior_que_doze() {
+//		DateTimeException thrown = assertThrows(DateTimeException.class,
+//				() -> empresaBefore.setDataCriacao(),
+//				"Expected doThing() to throw, but it didn't");
+//		assertEquals("Invalid value for MonthOfYear (valid values 1 - 12): 2020", thrown.getMessage());
+//	}
+//
+//	@Test
+//	void nao_deve_aceitar_data_criacao_dia_maior_que_atual() {
+//		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+//				() -> empresaBefore.setDataCriacao(),
+//				"Expected doThing() to throw, but it didn't");
+//		assertEquals("A Data Criação informada de Auditoria é invalida.", thrown.getMessage());
+//	}
+//
+//	@Test
+//	void nao_deve_aceitar_data_criacao_dia_menor_que_atual() {
+//		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+//				() -> empresaBefore.setDataCriacao(),
+//				"Esperado IllegalArgumentException ao definir Data Criação dia menor que atual em Auditoria");
+//		assertEquals("A Data Criação informada de Auditoria é invalida.", thrown.getMessage());
+//	}
+//
+//	@Test
+//	void nao_deve_aceitar_data_criacao_hora_menor_que_atual() {
+//		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+//				() -> empresaBefore.setDataCriacao(),
+//				"Esperado IllegalArgumentException ao tentar definir Horário de Data Criação menor que atual em Auditoria");
+//		assertEquals("A Data Criação informada de Auditoria é invalida.", thrown.getMessage());
+//	}
+//
+//	@Test
+//	void nao_deve_aceitar_data_criacao_hora_maior_que_atual() {
+//		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+//				() -> empresaBefore.setDataCriacao(),
+//				"Esperado IllegalArgumentException ao tentar definir Horário de Data Alteração maior que atual em Auditoria");
+//		assertEquals("A Data Criação informada de Auditoria é invalida.", thrown.getMessage());
+//	}
+//
+//	@Test
+//	void nao_deve_aceitar_data_criacao_minutos_menor_que_atual() {
+//		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+//				() -> empresaBefore.setDataCriacao(),
+//				"Esperado IllegalArgumentException ao definir Minutos de Data Criação menor que atual em Auditoria");
+//		assertEquals("A Data Criação informada de Auditoria é invalida.", thrown.getMessage());
+//	}
+//
+//	@Test
+//	void nao_deve_aceitar_data_criacao_minutos_maior_que_atual() {
+//		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+//				() -> empresaBefore.setDataAlteracao(),
+//				"Esperado IllegalArgumentException ao definir Minutos de Data Criação maior que atual em Auditoria");
+//		assertEquals("A Data Alteração informada de Auditoria é invalida.", thrown.getMessage());
+//	}
 
 //toString
 	@Test
@@ -583,16 +584,15 @@ public class EmpresaTest {
 		assertTrue(empresa.toString().contains(DATA_ALTERACAO.toString()));
 	}
 	
-	
-// @Test
-//  void exampleValidatioBean() {
-//      factory = Validation.buildDefaultValidatorFactory();
-//      validator = factory.getValidator();
-//      
-//      Empresa empresaA = new Empresa(null);
-//      Set<ConstraintViolation<Empresa>> violations = validator.validate(empresaA);
-//      for (ConstraintViolation<Empresa> violation : violations) {
-//          System.out.println(violation.getMessage()); 
-//      }
-//  }
+ @Test
+  void exampleValidatioBean() {
+      factory = Validation.buildDefaultValidatorFactory();
+      validator = factory.getValidator();
+      
+      Empresa empresaA = new Empresa(null);
+      Set<ConstraintViolation<Empresa>> violations = validator.validate(empresaA);
+      for (ConstraintViolation<Empresa> violation : violations) {
+          System.out.println(violation.getMessage()); 
+      }
+  }
 }

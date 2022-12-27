@@ -1,14 +1,7 @@
 package br.com.contmatic.model.empresa;
 
-import static br.com.contmatic.model.util.constantes.AuditoriaConstante.DATA_ALTERACAO_INVALIDA_ANO;
-import static br.com.contmatic.model.util.constantes.AuditoriaConstante.DATA_ALTERACAO_INVALIDA_DIA;
-import static br.com.contmatic.model.util.constantes.AuditoriaConstante.DATA_ALTERACAO_INVALIDA_HORA;
-import static br.com.contmatic.model.util.constantes.AuditoriaConstante.DATA_ALTERACAO_INVALIDA_MES;
-import static br.com.contmatic.model.util.constantes.AuditoriaConstante.DATA_CRIACAO_INVALIDA_ANO;
-import static br.com.contmatic.model.util.constantes.AuditoriaConstante.DATA_CRIACAO_INVALIDA_DIA;
-import static br.com.contmatic.model.util.constantes.AuditoriaConstante.DATA_CRIACAO_INVALIDA_HORA;
-import static br.com.contmatic.model.util.constantes.AuditoriaConstante.DATA_CRIACAO_INVALIDA_MES;
-import static br.com.contmatic.model.util.constantes.AuditoriaConstante.DATA_CRIACAO_INVALIDA_MINUTO;
+import static br.com.contmatic.model.util.constantes.AuditoriaConstante.DATA_ALTERACAO_INVALIDA;
+import static br.com.contmatic.model.util.constantes.AuditoriaConstante.DATA_CRIACAO_INVALIDA;
 import static br.com.contmatic.model.util.constantes.AuditoriaConstante.DATA_CRIACAO_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.AuditoriaConstante.DATA_CRIACAO_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.AuditoriaConstante.USUARIO_ALTERACAO_FORMAT_MESSAGE;
@@ -25,20 +18,15 @@ import static br.com.contmatic.model.util.constantes.AuditoriaConstante.USUARIO_
 import static br.com.contmatic.model.util.constantes.AuditoriaConstante.USUARIO_CRIACAO_TAMANHO_MIN;
 import static br.com.contmatic.model.util.constantes.AuditoriaConstante.USUARIO_CRIACAO_TAMANHO_MIN_MESSAGE;
 import static br.com.contmatic.model.util.constantes.AuditoriaConstante.USUARIO_CRIACAO_VAZIO_MESSAGE;
-import static br.com.contmatic.model.util.validacao.DataValidacao.checkValorAno;
-import static br.com.contmatic.model.util.validacao.DataValidacao.checkValorDia;
-import static br.com.contmatic.model.util.validacao.DataValidacao.checkValorHora;
-import static br.com.contmatic.model.util.validacao.DataValidacao.checkValorMes;
-import static br.com.contmatic.model.util.validacao.DataValidacao.checkValorMinuto;
+import static br.com.contmatic.model.util.validacao.DataValidacao.checkDataAntesAtual;
+import static br.com.contmatic.model.util.validacao.DataValidacao.checkDataDepoisAtual;
 import static br.com.contmatic.model.util.validacao.Validacao.checkContemLetras;
 import static br.com.contmatic.model.util.validacao.Validacao.checkNull;
 import static br.com.contmatic.model.util.validacao.Validacao.checkTamahhoMaximo;
 import static br.com.contmatic.model.util.validacao.Validacao.checkTamahhoMinimo;
 import static br.com.contmatic.model.util.validacao.Validacao.checkVazio;
 
-import java.time.LocalDateTime;
-
-import br.com.contmatic.model.util.constantes.AuditoriaConstante;
+import org.joda.time.LocalDateTime;
 
 public abstract class Auditoria {
 
@@ -57,11 +45,8 @@ public abstract class Auditoria {
     public void setDataCriacao(LocalDateTime dataCriacao) {
         checkNull(dataCriacao, DATA_CRIACAO_NULL_MESSAGE);
         checkVazio(dataCriacao, DATA_CRIACAO_VAZIO_MESSAGE);
-        checkValorAno(dataCriacao, DATA_CRIACAO_INVALIDA_ANO);
-        checkValorMes(dataCriacao, DATA_CRIACAO_INVALIDA_MES);
-        checkValorDia(dataCriacao, DATA_CRIACAO_INVALIDA_DIA);
-        checkValorHora(dataCriacao, DATA_CRIACAO_INVALIDA_HORA);
-        checkValorMinuto(dataCriacao, DATA_CRIACAO_INVALIDA_MINUTO);
+        checkDataAntesAtual(dataCriacao, DATA_CRIACAO_INVALIDA);
+        checkDataDepoisAtual(dataCriacao, DATA_CRIACAO_INVALIDA );
         this.dataCriacao = dataCriacao;
     }
 
@@ -72,11 +57,8 @@ public abstract class Auditoria {
     public void setDataAlteracao(LocalDateTime dataAlteracao) {
         checkNull(dataAlteracao, DATA_CRIACAO_NULL_MESSAGE);
         checkVazio(dataAlteracao, DATA_CRIACAO_VAZIO_MESSAGE);
-        checkValorAno(dataAlteracao, DATA_ALTERACAO_INVALIDA_ANO);
-        checkValorMes(dataAlteracao, DATA_ALTERACAO_INVALIDA_MES);
-        checkValorDia(dataAlteracao, DATA_ALTERACAO_INVALIDA_DIA);
-        checkValorHora(dataAlteracao, DATA_ALTERACAO_INVALIDA_HORA);
-        checkValorMinuto(dataAlteracao, AuditoriaConstante.DATA_ALTERACAO_INVALIDA_MINUTO);
+        checkDataAntesAtual(dataAlteracao, DATA_ALTERACAO_INVALIDA);
+        checkDataDepoisAtual(dataAlteracao, DATA_ALTERACAO_INVALIDA );
         this.dataAlteracao = dataAlteracao;
     }
 

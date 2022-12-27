@@ -1,13 +1,11 @@
 package br.com.contmatic.model.telefone;
 
-import static java.time.LocalDateTime.now;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.LocalDateTime;
-
+import org.joda.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -287,8 +285,8 @@ public class TelefoneTest {
         final String DDD = "11";
         final String DDI = "55";
         final String NUMERO = "55285908";
-        LocalDateTime DATA_CRIACAO = now();
-        LocalDateTime DATA_ALT = now();
+        LocalDateTime DATA_CRIACAO = LocalDateTime.now();
+        LocalDateTime DATA_ALT = LocalDateTime.now();
         final String USERCRIACAO = "USER A";
         final String USERALTERACAO = "USER C";
         final TelefoneType tipoTelefoneFixo = TelefoneType.FIXO;
