@@ -584,15 +584,15 @@ public class EmpresaTest {
 		assertTrue(empresa.toString().contains(DATA_ALTERACAO.toString()));
 	}
 	
- @Test
-  void exampleValidatioBean() {
-      factory = Validation.buildDefaultValidatorFactory();
-      validator = factory.getValidator();
-      
-      Empresa empresaA = new Empresa(null);
-      Set<ConstraintViolation<Empresa>> violations = validator.validate(empresaA);
-      for (ConstraintViolation<Empresa> violation : violations) {
-          System.out.println(violation.getMessage()); 
-      }
-  }
+// @Test
+//  void exampleValidatioBean() {
+//      factory = Validation.buildDefaultValidatorFactory();
+//      validator = factory.getValidator();
+//      
+//      Empresa empresaA = new Empresa(null);
+//      Set<ConstraintViolation<Empresa>> violations = validator.validate(empresaA);
+//      for (ConstraintViolation<Empresa> violation : violations) {
+//          System.out.println(violation.getMessage()); 
+//      }
+//  }
 }

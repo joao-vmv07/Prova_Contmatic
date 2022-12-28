@@ -174,6 +174,7 @@ public class Endereco extends Auditoria {
     }
 
     public void setEstadoUF(EstadoUF estadoUF) {
+        checkNull(estadoUF, UF_NULL_MESSAGE);
         this.estadoUF = estadoUF;
     }
 

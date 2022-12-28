@@ -2,7 +2,6 @@ package br.com.contmatic.model.empresa;
 
 import static br.com.contmatic.model.util.constantes.DataValidacaoConstante.FORMATTER_DATA;
 import static java.math.BigDecimal.valueOf;
-import static java.time.LocalDate.of;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -10,7 +9,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigDecimal;
 import java.time.DateTimeException;
-import java.time.LocalDate;
+
+import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 
@@ -306,7 +306,7 @@ public class FuncionarioTest {
 	@Test
 	void deve_aceitar_data_com_idade_valida() {
 		Funcionario funcionario = new Funcionario("46339822819", "Funcionario");
-		LocalDate data = LocalDate.of(2000, 10, 10);
+		LocalDate data = new LocalDate(2000,10,10);
 		funcionario.setdataNascimento(data);
 		assertEquals(data, funcionario.getDatanascimento());
 	}
@@ -315,7 +315,7 @@ public class FuncionarioTest {
 	void nao_deve_aceitar_data_com_idade_menor_que_14_anos() {
 		Funcionario funcionario = new Funcionario("46339822819", "Funcionario");
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> funcionario.setdataNascimento(LocalDate.of(2010, 10, 10)),
+				() -> funcionario.setdataNascimento(new LocalDate(2010, 10, 10)),
 				"Esperado IllegalArgumentException ao tentar criar Funcionário com Data Nascimento menor que 14 anos ");
 		assertEquals("O campo Data Nascimento de Funcionário é inválido idade menor que 14 anos.", thrown.getMessage());
 	}
@@ -324,7 +324,7 @@ public class FuncionarioTest {
 	void nao_deve_aceitar_data_com_idade_maior_que_80_anos() {
 		Funcionario funcionario = new Funcionario("46339822819", "Funcionario");
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> funcionario.setdataNascimento(LocalDate.of(1900, 10, 10)),
+				() -> funcionario.setdataNascimento(new LocalDate(1900, 10, 10)),
 				"Esperado IllegalArgumentException ao tentar criar Funcionário com Data Nascimento maior que 80 anos");
 		assertEquals("O campo Data Nascimento de Funcionário é inválido idade superior a 80 anos", thrown.getMessage());
 	}
@@ -333,7 +333,7 @@ public class FuncionarioTest {
 	void nao_deve_aceitar_data_do_formato_incorreto() {
 		Funcionario funcionario = new Funcionario("46339822819", "Funcionario");
 		DateTimeException thrown = assertThrows(DateTimeException.class,
-				() -> funcionario.setdataNascimento(LocalDate.of(20, 10, 2000)),
+				() -> funcionario.setdataNascimento(new LocalDate(20, 10, 2000)),
 				"Esperado DateTimeException ao tentar criar Funcionário com Data Nascimento formato incorreto");
 		assertEquals("Invalid value for DayOfMonth (valid values 1 - 28/31): 2000", thrown.getMessage());
 	}
@@ -342,7 +342,7 @@ public class FuncionarioTest {
 	void nao_deve_aceitar_data_com_dias_do_mes_maior_que_31() {
 		Funcionario funcionario = new Funcionario("46339822819", "Funcionario");
 		DateTimeException thrown = assertThrows(DateTimeException.class,
-				() -> funcionario.setdataNascimento(LocalDate.of(2000, 10, 45)),
+				() -> funcionario.setdataNascimento(new LocalDate(2000, 10, 45)),
 				"Esperado DateTimeException ao tentar criar Funcionário com Data Nascimento com mes maior que 31 dias");
 		assertEquals("Invalid value for DayOfMonth (valid values 1 - 28/31): 45", thrown.getMessage());
 	}
@@ -351,7 +351,7 @@ public class FuncionarioTest {
 	void nao_deve_aceitar_data_com_ano_valor_superior_atual() {
 		Funcionario funcionario = new Funcionario("46339822819", "Funcionario");
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> funcionario.setdataNascimento(LocalDate.of(2024, 10, 20)),
+				() -> funcionario.setdataNascimento(new LocalDate(2024, 10, 20)),
 				"Esperado IllegalArgumentException ao tentar criar Funcionário com Data Nascimento com futuro ao Atual");
 		assertEquals("O campo Data Nascimento de Funcionário é inválido idade menor que 14 anos.", thrown.getMessage());
 	}
@@ -498,7 +498,7 @@ public class FuncionarioTest {
 		final String NOME = "Funcionario A";
 		final String EMAIL = "funcionario@gmail.com";
 		final String IDADE = "18";
-		final LocalDate DATANASCIMENTO = of(2000, 12, 20);
+		final LocalDate DATANASCIMENTO = new LocalDate(2000, 12, 20);
 		final Boolean STATUS = true;
 		final BigDecimal SALARIO = valueOf(2000.00);
 		LocalDateTime DATA_CRIACAO = LocalDateTime.now();
@@ -520,7 +520,7 @@ public class FuncionarioTest {
 
 		assertTrue(funcionario.toString().contains(CPF));
 		assertTrue(funcionario.toString().contains(IDADE));
-		assertTrue(funcionario.toString().contains(DATANASCIMENTO.format(FORMATTER_DATA)));
+		assertTrue(funcionario.toString().contains(DATANASCIMENTO.toString(FORMATTER_DATA)));
 		assertTrue(funcionario.toString().contains(STATUS.toString()));
 		assertTrue(funcionario.toString().contains(DATA_CRIACAO.toString()));
 		assertTrue(funcionario.toString().contains(DATA_ALT.toString()));

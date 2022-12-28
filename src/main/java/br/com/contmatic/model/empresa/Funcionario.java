@@ -58,8 +58,10 @@ import static br.com.contmatic.model.util.validacao.Validacao.checkValorMinimo;
 import static br.com.contmatic.model.util.validacao.Validacao.checkVazio;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+
 import java.util.Objects;
+
+import org.joda.time.LocalDate;
 
 public class Funcionario extends Auditoria {
 
@@ -191,7 +193,7 @@ public class Funcionario extends Auditoria {
 	public String toString() {
 		return new StringBuilder().append("Funcionario [CPF:").append(cpf).append(", Nome:").append(nome)
 				.append(", Email:").append(email).append(", Idade:").append(idade).append(", DataDeNascimento:")
-				.append(dataNascimento.format(FORMATTER_DATA)).append(", Status:").append(status).append("]")
+				.append(dataNascimento.toString(FORMATTER_DATA)).append(", Status:").append(status).append("]")
 				.append(super.toString()).toString();
 	}
 
