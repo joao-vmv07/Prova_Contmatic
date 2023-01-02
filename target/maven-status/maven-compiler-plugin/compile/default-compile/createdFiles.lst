@@ -21,4 +21,3 @@ br\com\contmatic\model\util\constantes\EmpresaConstante.class
 br\com\contmatic\model\util\constantes\CPFConstante.class
 br\com\contmatic\model\util\constantes\EnderecoConstante.class
 br\com\contmatic\model\empresa\Cliente.class
-br\com\contmatic\model\endereco\EstadosUF.class

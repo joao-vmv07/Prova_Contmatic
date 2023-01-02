@@ -1,6 +1,6 @@
 package br.com.contmatic.model.endereco;
 
-public enum  EstadoUF{
+public enum EstadoUF{
     AC("Acre"),
     AL("Alagoas"),
     AP("Amapá"),
@@ -17,7 +17,7 @@ public enum  EstadoUF{
     PA("Pará"),
     PB("Paraíba"),
     PR("Paraná"),
-    PE("Pernanbuco"),
+    PE("Pernambuco"),
     PI("Piauí"),
     RJ("Rio de Janeiro"),
     RN("Rio Grande do Norte"),

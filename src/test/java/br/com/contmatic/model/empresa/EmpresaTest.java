@@ -1,5 +1,11 @@
 package br.com.contmatic.model.empresa;
 
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_TAMANHO_MESSAGE;
+import static br.com.six2six.fixturefactory.loader.FixtureFactoryLoader.loadTemplates;
+import static javax.validation.Validation.buildDefaultValidatorFactory;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.Matchers.hasItem;
+import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -9,6 +15,8 @@ import java.time.DateTimeException;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
+
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,13 +25,16 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+import org.hamcrest.Matchers;
 import org.hibernate.validator.constraints.br.CNPJ;
 import org.junit.BeforeClass;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import br.com.contmatic.model.endereco.Endereco;
 import br.com.contmatic.model.telefone.Telefone;
+import br.com.contmatic.model.util.constantes.EmpresaConstante;
 import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.Rule;
 import br.com.six2six.fixturefactory.function.impl.UniqueRandomFunction;
@@ -33,14 +44,14 @@ public class EmpresaTest {
 
 	private static Empresa empresaBefore;
 	private static LocalDateTime data = LocalDateTime.now();
-	private static ValidatorFactory factory;
-	private static Validator validator;
+	private static ValidatorFactory factory = buildDefaultValidatorFactory();
+	private static Validator validator = factory.getValidator();
 
 	
 	@BeforeAll
 	public static void setUp() {
-	    FixtureFactoryLoader.loadTemplates("br.com.contmatic.templeate");
-	     empresaBefore = Fixture.from(Empresa.class).gimme("valid");
+	    loadTemplates("br.com.contmatic.templeate");
+	    empresaBefore = Fixture.from(Empresa.class).gimme("valid");
 	}
 	
 	@Test
@@ -58,9 +69,13 @@ public class EmpresaTest {
 
 	@Test
 	void nao_deve_aceitar_cnpj_com_menos_de_14_caracteres() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> new Empresa("6242"),
-				"Esperado IllegalArgumentException ao tentar criar Empresa com CPNJ menos de 14 caracteres:");
-		assertTrue(thrown.getMessage().contains("O campo CNPJ de Empresa deve conter 14 digitos."));
+	    empresaBefore.setCnpj("1708143");
+	    //assertEquals(1, getErros(empresaBefore).size());
+	    //assertThat(getErros(empresaBefore), hasItem("O campo CNPJ de Empresa deve conter 14 digitos."));
+	    assertTrue(getErros(empresaBefore).contains(CNPJ_TAMANHO_MESSAGE));
+	    //		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> new Empresa("6242"),
+//				"Esperado IllegalArgumentException ao tentar criar Empresa com CPNJ menos de 14 caracteres:");
+//		assertTrue(thrown.getMessage().contains("O campo CNPJ de Empresa deve conter 14 digitos."));
 	}
 
 	@Test
@@ -369,7 +384,7 @@ public class EmpresaTest {
 				"Esperado IllegalArgumentException ao tentar definir Data de Aleração mês maior que atual em Auditoria");
 		assertEquals("A Data Alteração informada de Auditoria é invalida.", thrown.getMessage());
 	}
-
+	
 //	@Test
 //	void nao_deve_aceitar_data_alteracao_mes_menor_que_atual() {
 //		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
@@ -584,15 +599,28 @@ public class EmpresaTest {
 		assertTrue(empresa.toString().contains(DATA_ALTERACAO.toString()));
 	}
 	
-// @Test
-//  void exampleValidatioBean() {
-//      factory = Validation.buildDefaultValidatorFactory();
-//      validator = factory.getValidator();
-//      
-//      Empresa empresaA = new Empresa(null);
-//      Set<ConstraintViolation<Empresa>> violations = validator.validate(empresaA);
-//      for (ConstraintViolation<Empresa> violation : violations) {
-//          System.out.println(violation.getMessage()); 
-//      }
-//  }
+ @Test
+  void example_validation_bean() {
+	  ValidatorFactory factory;
+      Validator validator;
+      factory = buildDefaultValidatorFactory();
+      validator = factory.getValidator();
+      
+      Empresa empresaA = new Empresa(null);
+      Set<String> erros = new HashSet<>();
+      Set<ConstraintViolation<Empresa>> violations = validator.validate(empresaA);
+      for (ConstraintViolation<Empresa> violation : violations) {
+          erros.add(violation.getMessageTemplate());
+      }
+  }
+ 
+     public Set<String> getErros(Empresa model){
+         Set<String> erros = new HashSet<>();   
+         Set<ConstraintViolation<Empresa>> violations = validator.validate(model);
+         for (ConstraintViolation<Empresa> violation : violations) {
+             erros.add(violation.getMessageTemplate());
+             System.out.println(violation.getMessageTemplate());
+         }
+         return erros;  
+   }
 }

@@ -4,7 +4,7 @@ public enum TelefoneType {
 
     CELULAR("Celular", 9),
     FIXO("Fixo", 8),
-    COMERCIAL("Comercial",11); 
+    COMERCIAL("Comercial", 11); 
 
     private String descricao;
     

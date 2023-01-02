@@ -23,6 +23,8 @@ public final class EmpresaConstante {
 	public static final String CNPJ_TAMANHO_MESSAGE = "O campo CNPJ de Empresa deve conter 14 digitos.";
 
 	public static final String CNPJ_NULL_MESSAGE = "O campo CNPJ de Emrpesa deve ser preenchido.";
+	
+	public static final String CNPJ_NOT_BLANK_MESSAGE = "O campo CNPJ não dever vazio ou em branco.";
 
 	public static final String CNPJ_LETRAS_MASK_MESSAGE = "O campo CNPJ de Empresa não pode conter pontuação, letras e caracteres especiais.";
 
@@ -36,7 +38,7 @@ public final class EmpresaConstante {
 
 	public static final String RAZAO_SOCIAL_TAMANHO_MIN_MESSAGE = "O campo Razão Social de Empresa deve conter no mínimo 3 caracteres.";
 	
-	public static final String RAZAO_SOCIAL_TAMANHO_NULL_MESSAGE = "O campo Razão Social de Empresa deve ser preenchido.";
+	public static final String RAZAO_SOCIAL_NULL_MESSAGE = "O campo Razão Social de Empresa deve ser preenchido.";
 	
 	public static final String RAZAO_SOCIAL_VAZIO_MESSAGE = "O campo Razão Social de Empresa não deve ser vazio.";
 	
