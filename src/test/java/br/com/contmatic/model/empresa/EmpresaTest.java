@@ -1,52 +1,37 @@
 package br.com.contmatic.model.empresa;
 
+import static br.com.contimatic.model.util.Validacao.getErros;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_INVALIDO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_LETRAS_MASK_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_TAMANHO_MESSAGE;
 import static br.com.six2six.fixturefactory.loader.FixtureFactoryLoader.loadTemplates;
 import static javax.validation.Validation.buildDefaultValidatorFactory;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.CoreMatchers.hasItem;
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.DateTimeException;
-
-import org.joda.time.DateTime;
-import org.joda.time.LocalDateTime;
-
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-import org.hamcrest.Matchers;
-import org.hibernate.validator.constraints.br.CNPJ;
-import org.junit.BeforeClass;
+import org.joda.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import br.com.contmatic.model.endereco.Endereco;
 import br.com.contmatic.model.telefone.Telefone;
-import br.com.contmatic.model.util.constantes.EmpresaConstante;
 import br.com.six2six.fixturefactory.Fixture;
-import br.com.six2six.fixturefactory.Rule;
-import br.com.six2six.fixturefactory.function.impl.UniqueRandomFunction;
-import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 
 public class EmpresaTest {
 
 	private static Empresa empresaBefore;
 	private static LocalDateTime data = LocalDateTime.now();
-	private static ValidatorFactory factory = buildDefaultValidatorFactory();
-	private static Validator validator = factory.getValidator();
-
 	
 	@BeforeAll
 	public static void setUp() {
@@ -61,40 +46,28 @@ public class EmpresaTest {
 
 	@Test
 	void nao_deve_aceitar_cnpj_invalido() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Empresa("17081431000125"),
-				"Esperado IllegalArgumentException ao tentar criar Empresa com CNPJ inválido:");
-		assertTrue(thrown.getMessage().contains("O CNPJ de Empresa informado é inválido."));
+		empresaBefore.setCnpj("17081431000111");
+		assertThat(getErros(empresaBefore), hasItem(CNPJ_INVALIDO_MESSAGE));
 	}
 
 	@Test
 	void nao_deve_aceitar_cnpj_com_menos_de_14_caracteres() {
 	    empresaBefore.setCnpj("1708143");
-	    //assertEquals(1, getErros(empresaBefore).size());
-	    //assertThat(getErros(empresaBefore), hasItem("O campo CNPJ de Empresa deve conter 14 digitos."));
 	    assertTrue(getErros(empresaBefore).contains(CNPJ_TAMANHO_MESSAGE));
-	    //		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> new Empresa("6242"),
-//				"Esperado IllegalArgumentException ao tentar criar Empresa com CPNJ menos de 14 caracteres:");
-//		assertTrue(thrown.getMessage().contains("O campo CNPJ de Empresa deve conter 14 digitos."));
 	}
 
 	@Test
 	void nao_deve_aceitar_cnpj_com_mais_de_14_caracteres() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Empresa("6245898600010322222"),
-				"Esperado IllegalArgumentException ao tentar criar Empresa com CNPJ mais de 14 caracteres:");
-		assertTrue(thrown.getMessage().contains("O campo CNPJ de Empresa deve conter 14 digitos."));
+	    empresaBefore.setCnpj("6245898600010322222");
+        assertThat(getErros(empresaBefore), hasItem(CNPJ_TAMANHO_MESSAGE));
 	}
 
 	@Test
 	void nao_deve_aceitar_cnpj_com_letras() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Empresa("170814310002Az"),
-				"Esperado IllegalArgumentException ao tentar criar CNPJ de Empresa com letras:");
-		assertTrue(thrown.getMessage()
-				.contains("O campo CNPJ de Empresa não pode conter pontuação, letras e caracteres especiais."));
+	    empresaBefore.setCnpj("1708143100011Az");
+        assertThat(getErros(empresaBefore), hasItem(CNPJ_LETRAS_MASK_MESSAGE));
 	}
-
+ 
 	@Test
 	void nao_deve_aceitar_cnpj_com_caracteres_especial() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
@@ -613,14 +586,4 @@ public class EmpresaTest {
           erros.add(violation.getMessageTemplate());
       }
   }
- 
-     public Set<String> getErros(Empresa model){
-         Set<String> erros = new HashSet<>();   
-         Set<ConstraintViolation<Empresa>> violations = validator.validate(model);
-         for (ConstraintViolation<Empresa> violation : violations) {
-             erros.add(violation.getMessageTemplate());
-             System.out.println(violation.getMessageTemplate());
-         }
-         return erros;  
-   }
 }
