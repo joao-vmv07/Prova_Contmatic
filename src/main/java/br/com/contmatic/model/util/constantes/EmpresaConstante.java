@@ -8,7 +8,7 @@ public final class EmpresaConstante {
 	
 	public static final int CNPJ_TAMANHO_FIXO = 14;
 	
-	public static final int NOME_FANTASIA_TAMANHO_MIN = 3;
+	public static final int NOME_FANTASIA_TAMANHO_MIN = 2;
 	
 	public static final int NOME_FANTASIA_TAMANHO_MAX = 40;
 	
@@ -26,7 +26,7 @@ public final class EmpresaConstante {
 	
 	public static final String CNPJ_NOT_BLANK_MESSAGE = "O campo CNPJ não dever vazio ou em branco.";
 
-	public static final String CNPJ_LETRAS_MASK_MESSAGE = "O campo CNPJ de Empresa não pode conter pontuação, letras e caracteres especiais.";
+	public static final String CNPJ_NOT_LETRAS_MASK_SPACE_MESSAGE = "O campo CNPJ de Empresa não pode conter pontuação, letras, caracteres especiais e espaço.";
 
 	public static final String CNPJ_INVALIDO_MESSAGE = "O CNPJ de Empresa informado é inválido.";
 	

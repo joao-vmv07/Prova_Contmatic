@@ -1,9 +1,17 @@
 package br.com.contmatic.model.empresa;
 
-import static br.com.contimatic.model.util.Validacao.getErros;
+import static br.com.contimatic.model.util.Violation.getViolation;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_INVALIDO_MESSAGE;
-import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_LETRAS_MASK_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_NOT_LETRAS_MASK_SPACE_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_NOT_BLANK_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_TAMANHO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.NOME_FANTASIA_VAZIO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_TAMANHO_MAX_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_TAMANHO_MIN_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_VAZIO_MESSAGE;
+import static br.com.six2six.fixturefactory.Fixture.from;
 import static br.com.six2six.fixturefactory.loader.FixtureFactoryLoader.loadTemplates;
 import static javax.validation.Validation.buildDefaultValidatorFactory;
 import static org.hamcrest.CoreMatchers.hasItem;
@@ -21,174 +29,147 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import org.joda.time.LocalDateTime;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import br.com.contmatic.model.endereco.Endereco;
 import br.com.contmatic.model.telefone.Telefone;
-import br.com.six2six.fixturefactory.Fixture;
+import br.com.contmatic.model.util.constantes.EmpresaConstante;
 
 public class EmpresaTest {
 
-	private static Empresa empresaBefore;
+	private static Empresa empresaFixture;
 	private static LocalDateTime data = LocalDateTime.now();
 	
-	@BeforeAll
-	public static void setUp() {
+	@BeforeEach
+	public void setUp() {
 	    loadTemplates("br.com.contmatic.templeate");
-	    empresaBefore = Fixture.from(Empresa.class).gimme("valid");
+	    empresaFixture = from(Empresa.class).gimme("valid");
 	}
 	
 	@Test
 	void deve_aceitar_cnpj_valido() {
-		assertEquals("17081431000122", empresaBefore.getCnpj());
+		assertEquals("17081431000122", empresaFixture.getCnpj());
 	}
 
 	@Test
 	void nao_deve_aceitar_cnpj_invalido() {
-		empresaBefore.setCnpj("17081431000111");
-		assertThat(getErros(empresaBefore), hasItem(CNPJ_INVALIDO_MESSAGE));
+		empresaFixture.setCnpj("17081431000111");
+		assertThat(getViolation(empresaFixture), hasItem(CNPJ_INVALIDO_MESSAGE));
 	}
 
 	@Test
 	void nao_deve_aceitar_cnpj_com_menos_de_14_caracteres() {
-	    empresaBefore.setCnpj("1708143");
-	    assertTrue(getErros(empresaBefore).contains(CNPJ_TAMANHO_MESSAGE));
+	    empresaFixture.setCnpj("1708143");
+	    assertTrue(getViolation(empresaFixture).contains(CNPJ_TAMANHO_MESSAGE));
 	}
 
 	@Test
 	void nao_deve_aceitar_cnpj_com_mais_de_14_caracteres() {
-	    empresaBefore.setCnpj("6245898600010322222");
-        assertThat(getErros(empresaBefore), hasItem(CNPJ_TAMANHO_MESSAGE));
+	    empresaFixture.setCnpj("6245898600010322222");
+        assertThat(getViolation(empresaFixture), hasItem(CNPJ_TAMANHO_MESSAGE));
 	}
 
 	@Test
 	void nao_deve_aceitar_cnpj_com_letras() {
-	    empresaBefore.setCnpj("1708143100011Az");
-        assertThat(getErros(empresaBefore), hasItem(CNPJ_LETRAS_MASK_MESSAGE));
+	    empresaFixture.setCnpj("1708143100011Az");
+        assertThat(getViolation(empresaFixture), hasItem(CNPJ_NOT_LETRAS_MASK_SPACE_MESSAGE));
 	}
  
 	@Test
 	void nao_deve_aceitar_cnpj_com_caracteres_especial() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Empresa("62%5898600010!"),
-				"Esperado IllegalArgumentException ao tentar criar CNPJ de Empresa com caracter especial:");
-		assertTrue(thrown.getMessage()
-				.contains("O campo CNPJ de Empresa não pode conter pontuação, letras e caracteres especiais."));
+	    empresaFixture.setCnpj("1708143100011&&!");
+        assertThat(getViolation(empresaFixture), hasItem(CNPJ_NOT_LETRAS_MASK_SPACE_MESSAGE));
 	}
 
 	@Test
 	void nao_deve_aceitar_cnpj_com_caracteres_iguais() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Empresa("11111111111111"),
-				"Esperado IllegalArgumentException ao tentar criar CNPJ de Empresa com números iguais:");
-		assertTrue(thrown.getMessage().contains("O CNPJ de Empresa informado é inválido."));
+	    empresaFixture.setCnpj("11111111111111");
+	    assertThat(getViolation(empresaFixture), hasItem(CNPJ_INVALIDO_MESSAGE));
 	}
 
 	@Test
 	void nao_deve_aceitar_cnpj_com_maskara() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Empresa("69.236.855/0001-12"),
-				"Esperado IllegalArgumentException ao tentar criar CNPJ de Empresa com maskara:");
-		assertTrue(thrown.getMessage()
-				.contains("O campo CNPJ de Empresa não pode conter pontuação, letras e caracteres especiais."));
+		empresaFixture.setCnpj("69.236.855/0001-12");
+		 assertThat(getViolation(empresaFixture), hasItem(CNPJ_NOT_LETRAS_MASK_SPACE_MESSAGE));
 	}
 
 	@Test
 	void nao_deve_aceitar_cpnj_nulo() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> new Empresa(null),
-				"Esperado IllegalArgumentException ao tentar criar Empresa com CPNJ Null:");
-		assertTrue(thrown.getMessage().contains("O campo CNPJ de Emrpesa deve ser preenchido."));
+	    empresaFixture.setCnpj(null);
+	    assertThat(getViolation(empresaFixture), hasItem(CNPJ_NULL_MESSAGE));
 	}
 
 	@Test
 	void nao_deve_aceitar_cpnj_vazio_com_espaco() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> new Empresa(" "),
-				"Esperado IllegalArgumentException ao tentar criar Empresa com CNPJ vazio com espaço:");
-		assertTrue(thrown.getMessage().contains("O campo CNPJ de Empresa não deve ser vazio"));
+		empresaFixture.setCnpj(" ");
+		assertThat(getViolation(empresaFixture), hasItem(CNPJ_NOT_BLANK_MESSAGE));
 	}
 
 	@Test
 	void nao_deve_aceitar_cpnj_vazio_sem_espaco() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> new Empresa(""),
-				"Esperado IllegalArgumentException ao tentar criar Empresa com CNPJ vazio sem espaço:");
-		assertTrue(thrown.getMessage().contains("O campo CNPJ de Empresa não deve ser vazio"));
+	    empresaFixture.setCnpj("");
+        assertThat(getViolation(empresaFixture), hasItem(CNPJ_NOT_BLANK_MESSAGE));
 	}
 
 	@Test
 	void nao_deve_aceitar_cpnj_com_espaco() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Empresa("  1708143 100 122"),
-				"Esperado IllegalArgumentException ao tentar criar Empresa CNPJ com espaço:");
-		assertEquals("O campo CNPJ de Empresa não deve conter espaço.", thrown.getMessage());
+		empresaFixture.setCnpj("  1708143 100 122");
+		assertThat(getViolation(empresaFixture), hasItem(CNPJ_NOT_LETRAS_MASK_SPACE_MESSAGE));
 	}
 
 //RazaoSocial
 	@Test
 	void deve_aceitar_razao_social_valido() {
-		empresaBefore.setRazaoSocial("NIKE");
-		assertEquals("NIKE", empresaBefore.getRazaoSocial());
+		assertEquals("VIVO LTDA", empresaFixture.getRazaoSocial());
 	}
 
 	@Test
 	void nao_deve_aceitar_razao_social_mais_40_caracteres() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setRazaoSocial("TESTE123TESTE123TESTE123TESTE123TESTE123TESTE1231213dadada1"),
-				"Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa com mais de 40 caracteres: ");
-		assertEquals("O campo Razão Social de Empresa é permitido no maximo 40 caracteres.", thrown.getMessage());
+		empresaFixture.setRazaoSocial("TESTE123TESTE123TESTE123TESTE123TESTE123TESTE1231213dadada1");
+		assertThat(getViolation(empresaFixture), hasItem(RAZAO_SOCIAL_TAMANHO_MAX_MESSAGE));
 	}
 
 	@Test
 	void nao_deve_aceitar_razao_social_menos_3_caracteres() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setRazaoSocial("AB"),
-				"Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa com menos de 3 caracteres:");
-		assertEquals("O campo Razão Social de Empresa deve conter no mínimo 3 caracteres.", thrown.getMessage());
+	    empresaFixture.setRazaoSocial("AB");
+	    assertThat(getViolation(empresaFixture), hasItem(RAZAO_SOCIAL_TAMANHO_MIN_MESSAGE));
 	}
 
 	@Test
 	void nao_deve_aceitar_razao_social_campo_nullo() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setRazaoSocial(null),
-				"Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa null:");
-		assertEquals("O campo Razão Social de Empresa deve ser preenchido.", thrown.getMessage());
+		empresaFixture.setRazaoSocial(null);
+		   assertThat(getViolation(empresaFixture), hasItem(RAZAO_SOCIAL_NULL_MESSAGE));	
 	}
-
+	
 	@Test
 	void nao_deve_aceitar_razao_social_campo_vazio() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setRazaoSocial(""),
-				"Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa vazio");
-		assertEquals("O campo Razão Social de Empresa não deve ser vazio.", thrown.getMessage());
+	    empresaFixture.setRazaoSocial("");
+	    assertThat(getViolation(empresaFixture), hasItem(RAZAO_SOCIAL_VAZIO_MESSAGE));    
 	}
 
 	@Test
 	void nao_deve_aceitar_razao_social_campo_vazio_com_espaco() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setRazaoSocial(" "),
-				"Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa vazio com espaço: ");
-		assertEquals("O campo Razão Social de Empresa não deve ser vazio.", thrown.getMessage());
+	    empresaFixture.setRazaoSocial(" ");
+        assertThat(getViolation(empresaFixture), hasItem(RAZAO_SOCIAL_VAZIO_MESSAGE));  
 	}
 
 //NomeFantasia
 	@Test
 	void deve_aceitar_nome_fantasia_valido() {
-		empresaBefore.setNomeFantasia("Adidas");
-		assertEquals("Adidas", empresaBefore.getNomeFantasia());
+		assertEquals("VIVO", empresaFixture.getNomeFantasia());
 	}
 
 	@Test
 	void nao_deve_aceitar_nome_fantasia_vazio() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setNomeFantasia(""),
-				"Esperado IllegalArgumentException ao tentar criar NomeFantasia de Empresa vazio:");
-		assertEquals("O campo Nome Fantasia de Empresa não deve ser vazio.", thrown.getMessage());
+	    empresaFixture.setNomeFantasia("");
+        assertThat(getViolation(empresaFixture), hasItem(NOME_FANTASIA_VAZIO_MESSAGE));
 	}
 
 	@Test
 	void nao_deve_aceitar_nome_fantasia_null() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setNomeFantasia(null),
+				() -> empresaFixture.setNomeFantasia(null),
 				"Esperado IllegalArgumentException ao tentar criar NomeFantasia de Empresa nulo:");
 		assertEquals("O campo Nome Fantasia de Empresa deve ser preenchido.", thrown.getMessage());
 	}
@@ -196,7 +177,7 @@ public class EmpresaTest {
 	@Test
 	void nao_deve_aceitar_nome_fantasia_mais_40_caracteres() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setNomeFantasia("TESTE123TESTE123TESTE123TESTE123TESTE123TESTE1231213dadada1"),
+				() -> empresaFixture.setNomeFantasia("TESTE123TESTE123TESTE123TESTE123TESTE123TESTE1231213dadada1"),
 				"Esperado IllegalArgumentException ao tentar criar NomeFantasia de Empresa com mais de 40 caracteres:");
 		assertEquals("O campo Nome Fantasia de Empresa é permitido no maximo 40 caracteres.", thrown.getMessage());
 	}
@@ -204,7 +185,7 @@ public class EmpresaTest {
 	@Test
 	void nao_deve_aceitar_nome_fantasia_menos_3_caracteres() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setNomeFantasia("AB"),
+				() -> empresaFixture.setNomeFantasia("AB"),
 				"Esperado IllegalArgumentException ao tentar criar NomeFantasia de Empresa com menos de 3 caracteres:");
 		assertEquals("O campo Nome Fantasia de Empresa deve conter no mínimo 3 caracteres.", thrown.getMessage());
 	}
@@ -215,15 +196,15 @@ public class EmpresaTest {
 		Set<Telefone> telefones = new HashSet<>();
 		telefones.add(new Telefone("55", "11", "967976463"));
 		telefones.add(new Telefone("55", "11", "968904450"));
-		empresaBefore.setTelefones(telefones);
-		assertEquals(telefones, empresaBefore.getTelefones());
+		empresaFixture.setTelefones(telefones);
+		assertEquals(telefones, empresaFixture.getTelefones());
 
 	}
 
 	@Test
 	void nao_deve_aceitar_lista_telefone_null() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setTelefones(null),
+				() -> empresaFixture.setTelefones(null),
 				"Esperado IllegalArgumentException ao tentar criar lista de Telefone Null em Empresa");
 		assertEquals("O campo Telefone de Empresa deve ser preenchido.", thrown.getMessage());
 	}
@@ -232,7 +213,7 @@ public class EmpresaTest {
 	void nao_deve_aceitar_lista_telefone_vazio() {
 		Set<Telefone> telefones = new HashSet<>();
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setTelefones(telefones),
+				() -> empresaFixture.setTelefones(telefones),
 				"Esperado IllegalArgumentException ao tentar criar lista de Telefone vazia em Empresa");
 		assertEquals("O campo Telefone de Empresa não deve ser vazio.", thrown.getMessage());
 	}
@@ -245,7 +226,7 @@ public class EmpresaTest {
 		telefones.add(new Telefone("55", "11", "969945526"));
 		telefones.add(new Telefone("55", "11", "960945527"));
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setTelefones(telefones),
+				() -> empresaFixture.setTelefones(telefones),
 				"Esperado IllegalArgumentException ao tentar criar lista de Telefone maior que três contatos em Empresa");
 		assertEquals("O campo Telefone de Empresa deve conter no maximo três registros de contato.",
 				thrown.getMessage());
@@ -256,7 +237,7 @@ public class EmpresaTest {
 		Set<Telefone> telefones = new HashSet<>();
 		telefones.add(new Telefone("55", "11", "968945525"));
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setTelefones(telefones),
+				() -> empresaFixture.setTelefones(telefones),
 				"Esperado IllegalArgumentException ao tentar criar lista de Telefone vazia em Empresa");
 		assertEquals("O campo Telefone de Empresa deve conter no mínimo dois registros de contato.",
 				thrown.getMessage());
@@ -267,14 +248,14 @@ public class EmpresaTest {
 	void deve_aceitar_lista_endereco_valida() {
 		Set<Endereco> enderecos = new HashSet<>();
 		enderecos.add(new Endereco("04852505", 83));
-		empresaBefore.setEnderecos(enderecos);
-		assertEquals(enderecos, empresaBefore.getEnderecos());
+		empresaFixture.setEnderecos(enderecos);
+		assertEquals(enderecos, empresaFixture.getEnderecos());
 	}
 
 	@Test
 	void nao_deve_aceitar_lista_endereco_null() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setEnderecos(null),
+				() -> empresaFixture.setEnderecos(null),
 				"Esperado IllegalArgumentException ao tentar criar lista de Endereco Null em Empresa");
 		assertEquals("O campo Endereço de Empresa deve ser preenchido.", thrown.getMessage());
 	}
@@ -283,7 +264,7 @@ public class EmpresaTest {
 	void nao_deve_aceitar_lista_endereco_vazio() {
 		Set<Endereco> enderecos = new HashSet<>();
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setEnderecos(enderecos),
+				() -> empresaFixture.setEnderecos(enderecos),
 				"Esperado IllegalArgumentException ao tentar criar lista de Endereco vazia em Empresa");
 		assertEquals("O campo Endereço de Empresa não deve ser vazio.", thrown.getMessage());
 	}
@@ -295,7 +276,7 @@ public class EmpresaTest {
 		enderecos.add(new Endereco("04256505", 82));
 		enderecos.add(new Endereco("04852511", 83));
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setEnderecos(enderecos),
+				() -> empresaFixture.setEnderecos(enderecos),
 				"Esperado IllegalArgumentException ao tentar criar lista de Endereco vazia em Empresa");
 		assertEquals("O campo Endereço de Empresa deve conter no maximo dois registros de localidade.",
 				thrown.getMessage());
@@ -346,18 +327,17 @@ public class EmpresaTest {
 //DataAlteração
 	@Test
 	void aceitar_data_alteracao_valida() {
-		empresaBefore.setDataAlteracao(data);
-		assertEquals(data, empresaBefore.getDataAlteracao());
+		empresaFixture.setDataAlteracao(data);
+		assertEquals(data, empresaFixture.getDataAlteracao());
 	}
 
 	@Test
 	void nao_deve_aceitar_data_alteracao_mes_maior_que_atual() {
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> empresaBefore.setDataAlteracao(new LocalDateTime(2022,01,27,0,0,0,0)),
+				() -> empresaFixture.setDataAlteracao(new LocalDateTime(2022,01,27,0,0,0,0)),
 				"Esperado IllegalArgumentException ao tentar definir Data de Aleração mês maior que atual em Auditoria");
 		assertEquals("A Data Alteração informada de Auditoria é invalida.", thrown.getMessage());
 	}
-	
 //	@Test
 //	void nao_deve_aceitar_data_alteracao_mes_menor_que_atual() {
 //		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,

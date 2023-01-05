@@ -1,12 +1,13 @@
 package br.com.contmatic.model.empresa;
 
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_INVALIDO_MESSAGE;
-import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_LETRAS_MASK_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_NOT_LETRAS_MASK_SPACE_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_NOT_BLANK_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_TAMANHO_FIXO;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_TAMANHO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.ENDERECO_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.ENDERECO_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.LISTA_TELEFONE_TAMANHO_MAX;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.LISTA_TELEFONE_TAMANHO_MAX_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.LISTA_TELEFONE_TAMANHO_MIN;
@@ -22,8 +23,10 @@ import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCI
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_TAMANHO_MAX_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_TAMANHO_MIN;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_TAMANHO_MIN_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.TELEFONE_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.TELEFONE_VAZIO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ValidacaoConstante.REGEX_CONTEM_NUMERO;
 import static br.com.contmatic.model.util.validacao.CollectionValidacao.checkCollectionNull;
 import static br.com.contmatic.model.util.validacao.CollectionValidacao.checkCollectionTamanhoMaximo;
 import static br.com.contmatic.model.util.validacao.CollectionValidacao.checkCollectionTamanhoMinimo;
@@ -39,6 +42,7 @@ import java.util.Set;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -47,6 +51,7 @@ import org.hibernate.validator.constraints.br.CNPJ;
 
 import br.com.contmatic.model.endereco.Endereco;
 import br.com.contmatic.model.telefone.Telefone;
+import br.com.contmatic.model.util.constantes.EmpresaConstante;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -58,23 +63,28 @@ public class Empresa extends Auditoria {
     @NotNull(message = CNPJ_NULL_MESSAGE)
     @Size(min = CNPJ_TAMANHO_FIXO, max = CNPJ_TAMANHO_FIXO, message = CNPJ_TAMANHO_MESSAGE)
     @CNPJ(message = CNPJ_INVALIDO_MESSAGE)
-    @Pattern(regexp = "[\\d]*", message = CNPJ_LETRAS_MASK_MESSAGE)
+    @Pattern(regexp = REGEX_CONTEM_NUMERO, message = CNPJ_NOT_LETRAS_MASK_SPACE_MESSAGE)
     private String cnpj;
 
     @NotNull(message = RAZAO_SOCIAL_NULL_MESSAGE)
+    @NotEmpty(message = RAZAO_SOCIAL_VAZIO_MESSAGE)
+    @NotBlank(message = RAZAO_SOCIAL_VAZIO_MESSAGE )
     @Min(value = RAZAO_SOCIAL_TAMANHO_MIN, message = RAZAO_SOCIAL_TAMANHO_MIN_MESSAGE)
     @Max(value = RAZAO_SOCIAL_TAMANHO_MAX, message = RAZAO_SOCIAL_TAMANHO_MAX_MESSAGE)
     private String razaoSocial;
 
     @NotNull(message = NOME_FANTASIA_NULL_MESSAGE)
+    @NotEmpty(message = NOME_FANTASIA_VAZIO_MESSAGE)
     @Min(value = NOME_FANTASIA_TAMANHO_MIN, message = NOME_FANTASIA_TAMANHO_MIN_MESSAGE)
     @Max(value = NOME_FANTASIA_TAMANHO_MAX, message = NOME_FANTASIA_TAMANHO_MAX_MESSAGE)
     private String nomeFantasia;
 
     @NotNull(message = ENDERECO_NULL_MESSAGE)
+    @NotEmpty(message = ENDERECO_VAZIO_MESSAGE)
     private Set<Endereco> enderecos;
 
     @NotNull(message = TELEFONE_NULL_MESSAGE)
+    @NotEmpty(message = TELEFONE_VAZIO_MESSAGE)
     private Set<Telefone> telefones;
 
     public Empresa(String cnpj) {
@@ -125,13 +135,13 @@ public class Empresa extends Auditoria {
         return nomeFantasia;
     }
 
-    public void setNomeFantasia(String nomeFantasia) {
-        checkNull(nomeFantasia, NOME_FANTASIA_NULL_MESSAGE);
-        checkVazio(nomeFantasia, NOME_FANTASIA_VAZIO_MESSAGE);
-        checkTamahhoMinimo(nomeFantasia, NOME_FANTASIA_TAMANHO_MIN, NOME_FANTASIA_TAMANHO_MIN_MESSAGE);
-        checkTamahhoMaximo(nomeFantasia, NOME_FANTASIA_TAMANHO_MAX, NOME_FANTASIA_TAMANHO_MAX_MESSAGE);
-        this.nomeFantasia = nomeFantasia;
-    }
+//    public void setNomeFantasia(String nomeFantasia) {
+//        checkNull(nomeFantasia, NOME_FANTASIA_NULL_MESSAGE);
+//        checkVazio(nomeFantasia, NOME_FANTASIA_VAZIO_MESSAGE);
+//        checkTamahhoMinimo(nomeFantasia, NOME_FANTASIA_TAMANHO_MIN, NOME_FANTASIA_TAMANHO_MIN_MESSAGE);
+//        checkTamahhoMaximo(nomeFantasia, NOME_FANTASIA_TAMANHO_MAX, NOME_FANTASIA_TAMANHO_MAX_MESSAGE);
+//        this.nomeFantasia = nomeFantasia;
+//    }
 
     @Override
     public int hashCode() {
