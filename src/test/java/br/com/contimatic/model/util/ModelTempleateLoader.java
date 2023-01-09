@@ -1,4 +1,4 @@
-package br.com.contmatic.templeate;
+package br.com.contimatic.model.util;
 
 import static br.com.six2six.fixturefactory.Fixture.of;
 
@@ -11,7 +11,7 @@ import br.com.contmatic.model.telefone.Telefone;
 import br.com.six2six.fixturefactory.Rule;
 import br.com.six2six.fixturefactory.loader.TemplateLoader;
 
-public class EmpresaTempleateLoader implements TemplateLoader {
+public class ModelTempleateLoader implements TemplateLoader {
 
     @Override
     public void load() {

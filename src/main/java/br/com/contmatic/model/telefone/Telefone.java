@@ -87,7 +87,6 @@ public class Telefone extends Auditoria {
         this.telefoneType = telefoneType;
     }
 
-
     @Override
     public int hashCode() {
         return Objects.hash(ddd, ddi, numero);
