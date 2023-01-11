@@ -4,8 +4,10 @@ import static br.com.contimatic.model.util.Violation.getViolation;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_INVALIDO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_NOT_BLANK_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_NOT_LETRAS_MASK_SPACE_MESSAGE;
-import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_TAMANHO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.ENDERECO_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.ENDERECO_VAZIO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.LISTA_ENDERECO_TAMANHO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.LISTA_TELEFONE_TAMANHO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.NOME_FANTASIA_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.NOME_FANTASIA_TAMANHO_MESSAGE;
@@ -46,7 +48,7 @@ public class EmpresaTest {
 
     @BeforeEach
     public void setUp() {
-        loadTemplates("br.com.contmatic.templeate");
+        loadTemplates("br.com.contimatic.model.util");
         empresaFixture = from(Empresa.class).gimme("valid");
     }
 
@@ -100,7 +102,7 @@ public class EmpresaTest {
     @Test
     void nao_deve_aceitar_cpnj_nulo() {
         empresaFixture.setCnpj(null);
-        assertThat(getViolation(empresaFixture), hasItem(CNPJ_NULL_MESSAGE));
+        assertThat(getViolation(empresaFixture), hasItem(CNPJ_NOT_BLANK_MESSAGE));
     }
 
     @Test
@@ -240,17 +242,15 @@ public class EmpresaTest {
 
     @Test
     void nao_deve_aceitar_lista_endereco_null() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> empresaFixture.setEnderecos(null),
-            "Esperado IllegalArgumentException ao tentar criar lista de Endereco Null em Empresa");
-        assertEquals("O campo Endereço de Empresa deve ser preenchido.", thrown.getMessage());
+         empresaFixture.setEnderecos(null);
+         assertThat(getViolation(empresaFixture), hasItem(ENDERECO_NULL_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_lista_endereco_vazio() {
         Set<Endereco> enderecos = new HashSet<>();
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> empresaFixture.setEnderecos(enderecos),
-            "Esperado IllegalArgumentException ao tentar criar lista de Endereco vazia em Empresa");
-        assertEquals("O campo Endereço de Empresa não deve ser vazio.", thrown.getMessage());
+        empresaFixture.setEnderecos(enderecos);
+        assertThat(getViolation(empresaFixture), hasItem(ENDERECO_VAZIO_MESSAGE));
     }
 
     @Test
@@ -259,9 +259,8 @@ public class EmpresaTest {
         enderecos.add(new Endereco("04854522", 81));
         enderecos.add(new Endereco("04256505", 82));
         enderecos.add(new Endereco("04852511", 83));
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> empresaFixture.setEnderecos(enderecos),
-            "Esperado IllegalArgumentException ao tentar criar lista de Endereco vazia em Empresa");
-        assertEquals("O campo Endereço de Empresa deve conter no maximo dois registros de localidade.", thrown.getMessage());
+        empresaFixture.setEnderecos(enderecos);
+        assertThat(getViolation(empresaFixture), hasItem(LISTA_ENDERECO_TAMANHO_MESSAGE));
     }
 
     // Equals

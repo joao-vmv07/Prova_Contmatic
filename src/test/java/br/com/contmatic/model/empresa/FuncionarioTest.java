@@ -1,7 +1,16 @@
 package br.com.contmatic.model.empresa;
 
+import static br.com.contimatic.model.util.Violation.getViolation;
 import static br.com.contmatic.model.util.constantes.DataValidacaoConstante.FORMATTER_DATA;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.CPF_INVALIDO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.CPF_NOT_BLANK_MESSAGE;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.CPF_TAMANHO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.CPF_VAZIO_MESSAGE;
+import static br.com.six2six.fixturefactory.Fixture.from;
+import static br.com.six2six.fixturefactory.loader.FixtureFactoryLoader.loadTemplates;
 import static java.math.BigDecimal.valueOf;
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -12,65 +21,64 @@ import java.time.DateTimeException;
 
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class FuncionarioTest {
 
+    private static Funcionario funcionarioFixture;
+    
+    @BeforeEach
+    public void setUp() {
+        loadTemplates("br.com.contimatic.model.util");
+        funcionarioFixture = from(Funcionario.class).gimme("valid");
+    }
+    
 	@Test
 	void deve_aceitar_cpf_valido() {
-		Funcionario funcionario = new Funcionario("46339822819", "João");
-		assertEquals("46339822819", funcionario.getCpf());
+		assertEquals("73738802070", funcionarioFixture.getCpf());
 	}
 
 	@Test
 	void nao_deve_aceitar_cpf_invalido() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Funcionario("46339822815", "João"),
-				"Esperado IllegalArgumentException ao tentar criar Funcionário com nome Null:");
-		assertTrue(thrown.getMessage().contains("O campo CPF de Funcionário informado é inválido."));
+	    funcionarioFixture.setCpf("72738802070");
+	    assertThat(getViolation(funcionarioFixture), hasItem(CPF_INVALIDO_MESSAGE));
 	}
 
 	@Test
 	void nao_deve_aceitar_cpf_com_numeros_iguais() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Funcionario("22222222222", "João"),
-				"Esperado IllegalArgumentException ao tentar criar Funcionário com CPF contendo Números Iguais:");
-		assertEquals("O campo CPF de Funcionário informado é inválido.", thrown.getMessage());
+	    funcionarioFixture.setCpf("22222222222");
+	    assertThat(getViolation(funcionarioFixture), hasItem(CPF_INVALIDO_MESSAGE));
 	}
 
 	@Test
 	void nao_deve_aceitar_cpf_nulo() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Funcionario(null, "João"), "Esperado IllegalArgumentException ao tentar criar Funcionário com CPF Null:");
-		assertTrue(thrown.getMessage().contains("O campo CPF de Funcionário deve ser preenchido."));
+	    funcionarioFixture.setCpf(null);   
+	    assertThat(getViolation(funcionarioFixture), hasItem(CPF_NOT_BLANK_MESSAGE));
 	}
 
 	@Test
 	void nao_deve_aceitar_cpf_vazio() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Funcionario("", "Joao"), "Esperado IllegalArgumentException ao tentar criar Funcionário com CPF vazio:");
-		assertTrue(thrown.getMessage().contains("O campo CPF de Funcionário não deve ser vazio."));
+	    funcionarioFixture.setCpf("");   
+        assertThat(getViolation(funcionarioFixture), hasItem(CPF_VAZIO_MESSAGE));
 	}
 	
 	@Test
 	void nao_deve_aceitar_cpf_vazio_espaco() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Funcionario("", "Joao"), "Esperado IllegalArgumentException ao tentar criar Funcionário com CPF vazio com espaço:");
-		assertTrue(thrown.getMessage().contains("O campo CPF de Funcionário não deve ser vazio."));
+	    funcionarioFixture.setCpf(" ");   
+        assertThat(getViolation(funcionarioFixture), hasItem(CPF_NOT_BLANK_MESSAGE));
 	}
 
 	@Test
 	void nao_deve_aceitar_cpf_com_mais_de_11() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Funcionario("466398222142", "João"), "Esperado IllegalArgumentException ao tentar criar Funcionário com CPF contendo mais de 11 Números:");
-		assertTrue(thrown.getMessage().contains("O campo CPF de Funcionário deve conter 11 digitos."));
+	    funcionarioFixture.setCpf("78643219873321976");   
+        assertThat(getViolation(funcionarioFixture), hasItem(CPF_TAMANHO_MESSAGE));
 	}
 
 	@Test
 	void nao_deve_aceitar_cpf_com_menos_de_11() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Funcionario("42698471", "João"), "Esperado IllegalArgumentException ao tentar criar Funcionário com CPF contendo menos de 11 Números");
-		assertTrue(thrown.getMessage().contains("O campo CPF de Funcionário deve conter 11 digitos."));
+	      funcionarioFixture.setCpf("78643");   
+	        assertThat(getViolation(funcionarioFixture), hasItem(CPF_TAMANHO_MESSAGE));
 	}
 
 	@Test

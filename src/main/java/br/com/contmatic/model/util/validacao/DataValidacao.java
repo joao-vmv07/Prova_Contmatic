@@ -28,7 +28,7 @@ public class DataValidacao {
 	public static void checkDataDepoisAtual(LocalDateTime data, String message) {
 	    if(data.withMillisOfSecond(0).isAfter(data.withMillisOfSecond(0))) {
 	        throw new IllegalArgumentException(message);
-	    }
+	    }  
 	}
 	
 	public static void checkDataAntesAtual(LocalDateTime data, String message) {

@@ -3,7 +3,6 @@ package br.com.contmatic.model.empresa;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_INVALIDO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_NOT_BLANK_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_NOT_LETRAS_MASK_SPACE_MESSAGE;
-import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_TAMANHO_FIXO;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_TAMANHO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.ENDERECO_NULL_MESSAGE;
@@ -49,14 +48,12 @@ import lombok.Setter;
 public class Empresa extends Auditoria {
 
     @NotBlank(message = CNPJ_NOT_BLANK_MESSAGE)
-    @NotNull(message = CNPJ_NULL_MESSAGE)
     @Size(min = CNPJ_TAMANHO_FIXO, max = CNPJ_TAMANHO_FIXO, message = CNPJ_TAMANHO_MESSAGE)
     @CNPJ(message = CNPJ_INVALIDO_MESSAGE)
     @Pattern(regexp = REGEX_CONTEM_NUMERO, message = CNPJ_NOT_LETRAS_MASK_SPACE_MESSAGE)
     private String cnpj;
 
     @NotNull(message = RAZAO_SOCIAL_NULL_MESSAGE)
-    @NotEmpty(message = RAZAO_SOCIAL_VAZIO_MESSAGE)
     @NotBlank(message = RAZAO_SOCIAL_VAZIO_MESSAGE )
     @Size(min = RAZAO_SOCIAL_TAMANHO_MIN,max = RAZAO_SOCIAL_TAMANHO_MAX, message = RAZAO_SOCIAL_TAMANHO_MESSAGE)
     private String razaoSocial;

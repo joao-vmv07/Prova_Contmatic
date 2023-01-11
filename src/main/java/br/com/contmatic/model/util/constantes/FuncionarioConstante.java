@@ -26,7 +26,7 @@ public final class FuncionarioConstante {
 	
 	public static final String CPF_TAMANHO_MESSAGE = "O campo CPF de Funcionário deve conter 11 digitos.";
 	
-	public static final String CPF_NULL_MESSAGE = "O campo CPF de Funcionário deve ser preenchido.";
+	public static final String CPF_NOT_BLANK_MESSAGE = "O campo CPF de Funcionário deve ser preenchido.";
 	
 	public static final String CPF_LETRAS_MESSAGE = "O campo CPF de Funcionário não é permitido conter pontuação, letras e caracter especial.";
 	
@@ -43,6 +43,8 @@ public final class FuncionarioConstante {
 	public static final String NOME_NULL_MESSAGE = "O campo Nome de Funcionário deve ser preenchido.";
 	
 	public static final String NOME_VAZIO_MESSAGE = "O campo Nome de Funcionário não deve ser vazio.";
+	
+	public static final String NOME_NOT_BLANK_MESSAGE = "O campo Nome de Funcionário não deve estar em branco, por favor preencha.";
 	
 	public static final String NOME_FORMAT_MESSAGE = "O campo Nome de Funcionário não é permitido conter pontuação, caracter especial e numérico.";
 	
