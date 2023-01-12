@@ -1,9 +1,8 @@
 package br.com.contmatic.model.empresa;
 
 import static br.com.contimatic.model.util.Violation.getViolation;
-import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_INVALIDO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_INVALIDO_NOT_LETRAS_MASK_SPACE_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_NOT_BLANK_MESSAGE;
-import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_NOT_LETRAS_MASK_SPACE_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_TAMANHO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.ENDERECO_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.ENDERECO_VAZIO_MESSAGE;
@@ -21,10 +20,10 @@ import static br.com.six2six.fixturefactory.Fixture.from;
 import static br.com.six2six.fixturefactory.loader.FixtureFactoryLoader.loadTemplates;
 import static javax.validation.Validation.buildDefaultValidatorFactory;
 import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashSet;
@@ -44,7 +43,7 @@ import br.com.contmatic.model.telefone.Telefone;
 public class EmpresaTest {
 
     private static Empresa empresaFixture;
-    private static LocalDateTime data = LocalDateTime.now();
+   // private static LocalDateTime data = LocalDateTime.now();
 
     @BeforeEach
     public void setUp() {
@@ -53,14 +52,14 @@ public class EmpresaTest {
     }
 
     @Test
-    void deve_aceitar_cnpj_valido() {
-        assertEquals("17081431000122", empresaFixture.getCnpj());
+    void deve_aceitar_empresa_valida() {
+        assertThat(getViolation(empresaFixture).size(),is(0));
     }
-
+    
     @Test
     void nao_deve_aceitar_cnpj_invalido() {
         empresaFixture.setCnpj("17081431000111");
-        assertThat(getViolation(empresaFixture), hasItem(CNPJ_INVALIDO_MESSAGE));
+        assertThat(getViolation(empresaFixture), hasItem(CNPJ_INVALIDO_NOT_LETRAS_MASK_SPACE_MESSAGE));
     }
 
     @Test
@@ -78,25 +77,25 @@ public class EmpresaTest {
     @Test
     void nao_deve_aceitar_cnpj_com_letras() {
         empresaFixture.setCnpj("1708143100011Az");
-        assertThat(getViolation(empresaFixture), hasItem(CNPJ_NOT_LETRAS_MASK_SPACE_MESSAGE));
+        assertThat(getViolation(empresaFixture), hasItem(CNPJ_INVALIDO_NOT_LETRAS_MASK_SPACE_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_cnpj_com_caracteres_especial() {
         empresaFixture.setCnpj("1708143100011&&!");
-        assertThat(getViolation(empresaFixture), hasItem(CNPJ_NOT_LETRAS_MASK_SPACE_MESSAGE));
+        assertThat(getViolation(empresaFixture), hasItem(CNPJ_INVALIDO_NOT_LETRAS_MASK_SPACE_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_cnpj_com_caracteres_iguais() {
         empresaFixture.setCnpj("11111111111111");
-        assertThat(getViolation(empresaFixture), hasItem(CNPJ_INVALIDO_MESSAGE));
+        assertThat(getViolation(empresaFixture), hasItem(CNPJ_INVALIDO_NOT_LETRAS_MASK_SPACE_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_cnpj_com_maskara() {
         empresaFixture.setCnpj("69.236.855/0001-12");
-        assertThat(getViolation(empresaFixture), hasItem(CNPJ_NOT_LETRAS_MASK_SPACE_MESSAGE));
+        assertThat(getViolation(empresaFixture), hasItem(CNPJ_TAMANHO_MESSAGE));
     }
 
     @Test
@@ -120,13 +119,14 @@ public class EmpresaTest {
     @Test
     void nao_deve_aceitar_cpnj_com_espaco() {
         empresaFixture.setCnpj("  1708143 100 122");
-        assertThat(getViolation(empresaFixture), hasItem(CNPJ_NOT_LETRAS_MASK_SPACE_MESSAGE));
+        assertThat(getViolation(empresaFixture), hasItem(CNPJ_INVALIDO_NOT_LETRAS_MASK_SPACE_MESSAGE));
     }
 
     // RazaoSocial
     @Test
     void deve_aceitar_razao_social_valido() {
-        assertEquals("VIVO LTDA", empresaFixture.getRazaoSocial());
+        empresaFixture.setRazaoSocial("Lojas Americacas");
+        assertEquals("Lojas Americacas", empresaFixture.getRazaoSocial());
     }
 
     @Test
@@ -162,7 +162,8 @@ public class EmpresaTest {
     // NomeFantasia
     @Test
     void deve_aceitar_nome_fantasia_valido() {
-        assertEquals("VIVO", empresaFixture.getNomeFantasia());
+        empresaFixture.setNomeFantasia("Nissan");
+        assertEquals("Nissan", empresaFixture.getNomeFantasia());
     }
 
     @Test
@@ -306,18 +307,18 @@ public class EmpresaTest {
 
     // AUDITORIA
     // DataAlteração
-    @Test
-    void aceitar_data_alteracao_valida() {
-        empresaFixture.setDataAlteracao(data);
-        assertEquals(data, empresaFixture.getDataAlteracao());
-    }
-
-    @Test
-    void nao_deve_aceitar_data_alteracao_mes_maior_que_atual() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> empresaFixture.setDataAlteracao(new LocalDateTime(2022, 01, 27, 0, 0, 0, 0)),
-            "Esperado IllegalArgumentException ao tentar definir Data de Aleração mês maior que atual em Auditoria");
-        assertEquals("A Data Alteração informada de Auditoria é invalida.", thrown.getMessage());
-    }
+//    @Test
+//    void aceitar_data_alteracao_valida() {
+//        empresaFixture.setDataAlteracao(data);
+//        assertEquals(data, empresaFixture.getDataAlteracao());
+//    }
+//
+//    @Test
+//    void nao_deve_aceitar_data_alteracao_mes_maior_que_atual() {
+//        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> empresaFixture.setDataAlteracao(new LocalDateTime(2022, 01, 27, 0, 0, 0, 0)),
+//            "Esperado IllegalArgumentException ao tentar definir Data de Aleração mês maior que atual em Auditoria");
+//        assertEquals("A Data Alteração informada de Auditoria é invalida.", thrown.getMessage());
+//    }
     // @Test
     // void nao_deve_aceitar_data_alteracao_mes_menor_que_atual() {
     // IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,

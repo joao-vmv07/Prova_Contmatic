@@ -1,8 +1,7 @@
 package br.com.contmatic.model.empresa;
 
-import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_INVALIDO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_INVALIDO_NOT_LETRAS_MASK_SPACE_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_NOT_BLANK_MESSAGE;
-import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_NOT_LETRAS_MASK_SPACE_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_TAMANHO_FIXO;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_TAMANHO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.ENDERECO_NULL_MESSAGE;
@@ -25,7 +24,6 @@ import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCI
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.TELEFONE_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.TELEFONE_VAZIO_MESSAGE;
-import static br.com.contmatic.model.util.constantes.ValidacaoConstante.REGEX_CONTEM_NUMERO;
 
 import java.util.Objects;
 import java.util.Set;
@@ -33,7 +31,6 @@ import java.util.Set;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.br.CNPJ;
@@ -49,8 +46,7 @@ public class Empresa extends Auditoria {
 
     @NotBlank(message = CNPJ_NOT_BLANK_MESSAGE)
     @Size(min = CNPJ_TAMANHO_FIXO, max = CNPJ_TAMANHO_FIXO, message = CNPJ_TAMANHO_MESSAGE)
-    @CNPJ(message = CNPJ_INVALIDO_MESSAGE)
-    @Pattern(regexp = REGEX_CONTEM_NUMERO, message = CNPJ_NOT_LETRAS_MASK_SPACE_MESSAGE)
+    @CNPJ(message = CNPJ_INVALIDO_NOT_LETRAS_MASK_SPACE_MESSAGE)
     private String cnpj;
 
     @NotNull(message = RAZAO_SOCIAL_NULL_MESSAGE)

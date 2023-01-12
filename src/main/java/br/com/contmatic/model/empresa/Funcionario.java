@@ -5,7 +5,7 @@ import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCI
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_TAMANHO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_TAMANHO_MIN;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.CPF_INVALIDO_MESSAGE;
-import static br.com.contmatic.model.util.constantes.FuncionarioConstante.CPF_LETRAS_MESSAGE;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.CPF_LETRAS_MASK_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.CPF_NOT_BLANK_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.CPF_TAMANHO_FIXO;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.CPF_TAMANHO_MESSAGE;
@@ -81,13 +81,13 @@ public class Funcionario extends Auditoria {
     @NotBlank(message = CPF_NOT_BLANK_MESSAGE)
     @NotEmpty(message = CPF_VAZIO_MESSAGE)
     @Size(min = CPF_TAMANHO_FIXO, max = CPF_TAMANHO_FIXO, message = CPF_TAMANHO_MESSAGE)
-    @Pattern(regexp = REGEX_CONTEM_NUMERO, message = CPF_LETRAS_MESSAGE)
+    @Pattern(regexp = REGEX_CONTEM_NUMERO, message = CPF_LETRAS_MASK_MESSAGE)
     @CPF(message = CPF_INVALIDO_MESSAGE)
     private String cpf;
 
     @NotBlank(message = NOME_NOT_BLANK_MESSAGE)
     @NotEmpty(message = NOME_VAZIO_MESSAGE)
-    @Size(min = RAZAO_SOCIAL_TAMANHO_MIN,max = RAZAO_SOCIAL_TAMANHO_MAX, message = RAZAO_SOCIAL_TAMANHO_MESSAGE)
+    @Size(min = RAZAO_SOCIAL_TAMANHO_MIN, max = RAZAO_SOCIAL_TAMANHO_MAX, message = RAZAO_SOCIAL_TAMANHO_MESSAGE)
     private String nome;
 
     private String email;

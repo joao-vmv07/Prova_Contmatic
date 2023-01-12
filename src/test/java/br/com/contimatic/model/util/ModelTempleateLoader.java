@@ -21,7 +21,7 @@ public class ModelTempleateLoader implements TemplateLoader {
     public void load() {
         of(Empresa.class).addTemplate("valid", new Rule() {
             {
-                add("cnpj", "17081431000122");
+                add("cnpj", random("66642331000133","50449153000199","91158295000184"));
                 add("razaoSocial", "VIVO LTDA");
                 add("nomeFantasia", "VIVO");
                 add("telefones", has(1).of(Telefone.class, "valid"));

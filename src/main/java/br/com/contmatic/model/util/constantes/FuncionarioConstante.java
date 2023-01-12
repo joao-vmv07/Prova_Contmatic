@@ -28,7 +28,7 @@ public final class FuncionarioConstante {
 	
 	public static final String CPF_NOT_BLANK_MESSAGE = "O campo CPF de Funcionário deve ser preenchido.";
 	
-	public static final String CPF_LETRAS_MESSAGE = "O campo CPF de Funcionário não é permitido conter pontuação, letras e caracter especial.";
+	public static final String CPF_LETRAS_MASK_MESSAGE = "O campo CPF de Funcionário não é permitido conter pontuação, letras e caracter especial.";
 	
 	public static final String CPF_VAZIO_MESSAGE = "O campo CPF de Funcionário não deve ser vazio.";
 	
