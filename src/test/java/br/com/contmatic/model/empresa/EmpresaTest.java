@@ -11,6 +11,7 @@ import static br.com.contmatic.model.util.constantes.EmpresaConstante.LISTA_TELE
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.NOME_FANTASIA_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.NOME_FANTASIA_TAMANHO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.NOME_FANTASIA_VAZIO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_INVALIDO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_TAMANHO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_VAZIO_MESSAGE;
@@ -34,7 +35,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import org.joda.time.LocalDateTime;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import br.com.contmatic.model.endereco.Endereco;
@@ -45,8 +46,8 @@ public class EmpresaTest {
     private static Empresa empresaFixture;
    // private static LocalDateTime data = LocalDateTime.now();
 
-    @BeforeEach
-    public void setUp() {
+    @BeforeAll
+    public static void setUp() {
         loadTemplates("br.com.contimatic.model.util");
         empresaFixture = from(Empresa.class).gimme("valid");
     }
@@ -125,10 +126,16 @@ public class EmpresaTest {
     // RazaoSocial
     @Test
     void deve_aceitar_razao_social_valido() {
-        empresaFixture.setRazaoSocial("Lojas Americacas");
-        assertEquals("Lojas Americacas", empresaFixture.getRazaoSocial());
+        empresaFixture.setRazaoSocial("C6 Bank");
+        assertEquals("C6 Bank", empresaFixture.getRazaoSocial());
     }
 
+    @Test
+    void nao_deve_aceitar_razao_social_com_caracter_especial() {
+        empresaFixture.setRazaoSocial("C6 Bank!##");
+        assertThat(getViolation(empresaFixture), hasItem(RAZAO_SOCIAL_INVALIDO_MESSAGE));
+    }
+    
     @Test
     void nao_deve_aceitar_razao_social_mais_40_caracteres() {
         empresaFixture.setRazaoSocial("TESTE123TESTE123TESTE123TESTE123TESTE123TESTE1231213dadada1");

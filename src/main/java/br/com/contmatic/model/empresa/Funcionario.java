@@ -106,20 +106,6 @@ public class Funcionario extends Auditoria {
         this.setNome(nome);
     }
 
-    // public String getCpf() {
-    // return cpf;
-    // }
-    //
-    // public void setCpf(String cpf) {
-    // checkNull(cpf, CPF_NULL_MESSAGE);
-    // checkVazio(cpf, = );
-    // checkEspaco(cpf, CPF_ESPACO_MESSAGE);
-    // checkContemNumero(cpf, CPF_LETRAS_MESSAGE);
-    // checkTamanhoFixo(cpf, CPF_TAMANHO_FIXO, CPF_TAMANHO_MESSAGE);
-    // checkCPF(cpf, CPF_INVALIDO_MESSAGE);
-    // this.cpf = cpf;
-    // }
-
     public String getNome() {
         return nome;
     }

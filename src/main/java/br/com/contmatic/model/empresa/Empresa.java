@@ -17,6 +17,7 @@ import static br.com.contmatic.model.util.constantes.EmpresaConstante.NOME_FANTA
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.NOME_FANTASIA_TAMANHO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.NOME_FANTASIA_TAMANHO_MIN;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.NOME_FANTASIA_VAZIO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_INVALIDO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_TAMANHO_MAX;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_TAMANHO_MESSAGE;
@@ -24,6 +25,7 @@ import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCI
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.TELEFONE_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.TELEFONE_VAZIO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ValidacaoConstante.REGEX_ACCEPT_SPACE_CONTEM_LETRAS_NUMEROS;
 
 import java.util.Objects;
 import java.util.Set;
@@ -31,6 +33,7 @@ import java.util.Set;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.br.CNPJ;
@@ -52,6 +55,7 @@ public class Empresa extends Auditoria {
     @NotNull(message = RAZAO_SOCIAL_NULL_MESSAGE)
     @NotBlank(message = RAZAO_SOCIAL_VAZIO_MESSAGE )
     @Size(min = RAZAO_SOCIAL_TAMANHO_MIN,max = RAZAO_SOCIAL_TAMANHO_MAX, message = RAZAO_SOCIAL_TAMANHO_MESSAGE)
+    @Pattern(regexp = REGEX_ACCEPT_SPACE_CONTEM_LETRAS_NUMEROS, message = RAZAO_SOCIAL_INVALIDO_MESSAGE)
     private String razaoSocial;
 
     @NotNull(message = NOME_FANTASIA_NULL_MESSAGE)

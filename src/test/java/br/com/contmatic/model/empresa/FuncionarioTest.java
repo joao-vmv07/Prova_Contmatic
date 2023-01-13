@@ -11,6 +11,7 @@ import static br.com.six2six.fixturefactory.Fixture.from;
 import static br.com.six2six.fixturefactory.loader.FixtureFactoryLoader.loadTemplates;
 import static java.math.BigDecimal.valueOf;
 import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -36,8 +37,8 @@ public class FuncionarioTest {
     }
 
     @Test
-    void deve_aceitar_cpf_valido() {
-        assertEquals("73738802070", funcionarioFixture.getCpf());
+    void deve_aceitar_funcioário_valido() {
+        assertThat(getViolation(funcionarioFixture).size(),is(0));
     }
 
     @Test

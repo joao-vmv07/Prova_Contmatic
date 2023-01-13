@@ -38,6 +38,8 @@ public final class EnderecoConstante {
 	
 	public static final String LOGRADOURO_TAMANHO_MAX_MESSAGE = "O campo Logradouro de Endereco é permitido no maximo 40 caracteres.";
 	
+    public static final String LOGRADOURO_TAMANHO_MESSAGE = "O campo Logradouro de Endereco é permitido no minímo 3 caracteres e no maximo 40.";
+	
 	public static final String LOGRADOURO_NULL_MESSAGE =  "O campo Logradouro de Endereço deve ser preenchido.";
 	
 	public static final String LOGRADOURO_VAZIO_MESSAGE = "O campo Logradouro de Endereço não pode ser vazio.";

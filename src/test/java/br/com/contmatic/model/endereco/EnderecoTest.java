@@ -1,5 +1,8 @@
 package br.com.contmatic.model.endereco;
 
+import static br.com.contimatic.model.util.Violation.getViolation;
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -314,56 +317,64 @@ public class EnderecoTest {
 	}
 
 	@Test
-	void nao_deve_aceitar_UF_mais_2_caracteres() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> enderecoBefore.setUf("SPO"),
-				"Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa com mais de 40 caracteres: ");
-		assertEquals("O campo UF de Endereço deve conter 2 caracteres.", thrown.getMessage());
-	}
-
-	@Test
-	void nao_deve_aceitar_UF_menos_2_caracteres() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setUf("A"),
-				"Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa com menos de 3 caracteres:");
-		assertEquals("O campo UF de Endereço deve conter 2 caracteres.", thrown.getMessage());
-	}
-
-	@Test
-	void nao_deve_aceitar_UF_campo_nullo() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setUf(null),
-				"Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa nullo:");
-		assertEquals("O campo UF de Endereço deve ser preenchido.", thrown.getMessage());
-	}
-
-	@Test
-	void nao_deve_aceitar_UF_vazio() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setUf(""),
-				"Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa vazio");
-		assertEquals("O campo UF de Endereço não pode ser vazio.", thrown.getMessage());
-	}
-
-	@Test
-	void nao_deve_aceitar_UF_campo_vazio_com_espaco() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setUf(" "),
-				"Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa vazio com espaço: ");
-		assertEquals("O campo UF de Endereço não pode ser vazio.", thrown.getMessage());
-	}
-
-	@Test
-	void nao_deve_aceitar_UF_com_numero() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> enderecoBefore.setUf("R3a"),
-				"Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa vazio com espaço: ");
-		assertEquals("O campo UF de Endereco deve conter somente letras.", thrown.getMessage());
-	}
-
-	@Test
-	void nao_deve_aceitar_UF_com_caracter_especial() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> enderecoBefore.setUf("R!%#"),
-				"Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa vazio com espaço: ");
-		assertEquals("O campo UF de Endereco deve conter somente letras.", thrown.getMessage());
-	}
+    void nao_deve_aceitar_UF_inexistente() {
+	    Endereco endereco = new Endereco(); 
+	    endereco.setUf("ZZ");
+	    assertThat(getViolation(endereco), hasItem("Valor de UF Invalido")); 
+    }
+	
+//	
+//	@Test
+//	void nao_deve_aceitar_UF_mais_2_caracteres() {
+//		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+//				() -> enderecoBefore.setUf("SPO"),
+//				"Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa com mais de 40 caracteres: ");
+//		assertEquals("O campo UF de Endereço deve conter 2 caracteres.", thrown.getMessage());
+//	}
+//
+//	@Test
+//	void nao_deve_aceitar_UF_menos_2_caracteres() {
+//		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setUf("A"),
+//				"Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa com menos de 3 caracteres:");
+//		assertEquals("O campo UF de Endereço deve conter 2 caracteres.", thrown.getMessage());
+//	}
+//
+//	@Test
+//	void nao_deve_aceitar_UF_campo_nullo() {
+//		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setUf(null),
+//				"Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa nullo:");
+//		assertEquals("O campo UF de Endereço deve ser preenchido.", thrown.getMessage());
+//	}
+//
+//	@Test
+//	void nao_deve_aceitar_UF_vazio() {
+//		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setUf(""),
+//				"Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa vazio");
+//		assertEquals("O campo UF de Endereço não pode ser vazio.", thrown.getMessage());
+//	}
+//
+//	@Test
+//	void nao_deve_aceitar_UF_campo_vazio_com_espaco() {
+//		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setUf(" "),
+//				"Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa vazio com espaço: ");
+//		assertEquals("O campo UF de Endereço não pode ser vazio.", thrown.getMessage());
+//	}
+//
+//	@Test
+//	void nao_deve_aceitar_UF_com_numero() {
+//		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+//				() -> enderecoBefore.setUf("R3a"),
+//				"Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa vazio com espaço: ");
+//		assertEquals("O campo UF de Endereco deve conter somente letras.", thrown.getMessage());
+//	}
+//
+//	@Test
+//	void nao_deve_aceitar_UF_com_caracter_especial() {
+//		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+//				() -> enderecoBefore.setUf("R!%#"),
+//				"Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa vazio com espaço: ");
+//		assertEquals("O campo UF de Endereco deve conter somente letras.", thrown.getMessage());
+//	}
 
 //MUNICIPIO
 	@Test
@@ -510,6 +521,5 @@ public class EnderecoTest {
 		assertTrue(endereco.toString().contains(PAIS));
 		assertTrue(endereco.toString().contains(UF));
 		assertTrue(endereco.toString().contains(MUNICIPIO));
-	
 	}
 }

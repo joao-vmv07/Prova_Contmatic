@@ -12,12 +12,10 @@ import static br.com.contmatic.model.util.constantes.EnderecoConstante.CEP_NULL_
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.CEP_TAMANHO_FIXO;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.CEP_TAMANHO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.CEP_VAZIO_MESSAGE;
-import static br.com.contmatic.model.util.constantes.EnderecoConstante.LOGRADOURO_LETRAS_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.LOGRADOURO_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.LOGRADOURO_TAMANHO_MAX;
-import static br.com.contmatic.model.util.constantes.EnderecoConstante.LOGRADOURO_TAMANHO_MAX_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.LOGRADOURO_TAMANHO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.LOGRADOURO_TAMANHO_MIN;
-import static br.com.contmatic.model.util.constantes.EnderecoConstante.LOGRADOURO_TAMANHO_MIN_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.LOGRADOURO_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.MUNICIPIO_LETRAS_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.MUNICIPIO_NULL_MESSAGE;
@@ -44,6 +42,7 @@ import static br.com.contmatic.model.util.constantes.EnderecoConstante.UF_NULL_M
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.UF_TAMANHO_FIXO;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.UF_TAMANHO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.UF_VAZIO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ValidacaoConstante.REGEX_ACCEPT_SPACE_CONTEM_LETRAS_NUMEROS;
 import static br.com.contmatic.model.util.validacao.Validacao.checkContemLetras;
 import static br.com.contmatic.model.util.validacao.Validacao.checkContemNumero;
 import static br.com.contmatic.model.util.validacao.Validacao.checkNull;
@@ -55,10 +54,24 @@ import static br.com.contmatic.model.util.validacao.Validacao.checkVazio;
 
 import java.util.Objects;
 
-import br.com.contmatic.model.empresa.Auditoria;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
+import br.com.contmatic.model.empresa.Auditoria;
+import br.com.contmatic.model.util.anotacao.CheckEstado;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Endereco extends Auditoria {
 
+    @NotBlank(message = LOGRADOURO_VAZIO_MESSAGE)
+    @NotNull(message = LOGRADOURO_NULL_MESSAGE)
+    @Pattern(regexp = REGEX_ACCEPT_SPACE_CONTEM_LETRAS_NUMEROS)
+    @Size(min = LOGRADOURO_TAMANHO_MIN, max = LOGRADOURO_TAMANHO_MAX, message = LOGRADOURO_TAMANHO_MESSAGE)
 	private String logradouro;
 
 	private Integer numero;
@@ -69,11 +82,12 @@ public class Endereco extends Auditoria {
 
 	private String pais;
 
-	private String uf; 
+	@CheckEstado(enumClass = EstadoUF.class, ignoreCase = true)
+	private String uf;
 
 	private String municipio;
 	
-	private EstadoUF estadoUF;
+	public Endereco() {}
 
 	public Endereco(String cep, Integer numero) {
 		this.setCep(cep);
@@ -90,19 +104,6 @@ public class Endereco extends Auditoria {
 		checkContemNumero(cep, CEP_LETRAS_MESSAGE);
 		checkTamanhoFixo(cep, CEP_TAMANHO_FIXO, CEP_TAMANHO_MESSAGE);
 		this.cep = cep;
-	}
-
-	public String getLogradouro() {
-		return logradouro;
-	}
-
-	public void setLogradouro(String logradouro) {
-		checkNull(logradouro, LOGRADOURO_NULL_MESSAGE);
-		checkVazio(logradouro, LOGRADOURO_VAZIO_MESSAGE);
-		checkContemLetras(logradouro, LOGRADOURO_LETRAS_MESSAGE);
-		checkTamahhoMinimo(logradouro, LOGRADOURO_TAMANHO_MIN, LOGRADOURO_TAMANHO_MIN_MESSAGE);
-		checkTamahhoMaximo(logradouro, LOGRADOURO_TAMANHO_MAX, LOGRADOURO_TAMANHO_MAX_MESSAGE);
-		this.logradouro = logradouro;
 	}
 
 	public String getBairro() {
@@ -168,15 +169,6 @@ public class Endereco extends Auditoria {
 		checkTamahhoMaximo(numero, NUMERO_TAMANHO_MAX, NUMERO_TAMANHO_MAX_MESSAGE);
 		this.numero = numero;
 	}
-	
-	public EstadoUF getEstadoUF() {
-        return estadoUF;
-    }
-
-    public void setEstadoUF(EstadoUF estadoUF) {
-        checkNull(estadoUF, UF_NULL_MESSAGE);
-        this.estadoUF = estadoUF;
-    }
 
     @Override
 	public int hashCode() {
