@@ -5,7 +5,7 @@ import javax.validation.ConstraintValidatorContext;
 
 import br.com.contmatic.model.util.anotacao.CheckEstado;
 
-public class ValueOfEnumEstadoValidator implements ConstraintValidator<CheckEstado, String> {
+public class EnumEstadoValidator implements ConstraintValidator<CheckEstado, String> {
     private CheckEstado annotation;
 
     @Override
@@ -19,7 +19,7 @@ public class ValueOfEnumEstadoValidator implements ConstraintValidator<CheckEsta
         Object[] enumValues = this.annotation.enumClass().getEnumConstants();
         if (enumValues != null) {
             for(Object enumValue : enumValues) {
-                if (valueForValidation.equals(enumValue.toString()) || (this.annotation.ignoreCase() && valueForValidation.equalsIgnoreCase(enumValue.toString()))) {
+                if (valueForValidation.equals(enumValue.toString()) || (this.annotation.ignoreCase() && valueForValidation.equalsIgnoreCase(enumValue.toString()))){
                     result = true;
                     break;
                 }

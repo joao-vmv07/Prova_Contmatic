@@ -40,6 +40,8 @@ public final class FuncionarioConstante {
 	
 	public static final String NOME_TAMANHO_MIN_MESSAGE = "O campo Nome de Funcionário deve ter no minimo 3 caracteres.";
 	
+	public static final String NOME_TAMANHO_MESSAGE = "O campo Nome de Funcionário deve ter no minimo 3 caracteres e no maximo 40.";
+	
 	public static final String NOME_NULL_MESSAGE = "O campo Nome de Funcionário deve ser preenchido.";
 	
 	public static final String NOME_VAZIO_MESSAGE = "O campo Nome de Funcionário não deve ser vazio.";
@@ -59,6 +61,8 @@ public final class FuncionarioConstante {
 	public static final String EMAIL_TAMANHO_MAX_MESSAGE = "O campo Email de Funcionário não deve ter mais que 40 caracteres.";
 	
 	public static final String EMAIL_TAMANHO_MIN_MESSAGE = "O campo Email de Funcionário deve ter no minimo 5 caracteres.";
+	
+	public static final String EMAIL_TAMANHO_MESSAGE = "O campo Email de Funcionário é permitido no 5 caracteres e no maximo 40.";
 	
 	public static final String IDADE_TAMANHO_MESSAGE = "O campo Idade de Funcionário deve conter 2 digitos.";
 	

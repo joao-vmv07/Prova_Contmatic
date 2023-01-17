@@ -9,10 +9,10 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import br.com.contmatic.model.util.validacao.ValueOfEnumEstadoValidator;
+import br.com.contmatic.model.util.validacao.EnumEstadoValidator;
 
 @Documented
-@Constraint(validatedBy = { ValueOfEnumEstadoValidator.class })
+@Constraint(validatedBy = { EnumEstadoValidator.class })
 @Target({ ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CheckEstado {

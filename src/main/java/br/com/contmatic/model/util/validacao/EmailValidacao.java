@@ -1,8 +1,10 @@
 package br.com.contmatic.model.util.validacao;
 
+import static br.com.contmatic.model.util.constantes.ValidacaoConstante.REGEX_EMAIL;
+
 public class EmailValidacao {
 	
-	private static final String REGEX_EMAIL = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
+	
 	
 	private EmailValidacao() {	
 	}

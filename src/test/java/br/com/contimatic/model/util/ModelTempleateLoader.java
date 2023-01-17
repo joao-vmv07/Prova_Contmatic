@@ -1,6 +1,5 @@
 package br.com.contimatic.model.util;
 
-import static br.com.contmatic.model.endereco.EstadoUF.SP;
 import static br.com.contmatic.model.telefone.TelefoneType.CELULAR;
 import static br.com.six2six.fixturefactory.Fixture.of;
 
@@ -21,7 +20,7 @@ public class ModelTempleateLoader implements TemplateLoader {
     public void load() {
         of(Empresa.class).addTemplate("valid", new Rule() {
             {
-                add("cnpj", random("66642331000133","50449153000199","91158295000184"));
+                add("cnpj", random("66642331000133", "50449153000199", "91158295000184"));
                 add("razaoSocial", "VIVO LTDA");
                 add("nomeFantasia", "VIVO");
                 add("telefones", has(1).of(Telefone.class, "valid"));
@@ -56,7 +55,6 @@ public class ModelTempleateLoader implements TemplateLoader {
                 add("pais", "Brasil");
                 add("uf", "SP");
                 add("municipio", "São Paulo");
-                add("estadoUF", SP);
             }
         });
     }

@@ -37,12 +37,10 @@ import static br.com.contmatic.model.util.constantes.EnderecoConstante.PAIS_TAMA
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.PAIS_TAMANHO_MIN;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.PAIS_TAMANHO_MIN_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.PAIS_VAZIO_MESSAGE;
-import static br.com.contmatic.model.util.constantes.EnderecoConstante.UF_LETRAS_MESSAGE;
-import static br.com.contmatic.model.util.constantes.EnderecoConstante.UF_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.UF_TAMANHO_FIXO;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.UF_TAMANHO_MESSAGE;
-import static br.com.contmatic.model.util.constantes.EnderecoConstante.UF_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.ValidacaoConstante.REGEX_ACCEPT_SPACE_CONTEM_LETRAS_NUMEROS;
+import static br.com.contmatic.model.util.constantes.ValidacaoConstante.REGEX_CONTEM_LETRAS_SEM_ACENTO;
 import static br.com.contmatic.model.util.validacao.Validacao.checkContemLetras;
 import static br.com.contmatic.model.util.validacao.Validacao.checkContemNumero;
 import static br.com.contmatic.model.util.validacao.Validacao.checkNull;
@@ -83,6 +81,8 @@ public class Endereco extends Auditoria {
 	private String pais;
 
 	@CheckEstado(enumClass = EstadoUF.class, ignoreCase = true)
+	@Pattern(regexp = REGEX_CONTEM_LETRAS_SEM_ACENTO)
+	@Size(min= UF_TAMANHO_FIXO, max = UF_TAMANHO_FIXO, message = UF_TAMANHO_MESSAGE)
 	private String uf;
 
 	private String municipio;
@@ -130,18 +130,6 @@ public class Endereco extends Auditoria {
 		checkTamahhoMinimo(pais, PAIS_TAMANHO_MIN, PAIS_TAMANHO_MIN_MESSAGE);
 		checkTamahhoMaximo(pais, PAIS_TAMANHO_MAX, PAIS_TAMANHO_MAX_MESSAGE);
 		this.pais = pais;
-	}
-
-	public String getUf() {
-		return uf;
-	}
-
-	public void setUf(String uf) {
-		checkNull(uf, UF_NULL_MESSAGE);
-		checkVazio(uf, UF_VAZIO_MESSAGE);
-		checkContemLetras(uf, UF_LETRAS_MESSAGE);
-		checkTamanhoFixo(uf, UF_TAMANHO_FIXO, UF_TAMANHO_MESSAGE);
-		this.uf = uf;
 	}
 
 	public String getMunicipio() {
