@@ -56,6 +56,8 @@ public final class EnderecoConstante {
 	
 	public static final String BAIRRO_TAMANHO_MIN_MESSAGE = "O campo Bairro de Endereco é permitido no minímo 3 caracteres.";
 	
+	public static final String BAIRRO_TAMANHO_MESSAGE = "O campo Bairro de Endereco é permitido no minímo 3 caracteres e no maximo 40";
+	
 	public static final String BAIRRO_TAMANHO_MAX_MESSAGE = "O campo Bairro de Endereco é permitido no maximo 40 caracteres.";
 	
 	public static final String BAIRRO_NULL_MESSAGE =  "O campo Bairro de Endereço deve ser preenchido.";
@@ -65,6 +67,8 @@ public final class EnderecoConstante {
 	public static final String BAIRRO_LETRAS_MESSAGE = "O campo Bairro de Endereço deve conter somente letras.";
 	
 	public static final String PAIS_TAMANHO_MIN_MESSAGE = "O campo País de Endereço deve conter no mínimo de 4 caracteres.";
+
+	public static final String PAIS_TAMANHO_MESSAGE = "O campo País de Endereço deve conter no mínimo de 4 caracteres e maximo 14;";
 	
 	public static final String PAIS_TAMANHO_MAX_MESSAGE = "O campo País de Endereco é permitido no maximo 14 caracteres.";
 	
@@ -82,7 +86,11 @@ public final class EnderecoConstante {
 	
 	public static final String UF_LETRAS_MESSAGE = "O campo UF de Endereco deve conter somente letras.";
 	
+	public static final String UF_INVALID_MESSAGE = "O campo UF de Endereco informado é invalido.";
+	
 	public static final String MUNICIPIO_TAMANHO_MIN_MESSAGE = "O campo Município de Endereço deve conter no mínimo de 3 caracteres.";
+	
+	public static final String MUNICIPIO_TAMANHO_MESSAGE = "O campo Município de Endereço deve conter no mínimo de 3 caracteres e maximo 40.";
 	
 	public static final String MUNICIPIO_TAMANHO_MAX_MESSAGE = "O campo Município de Endereço deve ter tamanho maximo de 40 caracteres.";
 	

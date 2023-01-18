@@ -177,5 +177,4 @@ public class Funcionario extends Auditoria {
         return new StringBuilder().append("Funcionario [CPF:").append(cpf).append(", Nome:").append(nome).append(", Email:").append(email).append(", Idade:").append(idade)
                 .append(", DataDeNascimento:").append(dataNascimento.toString(FORMATTER_DATA)).append(", Status:").append(status).append("]").append(super.toString()).toString();
     }
-
 }

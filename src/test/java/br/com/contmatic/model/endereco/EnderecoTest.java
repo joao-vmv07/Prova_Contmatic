@@ -318,9 +318,8 @@ public class EnderecoTest {
 
 	@Test
     void nao_deve_aceitar_UF_inexistente() {
-	    Endereco endereco = new Endereco(); 
-	    endereco.setUf("ZZ");
-	    assertThat(getViolation(endereco), hasItem("Valor de UF Invalido")); 
+	    enderecoBefore.setUf("ZZ");
+	    assertThat(getViolation(enderecoBefore), hasItem("Valor de UF Invalido")); 
     }
 	
 //	

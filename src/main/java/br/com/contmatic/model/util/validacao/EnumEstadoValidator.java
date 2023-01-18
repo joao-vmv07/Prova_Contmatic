@@ -1,30 +1,27 @@
 package br.com.contmatic.model.util.validacao;
 
+import static java.util.stream.Collectors.toList;
+
+import java.util.List;
+import java.util.stream.Stream;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import br.com.contmatic.model.util.anotacao.CheckEstado;
 
 public class EnumEstadoValidator implements ConstraintValidator<CheckEstado, String> {
-    private CheckEstado annotation;
 
+    private List<String> acceptedValues;
     @Override
     public void initialize(CheckEstado annotation) {
-        this.annotation = annotation;
+        acceptedValues = Stream.of(annotation.enumClass().getEnumConstants())
+                .map(Enum::name)
+                .collect(toList());
     }
 
     @Override
-    public boolean isValid(String valueForValidation, ConstraintValidatorContext constraintValidatorContext) {
-        boolean result = false;
-        Object[] enumValues = this.annotation.enumClass().getEnumConstants();
-        if (enumValues != null) {
-            for(Object enumValue : enumValues) {
-                if (valueForValidation.equals(enumValue.toString()) || (this.annotation.ignoreCase() && valueForValidation.equalsIgnoreCase(enumValue.toString()))){
-                    result = true;
-                    break;
-                }
-            }
-        }
-        return result;
-    }
+    public boolean isValid(String value, ConstraintValidatorContext context) {
+        return value ==  null ? false : acceptedValues.contains(value);
+   }
 }

@@ -16,7 +16,7 @@ import br.com.contmatic.model.util.validacao.EnumEstadoValidator;
 @Target({ ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CheckEstado {
-    public String message() default "Valor de UF Invalido";
+    public String message();
 
     public Class<?>[] groups() default {};
 
@@ -24,5 +24,4 @@ public @interface CheckEstado {
 
     public Class<? extends java.lang.Enum<?>> enumClass();
 
-    public boolean ignoreCase() default false;
 }
