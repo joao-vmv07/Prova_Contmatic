@@ -7,21 +7,18 @@ import static br.com.contmatic.model.util.constantes.FuncionarioConstante.CPF_NO
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.CPF_TAMANHO_FIXO;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.CPF_TAMANHO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.CPF_VAZIO_MESSAGE;
-import static br.com.contmatic.model.util.constantes.FuncionarioConstante.DATA_NASCIMENTO_IDADE_MAXIMA_MESSAGE;
-import static br.com.contmatic.model.util.constantes.FuncionarioConstante.DATA_NASCIMENTO_IDADE_MINIMA_MESSAGE;
-import static br.com.contmatic.model.util.constantes.FuncionarioConstante.DATA_NASCIMENTO_VAZIO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.DATA_NASCIMENTO_INVALIDA_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.DATA_NULL_MESSAGE;
-import static br.com.contmatic.model.util.constantes.FuncionarioConstante.EMAIL_ESPACO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.EMAIL_INVALIDO_MESSAGE;
-import static br.com.contmatic.model.util.constantes.FuncionarioConstante.EMAIL_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.EMAIL_NOT_BLANK_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.EMAIL_TAMANHO_MAX;
-import static br.com.contmatic.model.util.constantes.FuncionarioConstante.EMAIL_TAMANHO_MAX_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.EMAIL_TAMANHO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.EMAIL_TAMANHO_MIN;
-import static br.com.contmatic.model.util.constantes.FuncionarioConstante.EMAIL_TAMANHO_MIN_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.EMAIL_VAZIO_MESSAGE;
-import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_VALOR_MAX;
-import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_VALOR_MINIMO;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_TAMANHO_FIXO;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_TAMANHO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.NOME_FORMAT_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.NOME_NOT_BLANK_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.NOME_TAMANHO_MAX;
@@ -33,25 +30,16 @@ import static br.com.contmatic.model.util.constantes.FuncionarioConstante.SALARI
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.SALARIO_VALOR_MAX_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.SALARIO_VALOR_MINIMO;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.SALARIO_VALOR_MIN_MESSAGE;
-import static br.com.contmatic.model.util.constantes.FuncionarioConstante.SALARIO_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.STATUS_NULL_MESSAGE;
-import static br.com.contmatic.model.util.constantes.ValidacaoConstante.REGEX_ACCEPT_SPACE_CONTEM_LETRAS_NUMEROS;
+import static br.com.contmatic.model.util.constantes.ValidacaoConstante.REGEX_ACCEPT_SPACE_CONTEM_LETRAS;
 import static br.com.contmatic.model.util.constantes.ValidacaoConstante.REGEX_CONTEM_NUMERO;
 import static br.com.contmatic.model.util.constantes.ValidacaoConstante.REGEX_EMAIL;
-import static br.com.contmatic.model.util.validacao.DataValidacao.checkDataNascimentoIdadeMaxima;
-import static br.com.contmatic.model.util.validacao.DataValidacao.checkDataNascimentoIdadeMinima;
-import static br.com.contmatic.model.util.validacao.EmailValidacao.checkEmail;
-import static br.com.contmatic.model.util.validacao.Validacao.checkEspaco;
-import static br.com.contmatic.model.util.validacao.Validacao.checkNull;
-import static br.com.contmatic.model.util.validacao.Validacao.checkTamahhoMaximo;
-import static br.com.contmatic.model.util.validacao.Validacao.checkTamahhoMinimo;
-import static br.com.contmatic.model.util.validacao.Validacao.checkValorMaximo;
-import static br.com.contmatic.model.util.validacao.Validacao.checkValorMinimo;
-import static br.com.contmatic.model.util.validacao.Validacao.checkVazio;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -62,6 +50,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.br.CPF;
 import org.joda.time.LocalDate;
 
+import br.com.contmatic.model.util.anotacao.CheckDataNascimento;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -79,80 +68,36 @@ public class Funcionario extends Auditoria {
     @NotBlank(message = NOME_NOT_BLANK_MESSAGE)
     @NotEmpty(message = NOME_VAZIO_MESSAGE)
     @Size(min = NOME_TAMANHO_MIN, max = NOME_TAMANHO_MAX, message = NOME_TAMANHO_MESSAGE)
-    @Pattern(regexp = REGEX_ACCEPT_SPACE_CONTEM_LETRAS_NUMEROS, message = NOME_FORMAT_MESSAGE)
+    @Pattern(regexp = REGEX_ACCEPT_SPACE_CONTEM_LETRAS, message = NOME_FORMAT_MESSAGE)
     private String nome;
 
-    @NotBlank(message = EMAIL_NULL_MESSAGE)
+    @NotBlank(message = EMAIL_NOT_BLANK_NULL_MESSAGE)
     @NotEmpty(message = EMAIL_VAZIO_MESSAGE)
     @Size(min = EMAIL_TAMANHO_MIN, max = EMAIL_TAMANHO_MAX, message = EMAIL_TAMANHO_MESSAGE)
     @Email(regexp = REGEX_EMAIL, message = EMAIL_INVALIDO_MESSAGE)
     private String email;
     
-    @NotBlank(message = EMAIL_NULL_MESSAGE)
-    @NotEmpty(message = EMAIL_VAZIO_MESSAGE)
-    @Size(min = EMAIL_TAMANHO_MIN, max = EMAIL_TAMANHO_MAX, message = EMAIL_TAMANHO_MESSAGE)
-    @Email(regexp = REGEX_EMAIL, message = EMAIL_INVALIDO_MESSAGE)
+    @NotBlank(message = IDADE_NULL_MESSAGE)
+    @NotEmpty(message = IDADE_VAZIO_MESSAGE)
+    @Size(min = IDADE_TAMANHO_FIXO, max = IDADE_TAMANHO_FIXO, message = IDADE_TAMANHO_MESSAGE)
     private String idade;
 
-    //Fazer Anottation
+    @NotNull(message = DATA_NULL_MESSAGE)
+    @CheckDataNascimento(message = DATA_NASCIMENTO_INVALIDA_MESSAGE)
     private LocalDate dataNascimento;
 
     @NotNull(message = STATUS_NULL_MESSAGE)
-    private Boolean status;
+    private Boolean status; 
 
+    @NotNull(message = SALARIO_NULL_MESSAGE)
+    @DecimalMin(value = SALARIO_VALOR_MINIMO, message = SALARIO_VALOR_MIN_MESSAGE)
+    @DecimalMax(value = SALARIO_VALOR_MAXIMO, message = SALARIO_VALOR_MAX_MESSAGE)
     private BigDecimal salario;
 
     public Funcionario(String cpf, String nome) {
         super();
         this.setCpf(cpf);
         this.setNome(nome);
-    }
-
-    public LocalDate getDatanascimento() {
-        return dataNascimento;
-    }
-
-    public void setdataNascimento(LocalDate dataNascimento) {
-        checkNull(dataNascimento, DATA_NULL_MESSAGE);
-        checkVazio(dataNascimento, DATA_NASCIMENTO_VAZIO_MESSAGE);
-        checkDataNascimentoIdadeMinima(dataNascimento, IDADE_VALOR_MINIMO, DATA_NASCIMENTO_IDADE_MINIMA_MESSAGE);
-        checkDataNascimentoIdadeMaxima(dataNascimento, IDADE_VALOR_MAX, DATA_NASCIMENTO_IDADE_MAXIMA_MESSAGE);
-        this.dataNascimento = dataNascimento;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        checkNull(email, EMAIL_NULL_MESSAGE);
-        checkVazio(email, EMAIL_VAZIO_MESSAGE);
-        checkTamahhoMinimo(email, EMAIL_TAMANHO_MIN, EMAIL_TAMANHO_MIN_MESSAGE);
-        checkTamahhoMaximo(email, EMAIL_TAMANHO_MAX, EMAIL_TAMANHO_MAX_MESSAGE);
-        checkEspaco(email, EMAIL_ESPACO_MESSAGE);
-        checkEmail(email, EMAIL_INVALIDO_MESSAGE);
-        this.email = email;
-    }
-
-    public Boolean getStatus() {
-        return status;
-    }
-
-    public void setStatus(Boolean status) {
-        checkNull(status, STATUS_NULL_MESSAGE);
-        this.status = status;
-    }
-
-    public BigDecimal getSalario() {
-        return salario;
-    }
-
-    public void setSalario(BigDecimal salario) {
-        checkNull(salario, SALARIO_NULL_MESSAGE);
-        checkVazio(salario, SALARIO_VAZIO_MESSAGE);
-        checkValorMinimo(salario, SALARIO_VALOR_MINIMO, SALARIO_VALOR_MIN_MESSAGE);
-        checkValorMaximo(salario, SALARIO_VALOR_MAXIMO, SALARIO_VALOR_MAX_MESSAGE);
-        this.salario = salario;
     }
 
     @Override
@@ -175,6 +120,6 @@ public class Funcionario extends Auditoria {
     @Override
     public String toString() {
         return new StringBuilder().append("Funcionario [CPF:").append(cpf).append(", Nome:").append(nome).append(", Email:").append(email).append(", Idade:").append(idade)
-                .append(", DataDeNascimento:").append(dataNascimento.toString(FORMATTER_DATA)).append(", Status:").append(status).append("]").append(super.toString()).toString();
+                .append(", Salário:") .append(", DataDeNascimento:").append(dataNascimento.toString(FORMATTER_DATA)).append(", Status:").append(status).append("]").append(super.toString()).toString();
     }
 }

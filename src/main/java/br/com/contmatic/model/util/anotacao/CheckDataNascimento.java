@@ -11,19 +11,17 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import br.com.contmatic.model.util.validacao.EnumEstadoValidator;
+import br.com.contmatic.model.util.validacao.DataNascimentoValidator;
 
 @Documented
-@Constraint(validatedBy = { EnumEstadoValidator.class })
+@Constraint(validatedBy = { DataNascimentoValidator.class })
 @Target({ FIELD, PARAMETER })
 @Retention(RUNTIME)
-public @interface CheckEstado {
-    public String message();
-
-    public Class<?>[] groups() default {};
-
-    public Class<? extends Payload>[] payload() default {};
-
-    public Class<? extends Enum<?>> enumClass();
+public @interface CheckDataNascimento {
+    String message();
+    
+    Class<?>[] groups() default {};
+    
+    Class<? extends Payload>[] payload() default {};
 
 }

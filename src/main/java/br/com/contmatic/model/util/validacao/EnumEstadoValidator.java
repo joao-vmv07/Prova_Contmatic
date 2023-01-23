@@ -11,8 +11,8 @@ import javax.validation.ConstraintValidatorContext;
 import br.com.contmatic.model.util.anotacao.CheckEstado;
 
 public class EnumEstadoValidator implements ConstraintValidator<CheckEstado, String> {
-
     private List<String> acceptedValues;
+    
     @Override
     public void initialize(CheckEstado annotation) {
         acceptedValues = Stream.of(annotation.enumClass().getEnumConstants())

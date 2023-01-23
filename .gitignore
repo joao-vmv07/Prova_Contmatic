@@ -5,3 +5,5 @@ target/classes/META-INF/maven/br.com.contmatic/Empresa/pom.properties
 .classpath
 target/classes/META-INF/maven/br.com.contmatic/Empresa/pom.properties
 *.properties
+target/classes/br/com/contmatic/model/empresa/Funcionario.class
+target/classes/br/com/contmatic/model/empresa/Funcionario.class

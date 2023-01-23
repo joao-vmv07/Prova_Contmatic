@@ -31,7 +31,7 @@ public class ModelTempleateLoader implements TemplateLoader {
             {
                 add("cpf", "73738802070");
                 add("nome", "Funcionario A");
-                add("email", "funcionarioA@gmail.com.br");
+                add("email", "funcionario@gmail.com");
                 add("idade", "19");
                 add("dataNascimento", new LocalDate(2003, 3, 7));
                 add("status", true);
