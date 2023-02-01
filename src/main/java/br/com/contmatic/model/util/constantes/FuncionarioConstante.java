@@ -64,9 +64,9 @@ public final class FuncionarioConstante {
 	
 	public static final String IDADE_TAMANHO_MESSAGE = "O campo Idade de Funcionário deve conter 2 digitos.";
 	
-	public static final String IDADE_NULL_MESSAGE = "O campo Idade de Funcionário deve ser preenchido.";
+	public static final String IDADE_BLANK_NULL_MESSAGE = "O campo Idade de Funcionário deve ser preenchido.";
 	
-	public static final String IDADE_LETRAS_MESSAGE = "O campo Idade de Funcionário não é permitido conter pontuação, letras e caracter especial.";
+	public static final String IDADE_FORMAT_MESSAGE = "O campo Idade de Funcionário não é permitido conter pontuação, letras, caracter especial e espaço.";
 	
 	public static final String IDADE_VAZIO_MESSAGE = "O campo Idade de Funcionário não deve ser vazio.";
 	

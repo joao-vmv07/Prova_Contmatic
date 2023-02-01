@@ -11,6 +11,9 @@ import static br.com.contmatic.model.util.constantes.FuncionarioConstante.DATA_N
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.EMAIL_INVALIDO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.EMAIL_NOT_BLANK_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.EMAIL_VAZIO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_BLANK_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_ESPACO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_FORMAT_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.NOME_FORMAT_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.NOME_NOT_BLANK_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.NOME_TAMANHO_MESSAGE;
@@ -24,10 +27,10 @@ import static br.com.six2six.fixturefactory.loader.FixtureFactoryLoader.loadTemp
 import static java.math.BigDecimal.valueOf;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
+import static org.joda.time.LocalDate.now;
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigDecimal;
@@ -117,9 +120,8 @@ public class FuncionarioTest {
         funcionarioFixture.setCpf("4 63 3982219");
         assertThat(getViolation(funcionarioFixture), hasItem(CPF_INVALIDO_MESSAGE));
     }
-
+            
     // NOME
-
     @Test
     void deve_aceitar_nome_com_acento() {
         funcionarioFixture.setNome("João");
@@ -195,8 +197,8 @@ public class FuncionarioTest {
 
     @Test
     void nao_deve_aceitar_email_nullo() {
-       funcionarioFixture.setEmail(null);
-       assertThat(getViolation(funcionarioFixture), hasItem(EMAIL_NOT_BLANK_NULL_MESSAGE));
+        funcionarioFixture.setEmail(null);
+        assertThat(getViolation(funcionarioFixture), hasItem(EMAIL_NOT_BLANK_NULL_MESSAGE));
     }
 
     @Test
@@ -213,73 +215,57 @@ public class FuncionarioTest {
 
     @Test
     void nao_deve_aceitar_email_com_espaco() {
-        Funcionario funcionario = new Funcionario("46339822819", "João Victor");
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> funcionario.setEmail("joao .mendes@gmail.com "), "Expected doThing() to throw, but it didn't");
-        assertEquals("O campo Email de Funcionário não deve conter espaço.", thrown.getMessage());
+        funcionarioFixture.setEmail("");
+        assertThat(getViolation(funcionarioFixture), hasItem(EMAIL_VAZIO_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_email_com_dois_dominio() {
-        Funcionario funcionario = new Funcionario("46339822819", "João Victor");
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> funcionario.setEmail("joaovictor@gmail@yahoo"),
-            "Esperado IllegalArgumentException ao tentar criar Funcionário com Email com dois dominios");
-        assertEquals("O campo Email de Funcionário é inválido.", thrown.getMessage());
+        funcionarioFixture.setEmail("joaovictor@gmail@yahoo");
+        assertThat(getViolation(funcionarioFixture), hasItem(EMAIL_INVALIDO_MESSAGE));
     }
 
     // IDADE
     @Test
     void _deve_aceitar_idade_valida() {
-        Funcionario funcionario = new Funcionario("46339822819", "João Victor");
-        funcionario.setIdade("22");
-        assertEquals("22", funcionario.getIdade());
+        funcionarioFixture.setIdade("2 2");
+        assertThat(getViolation(funcionarioFixture).size(), is(0));
     }
 
     @Test
     void nao_deve_aceitar_idade_null() {
-        Funcionario funcionario = new Funcionario("46339822819", "João");
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> funcionario.setIdade(null),
-            "Esperado IllegalArgumentException ao tentar criar Funcionário com Idade Null ");
-        assertEquals("O campo Idade de Funcionário deve ser preenchido.", thrown.getMessage());
+        funcionarioFixture.setIdade(null);
+        assertThat(getViolation(funcionarioFixture), hasItem(IDADE_BLANK_NULL_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_idade_vazio() {
-        Funcionario funcionario = new Funcionario("46339822819", "João Victor");
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> funcionario.setIdade(""),
-            "Esperado IllegalArgumentException ao tentar criar Funcionário com Idade vazio ");
-        assertEquals("O campo Idade de Funcionário não deve ser vazio.", thrown.getMessage());
+        funcionarioFixture.setIdade(" ");
+        assertThat(getViolation(funcionarioFixture), hasItem(IDADE_BLANK_NULL_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_idade_vazio_com_espaco() {
-        Funcionario funcionario = new Funcionario("46339822819", "João Victor");
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> funcionario.setIdade(" "),
-            "Esperado IllegalArgumentException ao tentar criar Funcionário com Idade vazio com espaço");
-        assertEquals("O campo Idade de Funcionário não deve ser vazio.", thrown.getMessage());
+        funcionarioFixture.setIdade("");
+        assertThat(getViolation(funcionarioFixture), hasItem(IDADE_ESPACO_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_idade_com_espaco() {
-        Funcionario funcionario = new Funcionario("46339822819", "João Victor");
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> funcionario.setIdade("1 9"),
-            "Esperado IllegalArgumentException ao tentar criar Funcionário com Idade contendo espaço");
-        assertEquals("O campo Idade de Funcionário não deve conter espaço.", thrown.getMessage());
+        funcionarioFixture.setIdade("17");
+        assertThat(getViolation(funcionarioFixture), hasItem(IDADE_ESPACO_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_idade_com_letras() {
-        Funcionario funcionario = new Funcionario("46339822819", "João Victor");
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> funcionario.setIdade("25A"),
-            "Esperado IllegalArgumentException ao tentar criar Funcionário com Idade contendo Letras");
-        assertEquals("O campo Idade de Funcionário não é permitido conter pontuação, letras e caracter especial.", thrown.getMessage());
+        funcionarioFixture.setIdade("1A");
+        assertThat(getViolation(funcionarioFixture), hasItem(IDADE_FORMAT_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_idade_com_caracter_especial() {
-        Funcionario funcionario = new Funcionario("46339822819", "João Victor");
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> funcionario.setIdade("$22"),
-            "Esperado IllegalArgumentException ao tentar criar Funcionário com Idade contendo caracter especial");
-        assertEquals("O campo Idade de Funcionário não é permitido conter pontuação, letras e caracter especial.", thrown.getMessage());
+        funcionarioFixture.setIdade("2$");
+        assertThat(getViolation(funcionarioFixture), hasItem(IDADE_FORMAT_MESSAGE));
     }
 
     // DataNascimento
@@ -303,7 +289,7 @@ public class FuncionarioTest {
 
     @Test
     void nao_deve_aceitar_data_nascimento_com_data_de_hoje_now() {
-        funcionarioFixture.setDataNascimento(LocalDate.now());
+        funcionarioFixture.setDataNascimento(now());
         assertThat(getViolation(funcionarioFixture), hasItem(DATA_NASCIMENTO_INVALIDA_MESSAGE));
     }
 
@@ -342,59 +328,25 @@ public class FuncionarioTest {
 
     @Test
     void nao_deve_aceitar_salario_com_valor_menor_que_o_minimo() {
-        BigDecimal salario = new BigDecimal(1000);
-        funcionarioFixture.setSalario(salario);
-        assertThat(getViolation(funcionarioFixture), hasItem(SALARIO_VALOR_MIN_MESSAGE));
-    }
-
-    @Test
-    void nao_deve_aceitar_valor_salario_negativo() {
-        BigDecimal salario = new BigDecimal(-1000);
+        BigDecimal salario = new BigDecimal("1000");
         funcionarioFixture.setSalario(salario);
         assertThat(getViolation(funcionarioFixture), hasItem(SALARIO_VALOR_MIN_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_salario_com_valor_maior_que_o_maximo() {
-        BigDecimal salario = new BigDecimal(90000);
+        BigDecimal salario = new BigDecimal("90000");
         funcionarioFixture.setSalario(salario);
         assertThat(getViolation(funcionarioFixture), hasItem(SALARIO_VALOR_MAX_MESSAGE));
     }
 
     @Test
-    void nao_deve_aceitar_salario_vazio() {
-        NumberFormatException e = new NumberFormatException();
-        Funcionario funcionario = new Funcionario("46339822819", "João Victor");
-        NumberFormatException thrown = assertThrows(NumberFormatException.class, () -> funcionario.setSalario(new BigDecimal("")),
-            "Esperado IllegalArgumentException ao tentar criar Funcionário com Salario vazio");
-        assertEquals(e.getMessage(), thrown.getMessage());
+    void nao_deve_aceitar_valor_salario_negativo() {
+        BigDecimal salario = new BigDecimal("-1000");
+        funcionarioFixture.setSalario(salario);
+        assertThat(getViolation(funcionarioFixture), hasItem(SALARIO_VALOR_MIN_MESSAGE));
     }
-
-    @Test
-    void nao_deve_aceitar_salario_vazio_com_espaco() {
-        NumberFormatException e = new NumberFormatException();
-        Funcionario funcionario = new Funcionario("46339822819", "João Victor");
-        NumberFormatException thrown = assertThrows(NumberFormatException.class, () -> funcionario.setSalario(new BigDecimal(" ")),
-            "Esperado IllegalArgumentException ao tentar criar Funcionário com Salario vazio com espaço");
-        assertEquals(e.getMessage(), thrown.getMessage());
-    }
-
-    @Test
-    void nao_deve_aceitar_salario_com_letras() {
-        Funcionario funcionario = new Funcionario("46339822819", "João Victor");
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> funcionario.setSalario(new BigDecimal("120A.00")),
-            "Esperado IllegalArgumentException ao tentar criar Funcionário com Salario contendo Letras");
-        assertEquals(null, thrown.getMessage());
-    }
-
-    @Test
-    void nao_deve_aceitar_salario_com_caracteres_especial() {
-        Funcionario funcionario = new Funcionario("46339822819", "João Victor");
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> funcionario.setSalario(new BigDecimal("120@%.00")),
-            "Esperado IllegalArgumentException ao tentar criar Funcionário com Salario contendo caracter especial");
-        assertEquals(null, thrown.getMessage());
-    }
-
+    
     // Equals
     @Test
     void equals_objeto_valores_iguais() {

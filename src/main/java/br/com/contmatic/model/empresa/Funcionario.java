@@ -15,7 +15,8 @@ import static br.com.contmatic.model.util.constantes.FuncionarioConstante.EMAIL_
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.EMAIL_TAMANHO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.EMAIL_TAMANHO_MIN;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.EMAIL_VAZIO_MESSAGE;
-import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_BLANK_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_FORMAT_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_TAMANHO_FIXO;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_TAMANHO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_VAZIO_MESSAGE;
@@ -77,9 +78,10 @@ public class Funcionario extends Auditoria {
     @Email(regexp = REGEX_EMAIL, message = EMAIL_INVALIDO_MESSAGE)
     private String email;
     
-    @NotBlank(message = IDADE_NULL_MESSAGE)
+    @NotBlank(message = IDADE_BLANK_NULL_MESSAGE)
     @NotEmpty(message = IDADE_VAZIO_MESSAGE)
     @Size(min = IDADE_TAMANHO_FIXO, max = IDADE_TAMANHO_FIXO, message = IDADE_TAMANHO_MESSAGE)
+    @Pattern(regexp = REGEX_CONTEM_NUMERO, message = IDADE_FORMAT_MESSAGE )
     private String idade;
 
     @NotNull(message = DATA_NULL_MESSAGE)
