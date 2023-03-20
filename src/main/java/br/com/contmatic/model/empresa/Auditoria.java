@@ -1,30 +1,29 @@
 package br.com.contmatic.model.empresa;
 
 import static br.com.contmatic.model.util.constantes.AuditoriaConstante.DATA_ALTERACAO_INVALIDA;
+import static br.com.contmatic.model.util.constantes.AuditoriaConstante.DATA_ALTERACAO_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.AuditoriaConstante.DATA_CRIACAO_INVALIDA;
 import static br.com.contmatic.model.util.constantes.AuditoriaConstante.DATA_CRIACAO_NULL_MESSAGE;
-import static br.com.contmatic.model.util.constantes.AuditoriaConstante.DATA_CRIACAO_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.AuditoriaConstante.USUARIO_ALTERACAO_FORMAT_MESSAGE;
 import static br.com.contmatic.model.util.constantes.AuditoriaConstante.USUARIO_ALTERACAO_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.AuditoriaConstante.USUARIO_ALTERACAO_TAMANHO_MAX;
-import static br.com.contmatic.model.util.constantes.AuditoriaConstante.USUARIO_ALTERACAO_TAMANHO_MAX_MESSAGE;
+import static br.com.contmatic.model.util.constantes.AuditoriaConstante.USUARIO_ALTERACAO_TAMANHO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.AuditoriaConstante.USUARIO_ALTERACAO_TAMANHO_MIN;
-import static br.com.contmatic.model.util.constantes.AuditoriaConstante.USUARIO_ALTERACAO_TAMANHO_MIN_MESSAGE;
 import static br.com.contmatic.model.util.constantes.AuditoriaConstante.USUARIO_ALTERACAO_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.AuditoriaConstante.USUARIO_CRIACAO_FORMAT_MESSAGE;
 import static br.com.contmatic.model.util.constantes.AuditoriaConstante.USUARIO_CRIACAO_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.AuditoriaConstante.USUARIO_CRIACAO_TAMANHO_MAX;
-import static br.com.contmatic.model.util.constantes.AuditoriaConstante.USUARIO_CRIACAO_TAMANHO_MAX_MESSAGE;
+import static br.com.contmatic.model.util.constantes.AuditoriaConstante.USUARIO_CRIACAO_TAMANHO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.AuditoriaConstante.USUARIO_CRIACAO_TAMANHO_MIN;
-import static br.com.contmatic.model.util.constantes.AuditoriaConstante.USUARIO_CRIACAO_TAMANHO_MIN_MESSAGE;
 import static br.com.contmatic.model.util.constantes.AuditoriaConstante.USUARIO_CRIACAO_VAZIO_MESSAGE;
-import static br.com.contmatic.model.util.validacao.DataValidacao.checkDataAntesAtual;
-import static br.com.contmatic.model.util.validacao.DataValidacao.checkDataDepoisAtual;
-import static br.com.contmatic.model.util.validacao.Validacao.checkContemLetras;
-import static br.com.contmatic.model.util.validacao.Validacao.checkNull;
-import static br.com.contmatic.model.util.validacao.Validacao.checkTamahhoMaximo;
-import static br.com.contmatic.model.util.validacao.Validacao.checkTamahhoMinimo;
-import static br.com.contmatic.model.util.validacao.Validacao.checkVazio;
+import static br.com.contmatic.model.util.constantes.ValidacaoConstante.REGEX_ACCEPT_SPACE_CONTEM_LETRAS;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.joda.time.LocalDateTime;
 
@@ -35,63 +34,25 @@ import lombok.Setter;
 @Setter
 public abstract class Auditoria {
 
+    @NotNull(message = DATA_CRIACAO_NULL_MESSAGE)
+    @Past(message = DATA_CRIACAO_INVALIDA)
     private LocalDateTime dataCriacao;
 
+    @NotNull(message = DATA_ALTERACAO_NULL_MESSAGE)
+    @Past(message = DATA_ALTERACAO_INVALIDA)
     private LocalDateTime dataAlteracao;
 
+    @NotBlank(message = USUARIO_CRIACAO_NULL_MESSAGE)
+    @NotEmpty(message = USUARIO_CRIACAO_VAZIO_MESSAGE)
+    @Size(min = USUARIO_CRIACAO_TAMANHO_MIN, max = USUARIO_CRIACAO_TAMANHO_MAX, message = USUARIO_CRIACAO_TAMANHO_MESSAGE)
+    @Pattern(regexp = REGEX_ACCEPT_SPACE_CONTEM_LETRAS, message = USUARIO_CRIACAO_FORMAT_MESSAGE)
     private String usuarioCriacao;
 
+    @NotBlank(message = USUARIO_ALTERACAO_NULL_MESSAGE)
+    @NotEmpty(message = USUARIO_ALTERACAO_VAZIO_MESSAGE)
+    @Size(min = USUARIO_ALTERACAO_TAMANHO_MIN, max = USUARIO_ALTERACAO_TAMANHO_MAX, message = USUARIO_ALTERACAO_TAMANHO_MESSAGE)
+    @Pattern(regexp = REGEX_ACCEPT_SPACE_CONTEM_LETRAS, message = USUARIO_ALTERACAO_FORMAT_MESSAGE)
     private String usuarioAlteracao;
-
-    public LocalDateTime getDataCriacao() {
-        return dataCriacao;
-    }
-
-    public void setDataCriacao(LocalDateTime dataCriacao) {
-        checkNull(dataCriacao, DATA_CRIACAO_NULL_MESSAGE);
-        checkVazio(dataCriacao, DATA_CRIACAO_VAZIO_MESSAGE);
-        checkDataAntesAtual(dataCriacao, DATA_CRIACAO_INVALIDA);
-        checkDataDepoisAtual(dataCriacao, DATA_CRIACAO_INVALIDA );
-        this.dataCriacao = dataCriacao;
-    }
-
-    public LocalDateTime getDataAlteracao() {
-        return dataAlteracao;
-    }
-
-    public void setDataAlteracao(LocalDateTime dataAlteracao) {
-        checkNull(dataAlteracao, DATA_CRIACAO_NULL_MESSAGE);
-        checkVazio(dataAlteracao, DATA_CRIACAO_VAZIO_MESSAGE);
-        checkDataAntesAtual(dataAlteracao, DATA_ALTERACAO_INVALIDA);
-        checkDataDepoisAtual(dataAlteracao, DATA_ALTERACAO_INVALIDA );
-        this.dataAlteracao = dataAlteracao;
-    }
-
-    public String getUsuarioCriacao() {
-        return usuarioCriacao;
-    }
-
-    public void setUsuarioCriacao(String usuarioCriacao) {
-        checkNull(usuarioCriacao, USUARIO_CRIACAO_NULL_MESSAGE);
-        checkVazio(usuarioCriacao, USUARIO_CRIACAO_VAZIO_MESSAGE);
-        checkContemLetras(usuarioCriacao, USUARIO_CRIACAO_FORMAT_MESSAGE);
-        checkTamahhoMinimo(usuarioCriacao, USUARIO_CRIACAO_TAMANHO_MIN, USUARIO_CRIACAO_TAMANHO_MIN_MESSAGE);
-        checkTamahhoMaximo(usuarioCriacao, USUARIO_CRIACAO_TAMANHO_MAX, USUARIO_CRIACAO_TAMANHO_MAX_MESSAGE);
-        this.usuarioCriacao = usuarioCriacao;
-    }
-
-    public String getUsuarioAlteracao() {
-        return usuarioAlteracao;
-    }
-
-    public void setUsuarioAlteracao(String usuarioAlteracao) {
-        checkNull(usuarioAlteracao, USUARIO_ALTERACAO_NULL_MESSAGE);
-        checkVazio(usuarioAlteracao, USUARIO_ALTERACAO_VAZIO_MESSAGE);
-        checkContemLetras(usuarioAlteracao, USUARIO_ALTERACAO_FORMAT_MESSAGE);
-        checkTamahhoMinimo(usuarioAlteracao, USUARIO_ALTERACAO_TAMANHO_MIN, USUARIO_ALTERACAO_TAMANHO_MIN_MESSAGE);
-        checkTamahhoMaximo(usuarioAlteracao, USUARIO_ALTERACAO_TAMANHO_MAX, USUARIO_ALTERACAO_TAMANHO_MAX_MESSAGE);
-        this.usuarioAlteracao = usuarioAlteracao;
-    }
 
     @Override
     public String toString() {

@@ -1,321 +1,264 @@
 package br.com.contmatic.model.empresa;
 
+import static br.com.contimatic.model.util.Violation.getViolation;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.CPF_INVALIDO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.CPF_LETRAS_MASK_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.CPF_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.CPF_TAMANHO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.CPF_VAZIO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.EMAIL_INVALIDO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.EMAIL_NOT_BLANK_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.EMAIL_VAZIO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.LISTA_TELEFONE_TAMANHO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_FORMAT_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_NOT_BLANK_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_TAMANHO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_VAZIO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.TELEFONE_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.TELEFONE_VAZIO_MESSAGE;
+import static br.com.six2six.fixturefactory.Fixture.from;
+import static br.com.six2six.fixturefactory.loader.FixtureFactoryLoader.loadTemplates;
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 
 import java.util.HashSet;
 import java.util.Set;
 
 import org.joda.time.LocalDateTime;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Timeout;
 
 import br.com.contmatic.model.telefone.Telefone;
 
 public class ClienteTest {
 
-	private static Cliente clienteBefore;
+	private static Cliente clienteFixture;
 
-	@BeforeAll
-	static void criarObjCliente() {
-		clienteBefore = new Cliente("46339822819", "João");
-	}
-
-	@AfterEach
-	@Test
-	void deve_aceitar_cpf_valido() {
-		Cliente cliente = new Cliente("46339822819", "João");
-		assertEquals("46339822819", cliente.getCpf());
-	}
-
-	@Disabled("Ignore")
-	@Test
-	void nao_deve_aceitar_cpf_invalido() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Cliente("46329822813", "José Neto"),
-				"Esperado IllegalArgumentException ao tentar criar Cliente com CPF inválido:");
-		assertTrue(thrown.getMessage().contains("O campo CPF de Cliente informado é inválido."));
-	}
+	@BeforeEach()
+    public void setUp() {
+        loadTemplates("br.com.contimatic.model.util");
+        clienteFixture = from(Cliente.class).gimme("valid");
+    }
 	
-	@Timeout(100)
-	@Test
-	void nao_deve_aceitar_cpf_com_numeros_iguais() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Cliente("22222222222", "José Neto"),
-				"Esperado IllegalArgumentException ao tentar criar Cliente com CPF com números iguais:");
-		assertTrue(thrown.getMessage().contains("O campo CPF de Cliente informado é inválido."));
-	}
+	 @Test
+	    void deve_aceitar_cliente_valido() {
+	        assertThat(getViolation(clienteFixture).size(), is(0));
+	    }
 
-	@Test
-	void nao_deve_aceitar_cpf_nulo() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Cliente(null, "José Neto"),
-				"Esperado IllegalArgumentException ao tentar criar Cliente com CPF Null:");
-		assertTrue(thrown.getMessage().contains("O campo CPF de Cliente deve ser preenchido."));
-	}
+	    @Test
+	    void nao_deve_aceitar_cpf_invalido() {
+	        clienteFixture.setCpf("72738802070");
+	        assertThat(getViolation(clienteFixture), hasItem(CPF_INVALIDO_MESSAGE));
+	    }
 
-	@Test
-	void nao_deve_aceitar_cpf_vazio() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Cliente("", "José Neto"),
-				"Esperado IllegalArgumentException ao tentar criar Cliente com CPF vazio:");
-		assertTrue(thrown.getMessage().contains("O campo CPF de Cliente não deve ser vazio."));
-	}
+	    @Test
+	    void nao_deve_aceitar_cpf_com_numeros_iguais() {
+	        clienteFixture.setCpf("22222222222");
+	        assertThat(getViolation(clienteFixture), hasItem(CPF_INVALIDO_MESSAGE));
+	    }
 
-	@Test
-	void nao_deve_aceitar_cpf_com_mais_de_11() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Cliente("466398222142", "José Neto"),
-				"Esperado IllegalArgumentException ao tentar criar Cliente com CPF contendo mais de 11 digitos:");
-		assertTrue(thrown.getMessage().contains("O campo CPF de Cliente deve conter 11 digitos."));
-	}
+	    @Test
+	    void nao_deve_aceitar_cpf_nulo() {
+	        clienteFixture.setCpf(null);
+	        assertThat(getViolation(clienteFixture), hasItem(CPF_NULL_MESSAGE));
+	    }
 
-	@Test
-	void nao_deve_aceitar_cpf_com_menos_de_11() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Cliente("42698471", "José Neto"),
-				"Esperado IllegalArgumentException ao tentar criar Cliente com CPF contendo menos de 11 digitos:");
-		assertTrue(thrown.getMessage().contains("O campo CPF de Cliente deve conter 11 digitos."));
-	}
+	    @Test
+	    void nao_deve_aceitar_cpf_vazio() {
+	        clienteFixture.setCpf("");
+	        assertThat(getViolation(clienteFixture), hasItem(CPF_VAZIO_MESSAGE));
+	    }
 
-	@Test
-	void nao_deve_aceitar_cpf_com_letras() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Cliente("456398228AA", "José Neto"),
-				"Esperado IllegalArgumentException ao tentar criar Cliente com CPF contendo Letras:");
-		assertTrue(thrown.getMessage().contains("O campo CPF de Cliente não é permitido conter pontuação, letras e caracter especial."));
-	}
+	    @Test
+	    void nao_deve_aceitar_cpf_vazio_espaco() {
+	        clienteFixture.setCpf(" ");
+	        assertThat(getViolation(clienteFixture), hasItem(CPF_NULL_MESSAGE));
+	    }
 
-	@Test
-	void nao_deve_aceitar_cpf_com_caracter_especial() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Cliente("456398228!*", "José Neto"),
-				"Esperado IllegalArgumentException ao tentar criar Cliente com CPF contendo caracter especial:");
-		assertTrue(thrown.getMessage().contains("O campo CPF de Cliente não é permitido conter pontuação, letras e caracter especial."));
-	}
+	    @Test
+	    void nao_deve_aceitar_cpf_com_mais_de_11() {
+	        clienteFixture.setCpf("78643219873321976");
+	        assertThat(getViolation(clienteFixture), hasItem(CPF_TAMANHO_MESSAGE));
+	    }
 
-	@Test
-	void nao_deve_aceitar_cpf_com_maskara() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Cliente("463.398.22811", "José Neto"),
-				"Esperado IllegalArgumentException ao tentar criar Cliente com CPF contendo maskara:");
-		assertTrue(thrown.getMessage().contains("O campo CPF de Cliente não é permitido conter pontuação, letras e caracter especial."));
-	}
+	    @Test
+	    void nao_deve_aceitar_cpf_com_menos_de_11() {
+	        clienteFixture.setCpf("78643");
+	        assertThat(getViolation(clienteFixture), hasItem(CPF_TAMANHO_MESSAGE));
+	    }
 
-	@Test
-	void nao_deve_aceitar_cpf_com_espaco() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Cliente(" 46339 8 228 11", "José Neto"),
-				"Esperado IllegalArgumentException ao tentar criar Cliente com CPF contendo espaço:");
-		assertTrue(thrown.getMessage().contains("O CPF de Cliente não deve conter espaço."));
-	}
+	    @Test
+	    void nao_deve_aceitar_cpf_com_letras() {
+	        clienteFixture.setCpf("786DD43AB");
+	        assertThat(getViolation(clienteFixture), hasItem(CPF_LETRAS_MASK_MESSAGE));
+	    }
 
-	// NOME
-	@Test
-	void deve_aceitar_nome_valido() {
-		Cliente cliente = new Cliente("46339822819", "João Victor Mendes Vilela");
-		assertEquals("João Victor Mendes Vilela", cliente.getNome());
-	}
+	    @Test
+	    void nao_deve_aceitar_cpf_com_caracter_especial() {
+	        clienteFixture.setCpf("786784174!%#");
+	        assertThat(getViolation(clienteFixture), hasItem(CPF_LETRAS_MASK_MESSAGE));
+	    }
 
-	@Test
-	void deve_aceitar_nome_com_acento() {
-		Cliente cliente = new Cliente("46339822819", "João Victor");
-		assertEquals("João Victor", cliente.getNome());
-	}
+	    @Test
+	    void nao_deve_aceitar_cpf_com_maskara() {
+	        clienteFixture.setCpf("463.398.228-19");
+	        assertThat(getViolation(clienteFixture), hasItem(CPF_LETRAS_MASK_MESSAGE));
+	    }
 
-	@Test
-	void deve_aceitar_nome_sem_acento() {
-		Cliente cliente = new Cliente("46339822819", "Gabriel Souza");
-		assertEquals("Gabriel Souza", cliente.getNome());
-	}
+	    @Test
+	    void nao_deve_aceitar_cpf_com_espaco() {
+	        clienteFixture.setCpf("4 63 3982219");
+	        assertThat(getViolation(clienteFixture), hasItem(CPF_INVALIDO_MESSAGE));
+	    }
+	    
+//NOME
+	    @Test
+	    void deve_aceitar_nome_com_acento() {
+	        clienteFixture.setNome("João");
+	        assertThat(getViolation(clienteFixture).size(), is(0));
+	    }
 
-	@Test
-	void nao_deve_aceitar_nome_nulo() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Cliente("46339822819", null),
-				"Esperado IllegalArgumentException ao tentar criar Cliente com nome Null: ");
-		assertEquals("O campo Nome de Cliente deve ser preenchido.", thrown.getMessage());
-	}
+	    @Test
+	    void deve_aceitar_nome_sem_acento() {
+	        clienteFixture.setNome("Cliente B");
+	        assertThat(getViolation(clienteFixture).size(), is(0));
+	    }
 
-	@Test
-	void nao_deve_aceitar_nome_vazio() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Cliente("46339822819", ""),
-				"Esperado IllegalArgumentException ao tentar criar Cliente com nome vazio: ");
-		assertEquals("O campo Nome de Cliente não deve ser vazio.", thrown.getMessage());
-	}
+	    @Test
+	    void nao_deve_aceitar_nome_nulo() {
+	        clienteFixture.setNome(null);
+	        assertThat(getViolation(clienteFixture), hasItem(NOME_NOT_BLANK_MESSAGE));
+	    }
 
-	@Test
-	void nao_deve_aceitar_nome_com_mais_40_caracteres() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Cliente("46339822819", "Elias Dias Souza Alecrim Dourado Teixeira da Silva"),
-				"Esperado IllegalArgumentException ao tentar criar Cliente com nome maior que 40 caracteres: ");
-		assertEquals("O campo Nome de Cliente deve ter no maximo 40 caracteres.", thrown.getMessage());
-	}
+	    @Test
+	    void nao_deve_aceitar_nome_vazio() {
+	        clienteFixture.setNome("");
+	        assertThat(getViolation(clienteFixture), hasItem(NOME_VAZIO_MESSAGE));
+	    }
 
-	@Test
-	void nao_deve_aceitar_nome_com_menos_3_caracteres() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Cliente("46339822819", "EL"),
-				"Esperado IllegalArgumentException ao tentar criar Cliente com nome manor que 3 caracteres:");
-		assertEquals("O campo Nome de Cliente deve ter no minimo 3 caracteres.", thrown.getMessage());
-	}
+	    @Test
+	    void nao_deve_aceitar_nome_espaco_vazio() {
+	        clienteFixture.setNome(" ");
+	        assertThat(getViolation(clienteFixture), hasItem(NOME_NOT_BLANK_MESSAGE));
+	    }
 
-	@Test
-	void nao_deve_aceitar_nome_com_caracter_especial() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Cliente("46339822819", "Joao# Victor"),
-				"Esperado IllegalArgumentException ao tentar criar Cliente com nome contendo caracter especial :");
-		assertEquals("O campo Nome de Cliente não é permitido conter pontuação, caracter especial e numérico.",thrown.getMessage());
-	}
+	    @Test
+	    void nao_deve_aceitar_nome_com_mais_40_caracteres() {
+	        clienteFixture.setNome("Elias Dias Souza Alecrim Dourado Teixeira da Silva");
+	        assertThat(getViolation(clienteFixture), hasItem(NOME_TAMANHO_MESSAGE));
+	    }
 
-	@Test
-	void nao_deve_aceitar_nome_com_caracter_pontuacao() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Cliente("46339822819", "Joao. Victor."),
-				"Esperado IllegalArgumentException ao tentar criar Cliente com nome contendo pontuação:");
-		assertEquals("O campo Nome de Cliente não é permitido conter pontuação, caracter especial e numérico.",thrown.getMessage());
-	}
+	    @Test
+	    void nao_deve_aceitar_nome_com_menos_3_caracteres() {
+	        clienteFixture.setNome("El");
+	        assertThat(getViolation(clienteFixture), hasItem(NOME_TAMANHO_MESSAGE));
+	    }
 
-	@Test
-	void nao_deve_aceitar_nome_com_caracter_numerico() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> new Cliente("46339822819", "João Victor01"),
-				"Esperado IllegalArgumentException ao tentar criar Cliente com nome contendo caracter númerico:");
-		assertEquals("O campo Nome de Cliente não é permitido conter pontuação, caracter especial e numérico.",thrown.getMessage());
-	}
+	    @Test
+	    void nao_deve_aceitar_nome_com_caracter_especial() {
+	        clienteFixture.setNome("Funcionario b%¨&");
+	        assertThat(getViolation(clienteFixture), hasItem(NOME_FORMAT_MESSAGE));
+	    }
+
+	    @Test
+	    void nao_deve_aceitar_nome_com_caracter_com_ponto() {
+	        clienteFixture.setNome("Cliente.B.A");
+	        assertThat(getViolation(clienteFixture), hasItem(NOME_FORMAT_MESSAGE));
+	    }
+
+	    @Test
+	    void nao_deve_aceitar_nome_com_caracter_numerico() {
+	        clienteFixture.setNome("Client3 B 1");
+	        assertThat(getViolation(clienteFixture), hasItem(NOME_FORMAT_MESSAGE));
+	    }
 
 //EMAIL
-	@Test
-	void deve_aceitar_email_valido() {
-		Cliente cliente = new Cliente("46339822819", "João Victor");
-		cliente.setEmail("joao.mendes@gmail.com");
-		assertEquals("joao.mendes@gmail.com", cliente.getEmail());
-	}
+	    @Test
+	    void deve_aceitar_email_valido() {
+	        clienteFixture.setEmail("funcionario@gmail");
+	        assertThat(getViolation(clienteFixture).size(), is(0));
+	    }
 
-	@Test
-	void nao_deve_aceitar_email_sem_dominio() {
-		Cliente cliente = new Cliente("46339822819", "João Victor");
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> cliente.setEmail("joaovictor.com"),
-				"Esperado IllegalArgumentException ao tentar criar Cliente com Email sem dominio:");
-		assertEquals("O campo Email de Cliente é inválido.", thrown.getMessage());
-	}
+	    @Test
+	    void nao_deve_aceitar_email_sem_dominio() {
+	        clienteFixture.setEmail("joaovictor.com");
+	        assertThat(getViolation(clienteFixture), hasItem(EMAIL_INVALIDO_MESSAGE));
+	    }
 
-	@Test
-	void nao_deve_aceitar_email_nullo() {
-		Cliente cliente = new Cliente("46339822819", "João Victor");
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> cliente.setEmail(null),
-				"Esperado IllegalArgumentException ao tentar criar Cliente com Email Null:");
-		assertEquals("O campo Email de Cliente deve ser preenchido.", thrown.getMessage());
-	}
+	    @Test
+	    void nao_deve_aceitar_email_nullo() {
+	        clienteFixture.setEmail(null);
+	        assertThat(getViolation(clienteFixture), hasItem(EMAIL_NOT_BLANK_MESSAGE));
+	    }
 
-	@Test
-	void nao_deve_aceitar_email_vazio_sem_espaco() {
-		Cliente cliente = new Cliente("46339822819", "João Victor");
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> cliente.setEmail(""),
-				"Esperado IllegalArgumentException ao tentar criar Cliente com Email vazio:");
-		assertEquals("O campo Email de Cliente não deve ser vazio.", thrown.getMessage());
-	}
+	    @Test
+	    void nao_deve_aceitar_email_vazio() {
+	        clienteFixture.setEmail("");
+	        assertThat(getViolation(clienteFixture), hasItem(EMAIL_VAZIO_MESSAGE));
+	    }
 
-	@Test
-	void nao_deve_aceitar_email_vazio_com_espaco() {
-		Cliente cliente = new Cliente("46339822819", "João Victor");
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> cliente.setEmail(" "),
-				"Esperado IllegalArgumentException ao tentar criar Cliente com Email vazio com espaço:");
-		assertEquals("O campo Email de Cliente não deve ser vazio.", thrown.getMessage());
-	}
+	    @Test
+	    void nao_deve_aceitar_email_vazio_com_espaco() {
+	        clienteFixture.setEmail(" ");
+	        assertThat(getViolation(clienteFixture), hasItem(EMAIL_NOT_BLANK_MESSAGE));
+	    }
 
-	@Test
-	void nao_deve_aceitar_email_com_dois_dominio() {
-		Cliente cliente = new Cliente("46339822819", "João Victor");
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> cliente.setEmail("joaovictor@gmail@yahoo"),
-				"Esperado IllegalArgumentException ao tentar criar Cliente com Email contendo dois dominios:");
-		assertEquals("O campo Email de Cliente é inválido.", thrown.getMessage());
-	}
+	    @Test
+	    void nao_deve_aceitar_email_com_espaco() {
+	        clienteFixture.setEmail("");
+	        assertThat(getViolation(clienteFixture), hasItem(EMAIL_VAZIO_MESSAGE));
+	    }
 
-	@Test
-	void nao_deve_aceitar_email_com_mais_de_35_caracteres() {
-		Cliente cliente = new Cliente("46339822819", "João Victor");
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> cliente.setEmail("joaovictortestetestetesteteste@gmail.com"),
-				"Esperado IllegalArgumentException ao tentar criar Cliente com Email contendo mais de 35 caracteres:");
-		assertEquals("O campo Email de Cliente deve ter no maximo 35 caracteres.", thrown.getMessage());
-	}
+	    @Test
+	    void nao_deve_aceitar_email_com_dois_dominio() {
+	        clienteFixture.setEmail("joaovictor@gmail@yahoo");
+	        assertThat(getViolation(clienteFixture), hasItem(EMAIL_INVALIDO_MESSAGE));
+	    }
+	    
+//Telefone
+	    @Test
+	    void deve_aceitar_lista_telefone_valida() {
+	        Set<Telefone> telefones = new HashSet<>();
+	        telefones.add(new Telefone("55", "11", "967976463"));
+	        telefones.add(new Telefone("55", "11", "968904450"));
+	        clienteFixture.setTelefones(telefones);
+	        assertEquals(telefones, clienteFixture.getTelefones());
+	    }
 
-	@Test
-	void nao_deve_aceitar_email_com_menos_de_5_caracteres() {
-		Cliente cliente = new Cliente("46339822819", "João Victor");
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> cliente.setEmail("jo"),
-				"Esperado IllegalArgumentException ao tentar criar Cliente com Email contendo menos de 5 caracteres:");
-		assertEquals("O campo Email de Cliente deve ter no minimo 5 caracteres.", thrown.getMessage());
-	}
+	    @Test
+	    void nao_deve_aceitar_lista_telefone_null() {
+	        clienteFixture.setTelefones(null);
+	        assertThat(getViolation(clienteFixture), hasItem(TELEFONE_NULL_MESSAGE));
+	    }
 
-	// Telefone
-	@Test
-	void deve_aceitar_lista_telefone_valida() {
-		Set<Telefone> telefones = new HashSet<>();
-		telefones.add(new Telefone("55", "11", "967976463"));
-		telefones.add(new Telefone("55", "11", "968904450"));
-		clienteBefore.setTelefones(telefones);
-		assertEquals(telefones, clienteBefore.getTelefones());
+	    @Test
+	    void nao_deve_aceitar_lista_telefone_vazio() {
+	        Set<Telefone> telefones = new HashSet<>();
+	        clienteFixture.setTelefones(telefones);
+	        assertThat(getViolation(clienteFixture), hasItem(TELEFONE_VAZIO_MESSAGE));
+	    }
 
-	}
+	    @Test
+	    void nao_deve_aceitar_lista_telefone_maior_que_tres_contatos() {
+	        Set<Telefone> telefones = new HashSet<>();
+	        telefones.add(new Telefone("55", "11", "967945524"));
+	        telefones.add(new Telefone("55", "11", "55285908"));
+	        telefones.add(new Telefone("55", "11", "969945526"));
+	        telefones.add(new Telefone("55", "11", "960945527"));
+	        clienteFixture.setTelefones(telefones);
+	        assertThat(getViolation(clienteFixture), hasItem(LISTA_TELEFONE_TAMANHO_MESSAGE));
+	    }
 
-	@Test
-	void nao_deve_aceitar_lista_telefone_null() {
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> clienteBefore.setTelefones(null),
-				"Esperado IllegalArgumentException ao tentar criar lista de Telefone Null em Cliente");
-		assertEquals("O campo Telefone de Cliente deve ser preenchido.", thrown.getMessage());
-	}
 
-	@Test
-	void nao_deve_aceitar_lista_telefone_vazio() {
-		Set<Telefone> telefones = new HashSet<>();
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> clienteBefore.setTelefones(telefones),
-				"Esperado IllegalArgumentException ao tentar criar lista de Telefone vazia em Cliente");
-		assertEquals("O campo Telefone de Cliente não deve ser vazio.", thrown.getMessage());
-	}
-
-	@Test
-	void nao_deve_aceitar_lista_telefone_maior_que_tres_contatos() {
-		Set<Telefone> telefones = new HashSet<>();
-		telefones.add(new Telefone("55", "11", "967945524"));
-		telefones.add(new Telefone("55", "11", "55285908"));
-		telefones.add(new Telefone("55", "11", "969945526"));
-		telefones.add(new Telefone("55", "11", "960945527"));
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> clienteBefore.setTelefones(telefones),
-				"Esperado IllegalArgumentException ao tentar criar lista de Telefone maior que três contatos em Cliente");
-		assertEquals("O campo Telefone de Cliente deve conter no maximo três registros de contato.",
-				thrown.getMessage());
-	}
-
-	@Test
-	void nao_deve_aceitar_lista_telefone_contendo_menos_que_dois_registros() {
-		Set<Telefone> telefones = new HashSet<>();
-		telefones.add(new Telefone("55", "11", "967945524"));
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-				() -> clienteBefore.setTelefones(telefones),
-				"Esperado IllegalArgumentException ao tentar criar lista de Telefone maior que três contatos em Cliente");
-		assertEquals("O campo Telefone de Cliente deve conter no mínimo dois registros de contato.",
-				thrown.getMessage());
-	}
-
-	// Equals
+// Equals
 	@Test
 	void deve_aceitar_objeto_com_valores_iguais() {
-		Cliente clienteB = new Cliente("46339822819", "clienteB");
-		assertEquals(true, clienteBefore.equals(clienteB));
+		Cliente clienteB = new Cliente("73738802070", "Cliente A");
+		assertEquals(true, clienteFixture.equals(clienteB));
 	}
 
 	@Test
@@ -336,7 +279,7 @@ public class ClienteTest {
 		assertEquals(false, clienteA.equals(new Object()));
 	}
 
-	// HashCode
+// HashCode
 	@Test
 	void deve_ter_hashCode_iguais() {
 		int hashcodeA = new Cliente("46339822819", "Cliente").hashCode();

@@ -1,6 +1,8 @@
 package br.com.contmatic.model.empresa;
 
 import static br.com.contimatic.model.util.Violation.getViolation;
+import static br.com.contmatic.model.util.constantes.AuditoriaConstante.DATA_ALTERACAO_INVALIDA;
+import static br.com.contmatic.model.util.constantes.AuditoriaConstante.DATA_CRIACAO_INVALIDA;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_INVALIDO_NOT_LETRAS_MASK_SPACE_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_NOT_BLANK_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.CNPJ_TAMANHO_MESSAGE;
@@ -19,7 +21,6 @@ import static br.com.contmatic.model.util.constantes.EmpresaConstante.TELEFONE_N
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.TELEFONE_VAZIO_MESSAGE;
 import static br.com.six2six.fixturefactory.Fixture.from;
 import static br.com.six2six.fixturefactory.loader.FixtureFactoryLoader.loadTemplates;
-import static javax.validation.Validation.buildDefaultValidatorFactory;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -30,12 +31,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-
 import org.joda.time.LocalDateTime;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import br.com.contmatic.model.endereco.Endereco;
@@ -44,19 +41,19 @@ import br.com.contmatic.model.telefone.Telefone;
 public class EmpresaTest {
 
     private static Empresa empresaFixture;
-   // private static LocalDateTime data = LocalDateTime.now();
+    private static LocalDateTime data = LocalDateTime.now();
 
-    @BeforeAll
-    public static void setUp() {
+    @BeforeEach()
+    public void setUp() {
         loadTemplates("br.com.contimatic.model.util");
         empresaFixture = from(Empresa.class).gimme("valid");
     }
 
     @Test
     void deve_aceitar_empresa_valida() {
-        assertThat(getViolation(empresaFixture).size(),is(0));
-    }
-    
+        assertThat(getViolation(empresaFixture).size(), is(0));
+    } 
+
     @Test
     void nao_deve_aceitar_cnpj_invalido() {
         empresaFixture.setCnpj("17081431000111");
@@ -135,7 +132,7 @@ public class EmpresaTest {
         empresaFixture.setRazaoSocial("C6 Bank!##");
         assertThat(getViolation(empresaFixture), hasItem(RAZAO_SOCIAL_INVALIDO_MESSAGE));
     }
-    
+
     @Test
     void nao_deve_aceitar_razao_social_mais_40_caracteres() {
         empresaFixture.setRazaoSocial("TESTE123TESTE123TESTE123TESTE123TESTE123TESTE1231213dadada1");
@@ -231,14 +228,6 @@ public class EmpresaTest {
         assertThat(getViolation(empresaFixture), hasItem(LISTA_TELEFONE_TAMANHO_MESSAGE));
     }
 
-    @Test
-    void nao_deve_aceitar_lista_telefone_menor_que_dois_contatos() {
-        Set<Telefone> telefones = new HashSet<>();
-        telefones.add(new Telefone("55", "11", "968945525"));
-        empresaFixture.setTelefones(telefones);
-        assertThat(getViolation(empresaFixture), hasItem(LISTA_TELEFONE_TAMANHO_MESSAGE));
-    }
-
     // Endereco
     @Test
     void deve_aceitar_lista_endereco_valida() {
@@ -250,8 +239,8 @@ public class EmpresaTest {
 
     @Test
     void nao_deve_aceitar_lista_endereco_null() {
-         empresaFixture.setEnderecos(null);
-         assertThat(getViolation(empresaFixture), hasItem(ENDERECO_NULL_MESSAGE));
+        empresaFixture.setEnderecos(null);
+        assertThat(getViolation(empresaFixture), hasItem(ENDERECO_NULL_MESSAGE));
     }
 
     @Test
@@ -314,203 +303,67 @@ public class EmpresaTest {
 
     // AUDITORIA
     // DataAlteração
-//    @Test
-//    void aceitar_data_alteracao_valida() {
-//        empresaFixture.setDataAlteracao(data);
-//        assertEquals(data, empresaFixture.getDataAlteracao());
-//    }
-//
-//    @Test
-//    void nao_deve_aceitar_data_alteracao_mes_maior_que_atual() {
-//        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> empresaFixture.setDataAlteracao(new LocalDateTime(2022, 01, 27, 0, 0, 0, 0)),
-//            "Esperado IllegalArgumentException ao tentar definir Data de Aleração mês maior que atual em Auditoria");
-//        assertEquals("A Data Alteração informada de Auditoria é invalida.", thrown.getMessage());
-//    }
-    // @Test
-    // void nao_deve_aceitar_data_alteracao_mes_menor_que_atual() {
-    // IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-    // () -> empresaBefore.setDataAlteracao(),
-    // "Esperado IllegalArgumentException ao tentar definir Data de Aleração mês menor que atual em Auditoria");
-    // assertEquals("A Data Alteração informada de Auditoria é invalida.", thrown.getMessage());
-    // }
-    //
-    // @Test
-    // void nao_deve_aceitar_data_alteracao_ano_maior_que_atual() {
-    // IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-    // () -> empresaBefore.setDataAlteracao(),
-    // "Esperado IllegalArgumentException ao tentar definir Data de Aleração ano maior que atual em Auditoria");
-    // assertEquals("A Data Alteração informada de Auditoria é invalida.", thrown.getMessage());
-    // }
-    //
-    // @Test
-    // void nao_deve_aceitar_data_alteracao_ano_menor_que_atual() {
-    // IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-    // () -> empresaBefore.setDataAlteracao(),
-    // "Esperado IllegalArgumentException ao tentar definir Data de Aleração ano menor que atual em Auditoria");
-    // assertEquals("A Data Alteração informada de Auditoria é invalida.", thrown.getMessage());
-    // }
-    //
-    // @Test
-    // void nao_deve_aceitar_data_alteracao_dia_maior_que_atual() {
-    // IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-    // () -> empresaBefore.setDataAlteracao(),
-    // "Esperado IllegalArgumentException ao tentar definir Data de Aleração dia maior que atual em Auditoria");
-    // assertEquals("A Data Alteração informada de Auditoria é invalida.", thrown.getMessage());
-    // }
-    //
-    // @Test
-    // void nao_deve_aceitar_data_alteracao_dia_menor_que_atual() {
-    // IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-    // () -> empresaBefore.setDataAlteracao(),
-    // "Esperado IllegalArgumentException ao tentar definir Data de Aleração dia menor que atual em Auditoria");
-    // assertEquals("A Data Alteração informada de Auditoria é invalida.", thrown.getMessage());
-    // }
-    //
-    // @Test
-    // void nao_deve_aceitar_data_alteracao_hora_menor_que_atual() {
-    // IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-    // () -> empresaBefore.setDataAlteracao(),
-    // "Esperado IllegalArgumentException ao definir Horário de Data Alteração menor que atual em Auditoria");
-    // assertEquals("A Data Alteração informada de Auditoria é invalida.", thrown.getMessage());
-    // }
-    //
-    // @Test
-    // void nao_deve_aceitar_data_alteracao_hora_maior_que_atual() {
-    // IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-    // () -> empresaBefore.setDataAlteracao(),
-    // "Esperado IllegalArgumentException ao tentar definir Horário de Data Alteração maior que atual em Auditoria");
-    // assertEquals("A Data Alteração informada de Auditoria é invalida.", thrown.getMessage());
-    // }
-    //
-    // @Test
-    // void nao_deve_aceitar_data_alteracao_minutos_menor_que_atual() {
-    // IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-    // () -> empresaBefore.setDataAlteracao(),
-    // "Esperado IllegalArgumentException ao definir Minutos de Data Alteração menor que atual em Auditoria");
-    // assertEquals("A Data Alteração informada de Auditoria é invalida.", thrown.getMessage());
-    // }
-    //
-    // @Test
-    // void nao_deve_aceitar_data_alteracao_minutos_maior_que_atual() {
-    // IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-    // () -> empresaBefore.setDataAlteracao(),
-    // "Esperado IllegalArgumentException ao definir Minutos de Data Alteração maior que atual em Auditoria");
-    // assertEquals("A Data Alteração informada de Auditoria é invalida.", thrown.getMessage());
-    // }
-    //
-    // @Test
-    // void nao_deve_aceitar_data_alteracao_com_valor_mes_maior_que_doze() {
-    // DateTimeException thrown = assertThrows(DateTimeException.class,
-    // () -> empresaBefore.setDataAlteracao(),
-    // "Expected doThing() to throw, but it didn't");
-    // assertEquals("Invalid value for MonthOfYear (valid values 1 - 12): 2020", thrown.getMessage());
-    // }
-    //
-    //// DataCriação
-    // @Test
-    // void aceitar_data_criacao_valido() {
-    // empresaBefore.setDataCriacao();
-    // assertEquals(now().withNano(0), empresaBefore.getDataCriacao());
-    // }
-    //
-    // @Test
-    // void nao_deve_aceitar_data_criacao_mes_menor_que_atual() {
-    // IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-    // () -> empresaBefore.setDataCriacao(),
-    // "Esperado IllegalArgumentException ao definir Data Criação mês menor que atual em Auditoria");
-    // assertEquals("A Data Criação informada de Auditoria é invalida.", thrown.getMessage());
-    // }
-    //
-    // @Test
-    // void nao_deve_aceitar_data_criacao_mes_maior_que_atual() {
-    // IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-    // () -> empresaBefore.setDataCriacao(),
-    // "Esperado IllegalArgumentException ao definir Data Criação mês maior que atual em Auditoria");
-    // assertEquals("A Data Criação informada de Auditoria é invalida.", thrown.getMessage());
-    // }
-    //
-    // @Test
-    // void nao_deve_aceitar_data_criacao_ano_maior_que_atual() {
-    // IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-    // () -> empresaBefore.setDataCriacao(),
-    // "Esperado IllegalArgumentException ao definir Data Criação ano maior que atual em Auditoria");
-    // assertEquals("A Data Criação informada de Auditoria é invalida.", thrown.getMessage());
-    // }
-    //
-    // @Test
-    // void nao_deve_aceitar_data_criacao_ano_menor_que_atual() {
-    // IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-    // () -> empresaBefore.setDataCriacao(),
-    // "Esperado IllegalArgumentException ao definir Data Criação ano menor que atual em Auditoria");
-    // assertEquals("A Data Criação informada de Auditoria é invalida.", thrown.getMessage());
-    // }
-    //
-    // @Test
-    // void nao_deve_aceitar_data_criacao_com_valor_mes_maior_que_doze() {
-    // DateTimeException thrown = assertThrows(DateTimeException.class,
-    // () -> empresaBefore.setDataCriacao(),
-    // "Expected doThing() to throw, but it didn't");
-    // assertEquals("Invalid value for MonthOfYear (valid values 1 - 12): 2020", thrown.getMessage());
-    // }
-    //
-    // @Test
-    // void nao_deve_aceitar_data_criacao_dia_maior_que_atual() {
-    // IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-    // () -> empresaBefore.setDataCriacao(),
-    // "Expected doThing() to throw, but it didn't");
-    // assertEquals("A Data Criação informada de Auditoria é invalida.", thrown.getMessage());
-    // }
-    //
-    // @Test
-    // void nao_deve_aceitar_data_criacao_dia_menor_que_atual() {
-    // IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-    // () -> empresaBefore.setDataCriacao(),
-    // "Esperado IllegalArgumentException ao definir Data Criação dia menor que atual em Auditoria");
-    // assertEquals("A Data Criação informada de Auditoria é invalida.", thrown.getMessage());
-    // }
-    //
-    // @Test
-    // void nao_deve_aceitar_data_criacao_hora_menor_que_atual() {
-    // IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-    // () -> empresaBefore.setDataCriacao(),
-    // "Esperado IllegalArgumentException ao tentar definir Horário de Data Criação menor que atual em Auditoria");
-    // assertEquals("A Data Criação informada de Auditoria é invalida.", thrown.getMessage());
-    // }
-    //
-    // @Test
-    // void nao_deve_aceitar_data_criacao_hora_maior_que_atual() {
-    // IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-    // () -> empresaBefore.setDataCriacao(),
-    // "Esperado IllegalArgumentException ao tentar definir Horário de Data Alteração maior que atual em Auditoria");
-    // assertEquals("A Data Criação informada de Auditoria é invalida.", thrown.getMessage());
-    // }
-    //
-    // @Test
-    // void nao_deve_aceitar_data_criacao_minutos_menor_que_atual() {
-    // IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-    // () -> empresaBefore.setDataCriacao(),
-    // "Esperado IllegalArgumentException ao definir Minutos de Data Criação menor que atual em Auditoria");
-    // assertEquals("A Data Criação informada de Auditoria é invalida.", thrown.getMessage());
-    // }
-    //
-    // @Test
-    // void nao_deve_aceitar_data_criacao_minutos_maior_que_atual() {
-    // IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-    // () -> empresaBefore.setDataAlteracao(),
-    // "Esperado IllegalArgumentException ao definir Minutos de Data Criação maior que atual em Auditoria");
-    // assertEquals("A Data Alteração informada de Auditoria é invalida.", thrown.getMessage());
-    // }
-
-    // toString
     @Test
-    void deve_conter_valores_dos_campos_tostring() {
+    void aceitar_data_alteracao_valida() {
+        empresaFixture.setDataAlteracao(data);
+        assertEquals(data, empresaFixture.getDataAlteracao());
+    }
+
+    @Test
+    void nao_deve_aceitar_data_alteracao_mes_maior_que_atual() {
+        empresaFixture.setDataAlteracao(new LocalDateTime(2023, 10, 6, 0, 0, 0, 0));
+        assertThat(getViolation(empresaFixture), hasItem(DATA_ALTERACAO_INVALIDA));
+    }
+
+
+    @Test
+    void nao_deve_aceitar_data_alteracao_ano_maior_que_atual() {
+        empresaFixture.setDataAlteracao(new LocalDateTime(2033, 1, 6, 0, 0, 0, 0));
+        assertThat(getViolation(empresaFixture), hasItem(DATA_ALTERACAO_INVALIDA));
+    }
+    
+    @Test
+    void nao_deve_aceitar_data_alteracao_dia_maior_que_atual() {
+        empresaFixture.setDataAlteracao(new LocalDateTime(2023, 10, 31, 0, 0, 0, 0));
+        assertThat(getViolation(empresaFixture), hasItem(DATA_ALTERACAO_INVALIDA));
+    }
+
+    // DataCriação
+    @Test
+    void aceitar_data_criacao_valida() {
+        empresaFixture.setDataCriacao(data);
+        assertEquals(data, empresaFixture.getDataCriacao());
+    }
+    
+    @Test
+    void nao_deve_aceitar_data_criacao_ano_maior_que_atual() {
+        empresaFixture.setDataCriacao(new LocalDateTime(2040, 6, 1, 0, 0, 0, 0));
+        assertThat(getViolation(empresaFixture), hasItem(DATA_CRIACAO_INVALIDA));
+    }
+    
+    @Test
+    void nao_deve_aceitar_data_criacao_mes_maior_que_atual() {
+        empresaFixture.setDataCriacao(new LocalDateTime(2023, 10, 6, 0, 0, 0, 0));
+        assertThat(getViolation(empresaFixture), hasItem(DATA_CRIACAO_INVALIDA));
+    }
+    
+    @Test
+    void nao_deve_aceitar_data_criacao_dia_maior_que_atual() {
+        empresaFixture.setDataCriacao(new LocalDateTime(2023, 10, 31, 0, 0, 0, 0));
+        assertThat(getViolation(empresaFixture), hasItem(DATA_CRIACAO_INVALIDA));
+    }
+
+
+   // toString
+    @Test
+    void deve_conter_valores_dos_campos_toString() {
         final String CNPJ = "17081431000122";
         final String NOME = "VIVO";
         final String RAZAO = "Vivo Telecomunicações";
         final String USERCRIACAO = "João";
         final String USERALTERACAO = "José";
         LocalDateTime DATA_CRIACAO = LocalDateTime.now();
-        final LocalDateTime DATA_ALTERACAO = LocalDateTime.now();
+        LocalDateTime DATA_ALTERACAO = LocalDateTime.now();
 
         Set<Endereco> enderecos = new HashSet<>();
         enderecos.add(new Endereco("04852505", 83));
@@ -538,20 +391,5 @@ public class EmpresaTest {
         assertTrue(empresa.toString().contains(telefones.toString()));
         assertTrue(empresa.toString().contains(DATA_CRIACAO.toString()));
         assertTrue(empresa.toString().contains(DATA_ALTERACAO.toString()));
-    }
-
-    @Test
-    void example_validation_bean() {
-        ValidatorFactory factory;
-        Validator validator;
-        factory = buildDefaultValidatorFactory();
-        validator = factory.getValidator();
-
-        Empresa empresaA = new Empresa(null);
-        Set<String> erros = new HashSet<>();
-        Set<ConstraintViolation<Empresa>> violations = validator.validate(empresaA);
-        for(ConstraintViolation<Empresa> violation : violations) {
-            erros.add(violation.getMessageTemplate());
-        }
     }
 }

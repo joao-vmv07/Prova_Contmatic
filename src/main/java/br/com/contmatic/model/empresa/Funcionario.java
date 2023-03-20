@@ -19,7 +19,6 @@ import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_FORMAT_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_TAMANHO_FIXO;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_TAMANHO_MESSAGE;
-import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.NOME_FORMAT_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.NOME_NOT_BLANK_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.NOME_TAMANHO_MAX;
@@ -79,7 +78,6 @@ public class Funcionario extends Auditoria {
     private String email;
     
     @NotBlank(message = IDADE_BLANK_NULL_MESSAGE)
-    @NotEmpty(message = IDADE_VAZIO_MESSAGE)
     @Size(min = IDADE_TAMANHO_FIXO, max = IDADE_TAMANHO_FIXO, message = IDADE_TAMANHO_MESSAGE)
     @Pattern(regexp = REGEX_CONTEM_NUMERO, message = IDADE_FORMAT_MESSAGE )
     private String idade;

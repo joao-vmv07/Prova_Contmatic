@@ -6,7 +6,9 @@ import static br.com.six2six.fixturefactory.Fixture.of;
 import java.math.BigDecimal;
 
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 
+import br.com.contmatic.model.empresa.Cliente;
 import br.com.contmatic.model.empresa.Empresa;
 import br.com.contmatic.model.empresa.Funcionario;
 import br.com.contmatic.model.endereco.Endereco;
@@ -18,6 +20,8 @@ public class ModelTempleateLoader implements TemplateLoader {
 
     @Override
     public void load() {
+        LocalDateTime DATA_CRIACAO = new LocalDateTime(2023, 1 , 21, 11 , 11);
+        LocalDateTime DATA_ALTERACAO = LocalDateTime.now();
         of(Empresa.class).addTemplate("valid", new Rule() {
             {
                 add("cnpj", random("66642331000133", "50449153000199", "91158295000184"));
@@ -25,6 +29,10 @@ public class ModelTempleateLoader implements TemplateLoader {
                 add("nomeFantasia", "VIVO");
                 add("telefones", has(1).of(Telefone.class, "valid"));
                 add("enderecos", has(1).of(Endereco.class, "valid"));
+                add("usuarioCriacao", "Empresa A");
+                add("usuarioAlteracao", "Empresa B");
+                add("dataCriacao", DATA_CRIACAO);
+                add("dataAlteracao", DATA_ALTERACAO);
             }
         });
         of(Funcionario.class).addTemplate("valid", new Rule() {
@@ -36,6 +44,22 @@ public class ModelTempleateLoader implements TemplateLoader {
                 add("dataNascimento", new LocalDate(2003, 3, 7));
                 add("status", true);
                 add("salario", new BigDecimal("2000.00"));
+                add("usuarioCriacao", "Funcionario A");
+                add("usuarioAlteracao", "Funcionario B");
+                add("dataCriacao", DATA_CRIACAO);
+                add("dataAlteracao", DATA_ALTERACAO);
+            }
+        });
+        of(Cliente.class).addTemplate("valid", new Rule() {
+            {
+                add("cpf", "73738802070");
+                add("nome", "Cliente A");
+                add("email", "cliente@gmail.com");
+                add("telefones", has(2).of(Telefone.class, "valid"));
+                add("usuarioCriacao", "cliente A");
+                add("usuarioAlteracao", "cliente B");
+                add("dataCriacao", DATA_CRIACAO);
+                add("dataAlteracao", DATA_ALTERACAO);
             }
         });
         of(Telefone.class).addTemplate("valid", new Rule() {

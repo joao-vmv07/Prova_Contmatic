@@ -1,38 +1,52 @@
 package br.com.contmatic.model.telefone;
 
 import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDD_LETRAS_MESSAGE;
-import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDD_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDD_NOT_BLANK_MESSAGE;
 import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDD_TAMANHO_FIXO;
 import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDD_TAMANHO_FIXO_MESSAGE;
-import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDD_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDI_LETRAS_MESSAGE;
-import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDI_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDI_NOT_BLANK_MESSAGE;
 import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDI_TAMANHO_FIXO;
 import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDI_TAMANHO_FIXO_MESSAGE;
-import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDI_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.TelefoneConstante.NUMERO_LETRAS_MESSAGE;
-import static br.com.contmatic.model.util.constantes.TelefoneConstante.NUMERO_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.TelefoneConstante.NUMERO_NOT_BLANK_MESSAGE;
+import static br.com.contmatic.model.util.constantes.TelefoneConstante.NUMERO_TAMANHO_MAXIMO;
+import static br.com.contmatic.model.util.constantes.TelefoneConstante.NUMERO_TAMANHO_MINIMO;
 import static br.com.contmatic.model.util.constantes.TelefoneConstante.NUMERO_TIPO_MESSAGE;
-import static br.com.contmatic.model.util.constantes.TelefoneConstante.NUMERO_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.TelefoneConstante.TELEFONE_TIPO_NULL_MESSAGE;
-import static br.com.contmatic.model.util.validacao.Validacao.checkContemNumero;
-import static br.com.contmatic.model.util.validacao.Validacao.checkNull;
-import static br.com.contmatic.model.util.validacao.Validacao.checkTamanhoFixo;
-import static br.com.contmatic.model.util.validacao.Validacao.checkTipoTelefone;
-import static br.com.contmatic.model.util.validacao.Validacao.checkVazio;
+import static br.com.contmatic.model.util.constantes.ValidacaoConstante.REGEX_CONTEM_NUMERO;
 
 import java.util.Objects;
 
-import br.com.contmatic.model.empresa.Auditoria;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
+import br.com.contmatic.model.empresa.Auditoria;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Telefone extends Auditoria {
 
+    @NotBlank(message = DDD_NOT_BLANK_MESSAGE)
+    @Pattern(regexp = REGEX_CONTEM_NUMERO, message = DDD_LETRAS_MESSAGE)
+    @Size(min = DDD_TAMANHO_FIXO, max = DDD_TAMANHO_FIXO, message = DDD_TAMANHO_FIXO_MESSAGE)
     private String ddd;
 
+    @NotBlank(message = NUMERO_NOT_BLANK_MESSAGE)
+    @Pattern(regexp = REGEX_CONTEM_NUMERO, message = NUMERO_LETRAS_MESSAGE)
+    @Size(min = NUMERO_TAMANHO_MINIMO, max = NUMERO_TAMANHO_MAXIMO, message = NUMERO_TIPO_MESSAGE)
     private String numero;
 
+    @NotBlank(message = DDI_NOT_BLANK_MESSAGE)
+    @Pattern(regexp = REGEX_CONTEM_NUMERO, message = DDI_LETRAS_MESSAGE)
+    @Size(min = DDI_TAMANHO_FIXO, max = DDI_TAMANHO_FIXO, message = DDI_TAMANHO_FIXO_MESSAGE)
     private String ddi;
 
+    @NotNull(message = TELEFONE_TIPO_NULL_MESSAGE)
     private TelefoneType telefoneType;
 
     public Telefone(String ddi, String ddd, String numero) {
@@ -40,51 +54,6 @@ public class Telefone extends Auditoria {
         this.setDdi(ddi);
         this.setDdd(ddd);
         this.setNumero(numero);
-    }
-
-    public String getNumero() {
-        return numero;
-    }
-
-    public void setNumero(String numero) {
-        checkNull(numero, NUMERO_NULL_MESSAGE); 
-        checkVazio(numero, NUMERO_VAZIO_MESSAGE);
-        checkContemNumero(numero, NUMERO_LETRAS_MESSAGE);
-        checkTipoTelefone(numero, NUMERO_TIPO_MESSAGE);
-        this.numero = numero;
-    }
-
-    public String getDdd() {
-        return ddd;
-    }
-
-    public void setDdd(String ddd) {
-        checkNull(ddd, DDD_NULL_MESSAGE);
-        checkVazio(ddd, DDD_VAZIO_MESSAGE);
-        checkContemNumero(ddd, DDD_LETRAS_MESSAGE);
-        checkTamanhoFixo(ddd, DDD_TAMANHO_FIXO, DDD_TAMANHO_FIXO_MESSAGE);
-        this.ddd = ddd;
-    }
-
-    public String getDdi() {
-        return ddi;
-    }
-
-    public void setDdi(String ddi) {
-        checkNull(ddi, DDI_NULL_MESSAGE);
-        checkVazio(ddi, DDI_VAZIO_MESSAGE);
-        checkContemNumero(ddi, DDI_LETRAS_MESSAGE);
-        checkTamanhoFixo(ddi, DDI_TAMANHO_FIXO, DDI_TAMANHO_FIXO_MESSAGE);
-        this.ddi = ddi;
-    } 
-    
-    public TelefoneType getTelefoneType() {  
-        return telefoneType;
-    }
-
-    public void setTelefoneType(TelefoneType telefoneType) {
-        checkNull(telefoneType, TELEFONE_TIPO_NULL_MESSAGE);
-        this.telefoneType = telefoneType;
     }
 
     @Override

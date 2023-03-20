@@ -14,6 +14,10 @@ public final class AuditoriaConstante {
 	
 	public static final String USUARIO_CRIACAO_TAMANHO_MIN_MESSAGE = "O Usuario de Criação de Auditoria deve ter no minimo 3 caracteres.";
 	
+	public static final String USUARIO_CRIACAO_TAMANHO_MESSAGE = "O Usuario de Criação de Auditoria deve ter no minimo 3 caracteres e maximo 40";
+    
+	public static final String USUARIO_ALTERACAO_TAMANHO_MESSAGE = "O Usuario de Alteração de Auditoria deve ter no minimo 3 caracteres e maximo 40";
+	
 	public static final String USUARIO_CRIACAO_NULL_MESSAGE = "O Usuario de Criação de Auditoria deve ser preenchido.";
 	
 	public static final String USUARIO_CRIACAO_VAZIO_MESSAGE = "O Usuario de Criação de Auditoria não deve ser vazio.";

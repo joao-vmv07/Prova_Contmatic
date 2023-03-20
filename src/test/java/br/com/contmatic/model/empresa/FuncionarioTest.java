@@ -12,8 +12,8 @@ import static br.com.contmatic.model.util.constantes.FuncionarioConstante.EMAIL_
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.EMAIL_NOT_BLANK_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.EMAIL_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_BLANK_NULL_MESSAGE;
-import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_ESPACO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_FORMAT_MESSAGE;
+import static br.com.contmatic.model.util.constantes.FuncionarioConstante.IDADE_TAMANHO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.NOME_FORMAT_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.NOME_NOT_BLANK_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.NOME_TAMANHO_MESSAGE;
@@ -228,7 +228,7 @@ public class FuncionarioTest {
     // IDADE
     @Test
     void _deve_aceitar_idade_valida() {
-        funcionarioFixture.setIdade("2 2");
+        funcionarioFixture.setIdade("22");
         assertThat(getViolation(funcionarioFixture).size(), is(0));
     }
 
@@ -247,13 +247,13 @@ public class FuncionarioTest {
     @Test
     void nao_deve_aceitar_idade_vazio_com_espaco() {
         funcionarioFixture.setIdade("");
-        assertThat(getViolation(funcionarioFixture), hasItem(IDADE_ESPACO_MESSAGE));
+        assertThat(getViolation(funcionarioFixture), hasItem(IDADE_BLANK_NULL_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_idade_com_espaco() {
-        funcionarioFixture.setIdade("17");
-        assertThat(getViolation(funcionarioFixture), hasItem(IDADE_ESPACO_MESSAGE));
+        funcionarioFixture.setIdade("1 7");
+        assertThat(getViolation(funcionarioFixture), hasItem(IDADE_TAMANHO_MESSAGE));
     }
 
     @Test
