@@ -47,13 +47,19 @@ public class EmpresaTest {
     public void setUp() {
         loadTemplates("br.com.contimatic.model.util");
         empresaFixture = from(Empresa.class).gimme("valid");
-    }
+    } 
 
     @Test
     void deve_aceitar_empresa_valida() {
         assertThat(getViolation(empresaFixture).size(), is(0));
     } 
-
+    
+    @Test
+    void nao_deve_aceitar_cnpj_valido() {
+        empresaFixture.setCnpj("50449153000199");
+        assertEquals("50449153000199", empresaFixture.getCnpj());
+    }
+    
     @Test
     void nao_deve_aceitar_cnpj_invalido() {
         empresaFixture.setCnpj("17081431000111");
@@ -83,7 +89,7 @@ public class EmpresaTest {
         empresaFixture.setCnpj("1708143100011&&!");
         assertThat(getViolation(empresaFixture), hasItem(CNPJ_INVALIDO_NOT_LETRAS_MASK_SPACE_MESSAGE));
     }
-
+ 
     @Test
     void nao_deve_aceitar_cnpj_com_caracteres_iguais() {
         empresaFixture.setCnpj("11111111111111");
@@ -380,7 +386,7 @@ public class EmpresaTest {
         empresa.setEnderecos(enderecos);
         empresa.setTelefones(telefones);
         empresa.setDataCriacao(DATA_CRIACAO);
-        empresa.setDataAlteracao(DATA_ALTERACAO);
+        empresa.setDataAlteracao(DATA_ALTERACAO); 
 
         assertTrue(empresa.toString().contains(CNPJ));
         assertTrue(empresa.toString().contains(NOME));

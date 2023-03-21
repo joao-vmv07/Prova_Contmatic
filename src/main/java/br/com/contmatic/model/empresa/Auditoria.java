@@ -32,7 +32,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class Auditoria {
+public abstract class Auditoria { 
 
     @NotNull(message = DATA_CRIACAO_NULL_MESSAGE)
     @Past(message = DATA_CRIACAO_INVALIDA)
@@ -59,5 +59,4 @@ public abstract class Auditoria {
         return new StringBuilder().append(" Auditoria [DataCriacao=").append(dataCriacao).append(", DataAlteracao=").append(dataAlteracao).append(", UsuarioCriacao=").append(usuarioCriacao)
                 .append(", UsuarioAlteracao=").append(usuarioAlteracao).append("]").toString();
     }
-
 }

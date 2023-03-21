@@ -33,7 +33,7 @@ public class ModelTempleateLoader implements TemplateLoader {
                 add("usuarioAlteracao", "Empresa B");
                 add("dataCriacao", DATA_CRIACAO);
                 add("dataAlteracao", DATA_ALTERACAO);
-            }
+            } 
         });
         of(Funcionario.class).addTemplate("valid", new Rule() {
             {
@@ -68,6 +68,10 @@ public class ModelTempleateLoader implements TemplateLoader {
                 add("numero", "967976463");
                 add("ddi", "55");
                 add("telefoneType", CELULAR);
+                add("usuarioCriacao", "Pessoa A");
+                add("usuarioAlteracao", "Pessoa B");
+                add("dataCriacao", DATA_CRIACAO);
+                add("dataAlteracao", DATA_ALTERACAO);
             }
         });
         of(Endereco.class).addTemplate("valid", new Rule() {
@@ -79,6 +83,10 @@ public class ModelTempleateLoader implements TemplateLoader {
                 add("pais", "Brasil");
                 add("uf", "SP");
                 add("municipio", "São Paulo");
+                add("usuarioCriacao", "Pessoa A");
+                add("usuarioAlteracao", "Pessoa B");
+                add("dataCriacao", DATA_CRIACAO);
+                add("dataAlteracao", DATA_ALTERACAO);
             }
         });
     }

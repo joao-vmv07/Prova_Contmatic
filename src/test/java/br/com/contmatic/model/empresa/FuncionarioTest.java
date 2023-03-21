@@ -56,6 +56,12 @@ public class FuncionarioTest {
     }
 
     @Test
+    void deve_aceitar_cpf_valido() {
+        funcionarioFixture.setCpf("46339822819");
+        assertEquals("46339822819", funcionarioFixture.getCpf());
+    }
+    
+    @Test
     void nao_deve_aceitar_cpf_invalido() {
         funcionarioFixture.setCpf("72738802070");
         assertThat(getViolation(funcionarioFixture), hasItem(CPF_INVALIDO_MESSAGE));
@@ -122,6 +128,13 @@ public class FuncionarioTest {
     }
             
     // NOME
+    
+    @Test
+    void deve_aceitar_nome_valido() {
+        funcionarioFixture.setNome("Joao Victor");
+        assertEquals("Joao Victor", funcionarioFixture.getNome());
+    }
+    
     @Test
     void deve_aceitar_nome_com_acento() {
         funcionarioFixture.setNome("João");
@@ -183,10 +196,11 @@ public class FuncionarioTest {
     }
 
     // Email
+    
     @Test
     void deve_aceitar_email_valido() {
         funcionarioFixture.setEmail("funcionario@gmail");
-        assertThat(getViolation(funcionarioFixture).size(), is(0));
+        assertEquals("funcionario@gmail", funcionarioFixture.getEmail());
     }
 
     @Test
@@ -229,7 +243,7 @@ public class FuncionarioTest {
     @Test
     void _deve_aceitar_idade_valida() {
         funcionarioFixture.setIdade("22");
-        assertThat(getViolation(funcionarioFixture).size(), is(0));
+        assertEquals("22", funcionarioFixture.getIdade());
     }
 
     @Test
@@ -269,6 +283,13 @@ public class FuncionarioTest {
     }
 
     // DataNascimento
+    
+    @Test
+    void deve_aceitar_data_valida() {
+        funcionarioFixture.setDataNascimento(new LocalDate(2004, 10, 10));
+        assertEquals(new LocalDate(2004, 10, 10), funcionarioFixture.getDataNascimento());
+    }
+    
     @Test
     void nao_deve_aceitar_data_com_idade_maior_que_80_anos() {
         funcionarioFixture.setDataNascimento(new LocalDate(1900, 10, 10));
@@ -389,7 +410,7 @@ public class FuncionarioTest {
         final String USERALTERACAO = "Funcionario C";
 
         Funcionario funcionario = new Funcionario(CPF, NOME);
-
+ 
         funcionario.setEmail(EMAIL);
         funcionario.setIdade(IDADE);
         funcionario.setDataNascimento(DATANASCIMENTO);

@@ -52,7 +52,7 @@ public class Cliente extends Auditoria {
     @NotEmpty(message = NOME_VAZIO_MESSAGE)
     @Size(min = NOME_TAMANHO_MIN, max = NOME_TAMANHO_MAX, message =  NOME_TAMANHO_MESSAGE)
     @Pattern(regexp = REGEX_ACCEPT_SPACE_CONTEM_LETRAS, message = NOME_FORMAT_MESSAGE )
-    private String nome;
+    private String nome; 
 
     @NotBlank(message = EMAIL_NOT_BLANK_MESSAGE)
     @NotEmpty(message = EMAIL_VAZIO_MESSAGE )

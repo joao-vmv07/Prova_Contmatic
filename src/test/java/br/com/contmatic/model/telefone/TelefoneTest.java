@@ -1,14 +1,22 @@
 package br.com.contmatic.model.telefone;
 
 import static br.com.contimatic.model.util.Violation.getViolation;
+import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDD_LETRAS_CARACTER_ESPECIAL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDD_NOT_BLANK_MESSAGE;
+import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDD_TAMANHO_FIXO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDI_LETRAS_MESSAGE;
 import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDI_NOT_BLANK_MESSAGE;
+import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDI_TAMANHO_FIXO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.TelefoneConstante.NUMERO_LETRAS_MESSAGE;
+import static br.com.contmatic.model.util.constantes.TelefoneConstante.NUMERO_NOT_BLANK_MESSAGE;
+import static br.com.contmatic.model.util.constantes.TelefoneConstante.NUMERO_TIPO_MESSAGE;
 import static br.com.six2six.fixturefactory.Fixture.from;
 import static br.com.six2six.fixturefactory.loader.FixtureFactoryLoader.loadTemplates;
 import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.joda.time.LocalDateTime;
@@ -26,28 +34,15 @@ public class TelefoneTest {
     }
     
     @Test
-    void deve_aceitar_telefone_celular_valido() {
-        Telefone telefone = new Telefone("55", "11", "967976463");
-        assertEquals("967976463", telefone.getNumero());
-    }
-
-    @Test
-    void deve_aceitar_telefone_comercial_valido() {
-        Telefone telefone = new Telefone("55", "11", "08004569387");
-        assertEquals("08004569387", telefone.getNumero());
-    }
-
-    @Test
-    void deve_aceitar_telefone_fixo_valido() {
-        Telefone telefone = new Telefone("55", "11", "55285908");
-        assertEquals("55285908", telefone.getNumero());
+    void deve_aceitar_telefone_valido() {
+        assertThat(getViolation(telefoneFixture).size(), is(0));
     }
     
     // DDI
     @Test
     void deve_aceitar_ddi_valido() {
-        Telefone telefone = new Telefone("55", "11", "980171042");
-        assertEquals("55", telefone.getDdi());
+        telefoneFixture.setDdi("55");
+        assertEquals("55", telefoneFixture.getDdi() );
     }
 
     @Test
@@ -58,186 +53,187 @@ public class TelefoneTest {
 
     @Test
     void nao_deve_aceitar_ddi_vazio() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> telefoneFixture.setDdi(""), "Esperado IllegalArgumentException ao tentar criar Telefone com DDI Null:");
-        assertEquals("O campo DDI de Telefone não deve ser vazio", thrown.getMessage());
+        telefoneFixture.setDdi("");
+        assertThat(getViolation(telefoneFixture), hasItem(DDI_NOT_BLANK_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_ddi_vazio_com_espaco() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> telefoneFixture.setDdi(" "), "Esperado IllegalArgumentException ao tentar criar Telefone com DDI Null:");
-        assertEquals("O campo DDI de Telefone não deve ser vazio", thrown.getMessage());
+        telefoneFixture.setDdi(" ");
+        assertThat(getViolation(telefoneFixture), hasItem(DDI_NOT_BLANK_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_ddi_com_letras() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> telefoneFixture.setDdi("1D"),
-            "Esperado IllegalArgumentException ao tentar criar Telefone com letra no campo DDI:");
-        assertEquals("O campo DDI de Telefone deve conter somente números.", thrown.getMessage());
+        telefoneFixture.setDdi("1D");
+        assertThat(getViolation(telefoneFixture), hasItem(DDI_LETRAS_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_ddi_com_caracter_especial() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> telefoneFixture.setDdi("!3"),
-            "Esperado IllegalArgumentException ao tentar criar Telefone com letra no campo DDI:");
-        assertEquals("O campo DDI de Telefone deve conter somente números.", thrown.getMessage());
+        telefoneFixture.setDdi("1!");
+        assertThat(getViolation(telefoneFixture), hasItem(DDI_LETRAS_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_ddi_com_mais_2_numeros() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> telefoneFixture.setDdi("222"),
-            "Esperado IllegalArgumentException ao tentar criar Telefone com mais de 2 números no campo DDI:");
-        assertEquals("O campo DDI de Telefone deve conter dois números.", thrown.getMessage());
+        telefoneFixture.setDdi("222");
+        assertThat(getViolation(telefoneFixture), hasItem(DDI_TAMANHO_FIXO_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_ddi_com_barra() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> telefoneFixture.setDdi("11/"),
-            "Esperado IllegalArgumentException ao tentar criar Telefone com letra no campo DDI:");
-        assertEquals("O campo DDI de Telefone deve conter somente números.", thrown.getMessage());
+         telefoneFixture.setDdi("11/");
+         assertThat(getViolation(telefoneFixture), hasItem(DDI_LETRAS_MESSAGE));
     }
 
     // DDD
     @Test
     void deve_aceitar_ddd_valido() {
-        Telefone telefone = new Telefone("55", "11", "967976463");
-        assertEquals("11", telefone.getDdd());
+        telefoneFixture.setDdd("11");
+        assertEquals("11", telefoneFixture.getDdd());
     }
 
     @Test
     void nao_deve_aceitar_ddd_null() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> telefoneFixture.setDdd(null), "Esperado IllegalArgumentException ao tentar criar Telefone com DDD Null:");
-        assertEquals("O campo DDD de Telefone deve ser preenchido.", thrown.getMessage());
+        telefoneFixture.setDdd(null);
+        assertThat(getViolation(telefoneFixture), hasItem(DDD_NOT_BLANK_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_ddd_vazio() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> telefoneFixture.setDdd(""), "Esperado IllegalArgumentException ao tentar criar Telefone com DDD Null:");
-        assertEquals("O campo DDD de Telefone não deve ser vazio", thrown.getMessage());
+        telefoneFixture.setDdd("");
+        assertThat(getViolation(telefoneFixture), hasItem(DDD_NOT_BLANK_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_ddd_vazio_com_espaco() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> telefoneFixture.setDdd(" "), "Esperado IllegalArgumentException ao tentar criar Telefone com DDD Null:");
-        assertEquals("O campo DDD de Telefone não deve ser vazio", thrown.getMessage());
+        telefoneFixture.setDdd(" ");
+        assertThat(getViolation(telefoneFixture), hasItem(DDD_NOT_BLANK_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_ddd_com_letras() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> telefoneFixture.setDdd("1D"),
-            "Esperado IllegalArgumentException ao tentar criar Telefone com letra no campo DDD:");
-        assertEquals("O campo DDD de Telefone deve conter somente números.", thrown.getMessage());
+        telefoneFixture.setDdd("1F");
+        assertThat(getViolation(telefoneFixture), hasItem(DDD_LETRAS_CARACTER_ESPECIAL_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_ddd_com_barra() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> telefoneFixture.setDdd("11/"),
-            "Esperado IllegalArgumentException ao tentar criar Telefone com letra no campo DDD:");
-        assertEquals("O campo DDD de Telefone deve conter somente números.", thrown.getMessage());
+        telefoneFixture.setDdd("1F");
+        assertThat(getViolation(telefoneFixture), hasItem(DDD_LETRAS_CARACTER_ESPECIAL_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_ddd_com_caracter_especial() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> telefoneFixture.setDdd("!3"),
-            "Esperado IllegalArgumentException ao tentar criar Telefone com letra no campo DDD:");
-        assertEquals("O campo DDD de Telefone deve conter somente números.", thrown.getMessage());
+        telefoneFixture.setDdd("11!");
+        assertThat(getViolation(telefoneFixture), hasItem(DDD_LETRAS_CARACTER_ESPECIAL_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_ddd_com_mais_2_numeros() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> telefoneFixture.setDdd("222"),
-            "Esperado IllegalArgumentException ao tentar criar Telefone com mais de 2 números no campo DDD:");
-        assertEquals("O campo DDD de Telefone deve conter dois números.", thrown.getMessage());
+        telefoneFixture.setDdd("222");
+        assertThat(getViolation(telefoneFixture), hasItem(DDD_TAMANHO_FIXO_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_ddd_com_menos_2_numeros() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> telefoneFixture.setDdd("1"),
-            "Esperado IllegalArgumentException ao tentar criar Telefone com menos de 2 números no campo DDD:");
-        assertEquals("O campo DDD de Telefone deve conter dois números.", thrown.getMessage());
+        telefoneFixture.setDdd("1");
+        assertThat(getViolation(telefoneFixture), hasItem(DDD_TAMANHO_FIXO_MESSAGE));;
     }
 
     // Número
     @Test
     void deve_aceitar_numero_celular_valido() {
-        Telefone telefone = new Telefone("55", "11", "967976463");
-        assertEquals("967976463", telefone.getNumero());
+        telefoneFixture.setNumero("967976463");
+        assertEquals("967976463", telefoneFixture.getNumero());
     }
 
     @Test
     void deve_aceitar_numero_telefone_fixo_valido() {
-        Telefone telefone = new Telefone("55", "11", "55285908");
-        assertEquals("55285908", telefone.getNumero());
+        telefoneFixture.setNumero("55285908");
+        assertThat(getViolation(telefoneFixture).size(), is(0));
     }
 
     @Test
     void deve_aceitar_numero_comercial_valido() {
-        Telefone telefone = new Telefone("55", "11", "08004004818");
-        assertEquals("08004004818", telefone.getNumero());
+        telefoneFixture.setNumero("08004004818");
+        assertThat(getViolation(telefoneFixture).size(), is(0));
     }
 
     @Test
     void nao_deve_aceitar_numero_null() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> telefoneFixture.setNumero(null),
-            "Esperado IllegalArgumentException ao tentar criar Telefone com Número Null:");
-        assertEquals("O campo Número de Telefone deve ser preenchido.", thrown.getMessage());
+        telefoneFixture.setNumero(null);
+        assertThat(getViolation(telefoneFixture), hasItem(NUMERO_NOT_BLANK_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_numero_vazio() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> telefoneFixture.setNumero(""),
-            "Esperado IllegalArgumentException ao tentar criar Telefone com Número vazio:");
-        assertEquals("O campo Número de Telefone não deve ser vazio.", thrown.getMessage());
+        telefoneFixture.setNumero("");
+        assertThat(getViolation(telefoneFixture), hasItem(NUMERO_NOT_BLANK_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_numero_vazio_com_espaco() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> telefoneFixture.setNumero(""),
-            "Esperado IllegalArgumentException ao tentar criar Telefone com Número vazio com espaço:");
-        assertEquals("O campo Número de Telefone não deve ser vazio.", thrown.getMessage());
+        telefoneFixture.setNumero(" ");
+        assertThat(getViolation(telefoneFixture), hasItem(NUMERO_NOT_BLANK_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_numero_com_letras() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> telefoneFixture.setNumero("1D"),
-            "Esperado IllegalArgumentException ao tentar criar Telefone com letra no campo Número:");
-        assertEquals("O campo Número de Telefone deve conter somente números.", thrown.getMessage());
+        telefoneFixture.setNumero("97697F46A");
+        assertThat(getViolation(telefoneFixture), hasItem(NUMERO_LETRAS_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_numero_com_caracter_especial() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> telefoneFixture.setNumero("96797!#64"),
-            "Esperado IllegalArgumentException ao tentar criar Telefone com caracter especial no campo Número:");
-        assertEquals("O campo Número de Telefone deve conter somente números.", thrown.getMessage());
+        telefoneFixture.setNumero("9769&#46!");
+        assertThat(getViolation(telefoneFixture), hasItem(NUMERO_LETRAS_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_numero_com_tamanho_maior_que_11() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> telefoneFixture.setNumero("968986364111533"),
-            "Esperado IllegalArgumentException ao tentar criar Telefone com mais de 2 números no campo DDD:");
-        assertEquals("O campo Número de Telefone esta inválido, deve ser prenchido com registro Celular/Comercial ou Telefone Fixo.", thrown.getMessage());
+        telefoneFixture.setNumero("9679764632568900");
+        assertThat(getViolation(telefoneFixture), hasItem(NUMERO_TIPO_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_numero_com_tamanho_menor_que_8() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> telefoneFixture.setNumero("552859"),
-            "Esperado IllegalArgumentException ao tentar criar Telefone com menos de 8 números no campo Número:");
-        assertEquals("O campo Número de Telefone esta inválido, deve ser prenchido com registro Celular/Comercial ou Telefone Fixo.", thrown.getMessage());
+        telefoneFixture.setNumero("8919847");
+        assertThat(getViolation(telefoneFixture), hasItem(NUMERO_TIPO_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_numero_com_barra() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> telefoneFixture.setNumero("96797/64"),
-            "Esperado IllegalArgumentException ao tentar criar Telefone com barra no campo Número:");
-        assertEquals("O campo Número de Telefone deve conter somente números.", thrown.getMessage());
+        telefoneFixture.setNumero("55285908/");
+        assertThat(getViolation(telefoneFixture), hasItem(NUMERO_LETRAS_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_numero_com_barra_invertida() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> telefoneFixture.setNumero("967\\636"),
-            "Esperado IllegalArgumentException ao tentar criar Telefone com barra ivertida no campo Número:");
-        assertEquals("O campo Número de Telefone deve conter somente números.", thrown.getMessage());
+        telefoneFixture.setNumero("5528590\\8");
+        assertThat(getViolation(telefoneFixture), hasItem(NUMERO_LETRAS_MESSAGE));
+    }
+    
+    //TelefoneType
+    
+    @Test
+    void deve_aceitar_telefone_type_comercial() {
+        telefoneFixture.setTelefoneType(TelefoneType.COMERCIAL);
+        assertEquals(TelefoneType.COMERCIAL, telefoneFixture.getTelefoneType());
     }
 
+    @Test
+    void deve_aceitar_telefone_type_fixo() {
+        telefoneFixture.setTelefoneType(TelefoneType.FIXO);
+        assertEquals(TelefoneType.FIXO, telefoneFixture.getTelefoneType());
+    }
+    @Test
+    void deve_aceitar_telefone_type_celular() {
+        telefoneFixture.setTelefoneType(TelefoneType.CELULAR);
+        assertEquals(TelefoneType.CELULAR, telefoneFixture.getTelefoneType());
+    } 
+    
     // Equals
     @Test
     void deve_aceitar_objeto_com_valores_iguais() {
@@ -315,7 +311,5 @@ public class TelefoneTest {
         assertTrue(telefone.toString().contains(DATA_ALT.toString()));
         assertTrue(telefone.toString().contains(USERALTERACAO));
         assertTrue(telefone.toString().contains(USERCRIACAO));
-        
-        System.out.println(telefone);
     }
 }

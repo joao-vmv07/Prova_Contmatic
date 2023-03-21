@@ -63,7 +63,7 @@ public class Funcionario extends Auditoria {
     @Size(min = CPF_TAMANHO_FIXO, max = CPF_TAMANHO_FIXO, message = CPF_TAMANHO_MESSAGE)
     @Pattern(regexp = REGEX_CONTEM_NUMERO, message = CPF_LETRAS_MASK_MESSAGE)
     @CPF(message = CPF_INVALIDO_MESSAGE)
-    private String cpf;
+    private String cpf; 
 
     @NotBlank(message = NOME_NOT_BLANK_MESSAGE)
     @NotEmpty(message = NOME_VAZIO_MESSAGE)

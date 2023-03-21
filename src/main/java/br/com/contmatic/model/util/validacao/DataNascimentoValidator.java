@@ -1,7 +1,6 @@
 package br.com.contmatic.model.util.validacao;
 
 
-
 import static org.joda.time.LocalDate.now;
 
 import javax.validation.ConstraintValidator;

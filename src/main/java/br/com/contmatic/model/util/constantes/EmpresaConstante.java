@@ -2,9 +2,9 @@ package br.com.contmatic.model.util.constantes;
 
 public final class EmpresaConstante {
 	
-	public static final int RAZAO_SOCIAL_TAMANHO_MIN = 3;
+	public static final int RAZAO_SOCIAL_TAMANHO_MIN_3 = 3;
 	
-	public static final int RAZAO_SOCIAL_TAMANHO_MAX = 40;
+	public static final int RAZAO_SOCIAL_TAMANHO_MAX_40 = 40;
 	
 	public static final int CNPJ_TAMANHO_FIXO = 14;
 	

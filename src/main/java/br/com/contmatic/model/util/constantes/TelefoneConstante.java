@@ -20,7 +20,7 @@ public final class TelefoneConstante {
 	
 	public static final String DDD_NOT_BLANK_MESSAGE = "O campo DDD de Telefone deve ser preenchido.";
 	
-	public static final String DDD_LETRAS_MESSAGE = "O campo DDD de Telefone deve conter somente números.";
+	public static final String DDD_LETRAS_CARACTER_ESPECIAL_MESSAGE = "O campo DDD de Telefone deve conter somente números.";
 	
 	public static final String DDD_TAMANHO_FIXO_MESSAGE = "O campo DDD de Telefone deve conter dois números.";
 	

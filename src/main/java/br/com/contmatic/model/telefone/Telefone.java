@@ -1,6 +1,6 @@
 package br.com.contmatic.model.telefone;
 
-import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDD_LETRAS_MESSAGE;
+import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDD_LETRAS_CARACTER_ESPECIAL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDD_NOT_BLANK_MESSAGE;
 import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDD_TAMANHO_FIXO;
 import static br.com.contmatic.model.util.constantes.TelefoneConstante.DDD_TAMANHO_FIXO_MESSAGE;
@@ -32,7 +32,7 @@ import lombok.Setter;
 public class Telefone extends Auditoria {
 
     @NotBlank(message = DDD_NOT_BLANK_MESSAGE)
-    @Pattern(regexp = REGEX_CONTEM_NUMERO, message = DDD_LETRAS_MESSAGE)
+    @Pattern(regexp = REGEX_CONTEM_NUMERO, message = DDD_LETRAS_CARACTER_ESPECIAL_MESSAGE)
     @Size(min = DDD_TAMANHO_FIXO, max = DDD_TAMANHO_FIXO, message = DDD_TAMANHO_FIXO_MESSAGE)
     private String ddd;
 

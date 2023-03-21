@@ -1,411 +1,381 @@
 package br.com.contmatic.model.endereco;
 
 import static br.com.contimatic.model.util.Violation.getViolation;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.BAIRRO_CARACTER_ESPECIAL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.BAIRRO_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.BAIRRO_TAMANHO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.BAIRRO_VAZIO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.CEP_LETRAS_CARACTER_ESPECIAL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.CEP_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.CEP_TAMANHO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.CEP_VAZIO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.LOGRADOURO_CARACTER_ESPECIAL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.LOGRADOURO_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.LOGRADOURO_TAMANHO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.LOGRADOURO_VAZIO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.MUNICIPIO_LETRAS_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.MUNICIPIO_TAMANHO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.MUNICIPIO_VAZIO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.NUMERO_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.NUMERO_VALOR_MAX_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.NUMERO_VALOR_MIN_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.PAIS_LETRAS_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.PAIS_NOT_BLANK_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.PAIS_TAMANHO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EnderecoConstante.UF_INVALID_MESSAGE;
-import static br.com.contmatic.model.util.constantes.EnderecoConstante.UF_NULL_MESSAGE;
+import static br.com.contmatic.model.util.constantes.EnderecoConstante.UF_NOT_BLANK_MESSAGE;
+import static br.com.six2six.fixturefactory.Fixture.from;
+import static br.com.six2six.fixturefactory.loader.FixtureFactoryLoader.loadTemplates;
 import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.joda.time.LocalDateTime;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class EnderecoTest {
 
-    static private Endereco enderecoBefore;
+    static private Endereco enderecoFixture;
 
-    @BeforeAll
-    static void criarEndereco() {
-        enderecoBefore = new Endereco("04852505", 11);
+    @BeforeEach()
+    public void setUp() {
+        loadTemplates("br.com.contimatic.model.util");
+        enderecoFixture = from(Endereco.class).gimme("valid");
     }
+    
+    @Test
+    void deve_aceitar_endereco_valido() {
+         assertThat(getViolation(enderecoFixture).size(), is(0));
+     }
 
     @Test
     void deve_aceitar_cep_valido() {
-        Endereco endereco = new Endereco("04852505", 03);
-        assertEquals("04852505", endereco.getCep());
-    }
-
-    @Test
+         enderecoFixture.setCep("04852505");
+         assertEquals("04852505", enderecoFixture.getCep());
+     }
+    
+    @Test 
     void nao_deve_aceitar_cep_null() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setCep(null), "Esperado IllegalArgumentException ao tentar criar Endereco com CEP Null:");
-        assertEquals("O campo CEP de Endereço deve ser preenchido.", thrown.getMessage());
+        enderecoFixture.setCep(null);
+        assertThat(getViolation(enderecoFixture), hasItem(CEP_NULL_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_cep_vazio() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setCep(""), "Esperado IllegalArgumentException ao tentar criar Endereco com CEP vazio:");
-        assertEquals("O campo CEP de Endereço não pode ser vazio.", thrown.getMessage());
+        enderecoFixture.setCep("");
+        assertThat(getViolation(enderecoFixture), hasItem(CEP_VAZIO_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_cep_com_letras() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setCep("04852AB1"),
-            "Esperado IllegalArgumentException ao tentar criar Endereco com letra no campo CEP:");
-        assertEquals("O campo CEP de Endereco deve conter somente números.", thrown.getMessage());
+       enderecoFixture.setCep("04852AB1");
+       assertThat(getViolation(enderecoFixture), hasItem(CEP_LETRAS_CARACTER_ESPECIAL_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_cep_com_caracter_especial() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setCep("04852&!1"),
-            "Esperado IllegalArgumentException ao tentar criar Endereco com caracter especial no campo CEP:");
-        assertEquals("O campo CEP de Endereco deve conter somente números.", thrown.getMessage());
+        enderecoFixture.setCep("042!%292");
+        assertThat(getViolation(enderecoFixture), hasItem(CEP_LETRAS_CARACTER_ESPECIAL_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_cep_com_mais_8_numeros() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setCep("0485241414112121"),
-            "Esperado IllegalArgumentException ao tentar criar Endereco com mais de 8 números no campo CEP:");
-        assertEquals("O campo CEP de Endereço deve conter 8 digitos.", thrown.getMessage());
+        enderecoFixture.setCep("0485226666");
+        assertThat(getViolation(enderecoFixture), hasItem(CEP_TAMANHO_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_cep_com_menos_8_numeros() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setCep("0485"),
-            "Esperado IllegalArgumentException ao tentar criar Endereco com menos de 8 números no campo CEP:");
-        assertEquals("O campo CEP de Endereço deve conter 8 digitos.", thrown.getMessage());
+        enderecoFixture.setCep("04851");
+        assertThat(getViolation(enderecoFixture), hasItem(CEP_TAMANHO_MESSAGE));
     }
 
     // NUMERO
     @Test
     void deve_aceitar_numero_valido() {
-        Endereco endereco = new Endereco("04852505", 03);
-        assertEquals(03, endereco.getNumero());
+        enderecoFixture.setNumero(11);
+        assertEquals(11, enderecoFixture.getNumero());
     }
 
     @Test
     void nao_deve_aceitar_numero_null() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setNumero(null),
-            "Esperado IllegalArgumentException ao tentar criar Endereco com CEP Null:");
-        assertEquals("O campo Número de Endereço deve ser preenchido.", thrown.getMessage());
+        enderecoFixture.setNumero(null);
+        assertThat(getViolation(enderecoFixture), hasItem(NUMERO_NULL_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_numero_igual_a_zero() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setNumero(new Integer(0)),
-            "Esperado IllegalArgumentException ao tentar criar Endereco com CEP vazio:");
-        assertEquals("O campo Número de Endereco deve conter somente caracteres númericos e não é permitido valores menor ou igual a zero.", thrown.getMessage());
+       enderecoFixture.setNumero(new Integer(0));
+       assertThat(getViolation(enderecoFixture), hasItem(NUMERO_VALOR_MIN_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_numero_menor_que_zero() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setNumero(new Integer(-1)),
-            "Esperado IllegalArgumentException ao tentar criar Endereco com CEP vazio:");
-        assertEquals("O campo Número de Endereco deve conter somente caracteres númericos e não é permitido valores menor ou igual a zero.", thrown.getMessage());
+        enderecoFixture.setNumero(new Integer(-1));
+        assertThat(getViolation(enderecoFixture), hasItem(NUMERO_VALOR_MIN_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_numero_maior_quatro_digitos() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setNumero(new Integer(20000)),
-            "Esperado IllegalArgumentException ao tentar criar Endereco com CEP vazio:");
-        assertEquals("O campo Número de Endereço deve ter tamanho maximo de 4 digitos.", thrown.getMessage());
-    }
-
-    @Test
-    void nao_deve_aceitar_numero_menor_que_um_digito() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setNumero(null),
-            "Esperado IllegalArgumentException ao tentar criar Endereco com CEP vazio:");
-        assertEquals("O campo Número de Endereço deve ser preenchido.", thrown.getMessage());
+        enderecoFixture.setNumero(new Integer(100000));
+        assertThat(getViolation(enderecoFixture), hasItem(NUMERO_VALOR_MAX_MESSAGE));
     }
 
     // LOGRADOURO
     @Test
     void deve_aceitar_logradouro_valido() {
-        enderecoBefore.setLogradouro("Avenida");
-        assertEquals("Avenida", enderecoBefore.getLogradouro());
+        enderecoFixture.setLogradouro("Avenida");
+        assertEquals("Avenida", enderecoFixture.getLogradouro());
     }
 
     @Test
     void nao_deve_aceitar_logradouro_mais_40_caracteres() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setLogradouro("TESTETESTTESTETESTETESTETESTETESTETESTETESTETESTETESTETESTETESTE"),
-            "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa com mais de 40 caracteres: ");
-        assertEquals("O campo Logradouro de Endereco é permitido no maximo 40 caracteres.", thrown.getMessage());
+        enderecoFixture.setLogradouro("TESTETESTTESTETESTETESTETESTETESTETESTETESTETESTETESTETESTETESTE");
+        assertThat(getViolation(enderecoFixture), hasItem(LOGRADOURO_TAMANHO_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_logradouro_menos_3_caracteres() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setLogradouro("AB"),
-            "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa com menos de 3 caracteres:");
-        assertEquals("O campo Logradouro de Endereco é permitido no minímo 3 caracteres.", thrown.getMessage());
+        enderecoFixture.setLogradouro("Ax");
+        assertThat(getViolation(enderecoFixture), hasItem(LOGRADOURO_TAMANHO_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_logradouro_campo_nullo() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setLogradouro(null),
-            "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa nullo:");
-        assertEquals("O campo Logradouro de Endereço deve ser preenchido.", thrown.getMessage());
+        enderecoFixture.setLogradouro(null);
+        assertThat(getViolation(enderecoFixture), hasItem(LOGRADOURO_NULL_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_logradouro_vazio() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setLogradouro(""),
-            "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa vazio");
-        assertEquals("O campo Logradouro de Endereço não pode ser vazio.", thrown.getMessage());
+        enderecoFixture.setLogradouro("");
+        assertThat(getViolation(enderecoFixture), hasItem(LOGRADOURO_VAZIO_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_logradouro_campo_vazio_com_espaco() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setLogradouro(" "),
-            "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa vazio com espaço: ");
-        assertEquals("O campo Logradouro de Endereço não pode ser vazio.", thrown.getMessage());
+        enderecoFixture.setLogradouro(" ");
+        assertThat(getViolation(enderecoFixture), hasItem(LOGRADOURO_TAMANHO_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_logradouro_com_numero() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setLogradouro("R3a"),
-            "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa vazio com espaço: ");
-        assertEquals("O campo Logradouro de Endereço deve conter somente letras.", thrown.getMessage());
+        enderecoFixture.setLogradouro(" ");
+        assertThat(getViolation(enderecoFixture), hasItem(LOGRADOURO_TAMANHO_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_logradouro_com_caracter_especial() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setLogradouro("R!%#"),
-            "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa vazio com espaço: ");
-        assertEquals("O campo Logradouro de Endereço deve conter somente letras.", thrown.getMessage());
+        enderecoFixture.setLogradouro("RUA #1$$");
+        assertThat(getViolation(enderecoFixture), hasItem(LOGRADOURO_CARACTER_ESPECIAL_MESSAGE));
     }
 
     // BAIRRO
     @Test
     void deve_aceitar_bairro_valido() {
-        enderecoBefore.setBairro("Jardim Mirna");
-        assertEquals("Jardim Mirna", enderecoBefore.getBairro());
+        enderecoFixture.setBairro("Jardim Mirna");
+        assertEquals("Jardim Mirna", enderecoFixture.getBairro());
     }
 
     @Test
     void nao_deve_aceitar_bairro_mais_40_caracteres() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setBairro("TESTETESTTESTETESTETESTETESTETESTETESTETESTETESTETESTETESTETESTE"),
-            "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa com mais de 40 caracteres: ");
-        assertEquals("O campo Bairro de Endereco é permitido no maximo 40 caracteres.", thrown.getMessage());
+        enderecoFixture.setBairro("TESTETESTTESTETESTETESTETESTETESTETESTETESTETESTETESTETESTETESTE");
+        assertThat(getViolation(enderecoFixture), hasItem(BAIRRO_TAMANHO_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_bairro_menos_3_caracteres() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setBairro("AB"),
-            "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa com menos de 3 caracteres:");
-        assertEquals("O campo Bairro de Endereco é permitido no minímo 3 caracteres.", thrown.getMessage());
+        enderecoFixture.setBairro("AS");
+        assertThat(getViolation(enderecoFixture), hasItem(BAIRRO_TAMANHO_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_bairro_campo_nullo() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setBairro(null),
-            "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa nullo:");
-        assertEquals("O campo Bairro de Endereço deve ser preenchido.", thrown.getMessage());
+        enderecoFixture.setBairro(null);
+        assertThat(getViolation(enderecoFixture), hasItem(BAIRRO_NULL_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_bairro_vazio() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setBairro(""),
-            "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa vazio");
-        assertEquals("O campo Bairro de Endereço não pode ser vazio.", thrown.getMessage());
+        enderecoFixture.setBairro("");
+        assertThat(getViolation(enderecoFixture), hasItem(BAIRRO_VAZIO_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_bairro_campo_vazio_com_espaco() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setBairro(" "),
-            "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa vazio com espaço: ");
-        assertEquals("O campo Bairro de Endereço não pode ser vazio.", thrown.getMessage());
-    }
-
-    @Test
-    void nao_deve_aceitar_bairro_com_numero() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setBairro("R3a"),
-            "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa vazio com espaço: ");
-        assertEquals("O campo Bairro de Endereço deve conter somente letras.", thrown.getMessage());
+        enderecoFixture.setBairro(" ");
+        assertThat(getViolation(enderecoFixture), hasItem(BAIRRO_TAMANHO_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_bairro_com_caracter_especial() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setBairro("R!%#"),
-            "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa vazio com espaço: ");
-        assertEquals("O campo Bairro de Endereço deve conter somente letras.", thrown.getMessage());
+         enderecoFixture.setBairro("R!%#");
+         assertThat(getViolation(enderecoFixture), hasItem(BAIRRO_CARACTER_ESPECIAL_MESSAGE));
     }
 
     // PAIS
     @Test
     void deve_aceitar_pais_valido() {
-        enderecoBefore.setPais("Brasil");
-        assertEquals("Brasil", enderecoBefore.getPais());
+        enderecoFixture.setPais("Brasil");
+        assertEquals("Brasil", enderecoFixture.getPais());
     }
 
     @Test
     void nao_deve_aceitar_pais_mais_40_caracteres() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setPais("TESTETESTTESTETESTETESTETESTETESTETESTETESTETESTETESTETESTETESTE"),
-            "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa com mais de 40 caracteres: ");
-        assertEquals("O campo País de Endereco é permitido no maximo 14 caracteres.", thrown.getMessage());
+       enderecoFixture.setPais("TESTETESTTESTETESTETESTETESTETESTETESTETESTETESTETESTETESTETESTE");
+       assertThat(getViolation(enderecoFixture), hasItem(PAIS_TAMANHO_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_pais_menos_4_caracteres() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setPais("AB"),
-            "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa com menos de 3 caracteres:");
-        assertEquals("O campo País de Endereço deve conter no mínimo de 4 caracteres.", thrown.getMessage());
+        enderecoFixture.setPais("Ax");
+        assertThat(getViolation(enderecoFixture), hasItem(PAIS_TAMANHO_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_pais_campo_nullo() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setPais(null),
-            "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa nullo:");
-        assertEquals("O campo País de Endereço deve ser preenchido.", thrown.getMessage());
+        enderecoFixture.setPais(null);
+        assertThat(getViolation(enderecoFixture), hasItem(PAIS_NOT_BLANK_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_pais_vazio() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setPais(""),
-            "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa vazio");
-        assertEquals("O campo País de Endereço não pode ser vazio.", thrown.getMessage());
+        enderecoFixture.setPais("");
+        assertThat(getViolation(enderecoFixture), hasItem(PAIS_NOT_BLANK_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_pais_campo_vazio_com_espaco() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setPais(" "),
-            "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa vazio com espaço: ");
-        assertEquals("O campo País de Endereço não pode ser vazio.", thrown.getMessage());
+        enderecoFixture.setPais(" ");
+        assertThat(getViolation(enderecoFixture), hasItem(PAIS_NOT_BLANK_MESSAGE));;
     }
 
     @Test
     void nao_deve_aceitar_pais_com_numero() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setPais("R3a"),
-            "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa vazio com espaço: ");
-        assertEquals("O campo País de Endereco deve conter somente letras.", thrown.getMessage());
+        enderecoFixture.setPais("GANA333");
+        assertThat(getViolation(enderecoFixture), hasItem(PAIS_LETRAS_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_pais_com_caracter_especial() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setPais("R!%#"),
-            "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa vazio com espaço: ");
-        assertEquals("O campo País de Endereco deve conter somente letras.", thrown.getMessage());
+        enderecoFixture.setPais("GANA@%%");
+        assertThat(getViolation(enderecoFixture), hasItem(PAIS_LETRAS_MESSAGE));
     }
 
     // UF
     @Test
     void deve_aceitar_UF_valido() {
-        enderecoBefore.setUf("SP");
-        assertEquals("SP", enderecoBefore.getUf());
+        enderecoFixture.setUf("SP");
+        assertEquals("SP", enderecoFixture.getUf());
     }
 
     @Test
     void nao_deve_aceitar_UF_inexistente() {
-        enderecoBefore.setUf("ZZ");
-        assertThat(getViolation(enderecoBefore), hasItem(UF_INVALID_MESSAGE));
+        enderecoFixture.setUf("ZZ");
+        assertThat(getViolation(enderecoFixture), hasItem(UF_INVALID_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_UF_com_valor_null() {
-        enderecoBefore.setUf(null);
-        assertThat(getViolation(enderecoBefore), hasItem(UF_NULL_MESSAGE));
+        enderecoFixture.setUf(null);
+        assertThat(getViolation(enderecoFixture), hasItem(UF_NOT_BLANK_MESSAGE));
     }
-    //
-    // @Test
-    // void nao_deve_aceitar_UF_mais_2_caracteres() {
-    // IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-    // () -> enderecoBefore.setUf("SPO"),
-    // "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa com mais de 40 caracteres: ");
-    // assertEquals("O campo UF de Endereço deve conter 2 caracteres.", thrown.getMessage());
-    // }
-    //
-    // @Test
-    // void nao_deve_aceitar_UF_menos_2_caracteres() {
-    // IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setUf("A"),
-    // "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa com menos de 3 caracteres:");
-    // assertEquals("O campo UF de Endereço deve conter 2 caracteres.", thrown.getMessage());
-    // }
-    //
-    // @Test
-    // void nao_deve_aceitar_UF_campo_nullo() {
-    // IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setUf(null),
-    // "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa nullo:");
-    // assertEquals("O campo UF de Endereço deve ser preenchido.", thrown.getMessage());
-    // }
-    //
-    // @Test
-    // void nao_deve_aceitar_UF_vazio() {
-    // IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setUf(""),
-    // "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa vazio");
-    // assertEquals("O campo UF de Endereço não pode ser vazio.", thrown.getMessage());
-    // }
-    //
-    // @Test
-    // void nao_deve_aceitar_UF_campo_vazio_com_espaco() {
-    // IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setUf(" "),
-    // "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa vazio com espaço: ");
-    // assertEquals("O campo UF de Endereço não pode ser vazio.", thrown.getMessage());
-    // }
-    //
-    // @Test
-    // void nao_deve_aceitar_UF_com_numero() {
-    // IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-    // () -> enderecoBefore.setUf("R3a"),
-    // "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa vazio com espaço: ");
-    // assertEquals("O campo UF de Endereco deve conter somente letras.", thrown.getMessage());
-    // }
-    //
-    // @Test
-    // void nao_deve_aceitar_UF_com_caracter_especial() {
-    // IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-    // () -> enderecoBefore.setUf("R!%#"),
-    // "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa vazio com espaço: ");
-    // assertEquals("O campo UF de Endereco deve conter somente letras.", thrown.getMessage());
-    // }
+    
+     @Test
+     void nao_deve_aceitar_UF_mais_2_caracteres() {
+         enderecoFixture.setUf("SP2");
+         assertThat(getViolation(enderecoFixture), hasItem(UF_INVALID_MESSAGE));
+     }
+    
+     @Test
+     void nao_deve_aceitar_UF_menos_2_caracteres() {
+         enderecoFixture.setUf("S");
+         assertThat(getViolation(enderecoFixture), hasItem(UF_INVALID_MESSAGE));
+     }
+    
+     @Test
+     void nao_deve_aceitar_UF_campo_nullo() {
+         enderecoFixture.setUf(null);
+         assertThat(getViolation(enderecoFixture), hasItem(UF_NOT_BLANK_MESSAGE));
+     }
+    
+     @Test
+     void nao_deve_aceitar_UF_vazio() {
+         enderecoFixture.setUf("");
+         assertThat(getViolation(enderecoFixture), hasItem(UF_NOT_BLANK_MESSAGE));
+     }
+    
+     @Test
+     void nao_deve_aceitar_UF_campo_vazio_com_espaco() {
+         enderecoFixture.setUf(" ");
+         assertThat(getViolation(enderecoFixture), hasItem(UF_NOT_BLANK_MESSAGE));
+     }
+    
+     @Test
+     void nao_deve_aceitar_UF_com_numero() {
+         enderecoFixture.setUf("S1");
+         assertThat(getViolation(enderecoFixture), hasItem(UF_INVALID_MESSAGE));
+     }
+    
+     @Test
+     void nao_deve_aceitar_UF_com_caracter_especial() {
+         enderecoFixture.setUf("S%!");
+         assertThat(getViolation(enderecoFixture), hasItem(UF_INVALID_MESSAGE));
+     }
 
     // MUNICIPIO
     @Test
     void deve_aceitar_municipio_valido() {
-        enderecoBefore.setMunicipio("Osasco");
-        assertEquals("Osasco", enderecoBefore.getMunicipio());
+        enderecoFixture.setMunicipio("Osasco");
+        assertEquals("Osasco", enderecoFixture.getMunicipio());
     }
 
     @Test
     void nao_deve_aceitar_municipio_mais_40_caracteres() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setMunicipio("TESTETESTTESTETESTETESTETESTETESTETESTETESTETESTETESTETESTETESTE"),
-            "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa com mais de 40 caracteres: ");
-        assertEquals("O campo Município de Endereço deve ter tamanho maximo de 40 caracteres.", thrown.getMessage());
+        enderecoFixture.setMunicipio("TESTETESTTESTETESTETESTETESTETESTETESTETESTETESTETESTETESTETESTE");
+        assertThat(getViolation(enderecoFixture), hasItem(MUNICIPIO_TAMANHO_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_municipio_menos_3_caracteres() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setMunicipio("A"),
-            "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa com menos de 3 caracteres:");
-        assertEquals("O campo Município de Endereço deve conter no mínimo de 3 caracteres.", thrown.getMessage());
+        enderecoFixture.setMunicipio("AF");
+        assertThat(getViolation(enderecoFixture), hasItem(MUNICIPIO_TAMANHO_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_municipio_campo_nullo() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setMunicipio(null),
-            "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa nullo:");
-        assertEquals("O campo Município de Endereço deve ser preenchido.", thrown.getMessage());
+        enderecoFixture.setMunicipio("TESTETESTTESTETESTETESTETESTETESTETESTETESTETESTETESTETESTETESTE");
+        assertThat(getViolation(enderecoFixture), hasItem(MUNICIPIO_TAMANHO_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_municipio_vazio() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setMunicipio(""),
-            "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa vazio");
-        assertEquals("O campo Município de Endereço não pode ser vazio.", thrown.getMessage());
+        enderecoFixture.setMunicipio("");
+        assertThat(getViolation(enderecoFixture), hasItem(MUNICIPIO_VAZIO_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_municipio_campo_vazio_com_espaco() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setMunicipio(" "),
-            "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa vazio com espaço: ");
-        assertEquals("O campo Município de Endereço não pode ser vazio.", thrown.getMessage());
+        enderecoFixture.setMunicipio(" ");
+        assertThat(getViolation(enderecoFixture), hasItem(MUNICIPIO_TAMANHO_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_municipio_com_numero() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setMunicipio("R3a"),
-            "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa vazio com espaço: ");
-        assertEquals("O campo Município de Endereco deve conter somente letras.", thrown.getMessage());
+        enderecoFixture.setMunicipio("Osasco121");
+        assertThat(getViolation(enderecoFixture), hasItem(MUNICIPIO_LETRAS_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_municipio_com_caracter_especial() {
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> enderecoBefore.setMunicipio("R!%#"),
-            "Esperado IllegalArgumentException ao tentar criar Razao Social de Empresa vazio com espaço: ");
-        assertEquals("O campo Município de Endereco deve conter somente letras.", thrown.getMessage());
+        enderecoFixture.setMunicipio("Osasco1@%$");
+        assertThat(getViolation(enderecoFixture), hasItem(MUNICIPIO_LETRAS_MESSAGE));
     }
-
+    
     // Equals
     @Test
     void deve_aceitar_objeto_com_valores_iguais() {
