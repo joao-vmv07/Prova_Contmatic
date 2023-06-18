@@ -1,4 +1,4 @@
-    package br.com.contmatic.model.empresa;
+package br.com.contmatic.model.empresa;
 
 import static br.com.contmatic.model.util.constantes.ClienteConstante.CPF_INVALIDO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.ClienteConstante.CPF_LETRAS_MASK_MESSAGE;
@@ -18,8 +18,8 @@ import static br.com.contmatic.model.util.constantes.ClienteConstante.LISTA_TELE
 import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_FORMAT_MESSAGE;
 import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_NOT_BLANK_MESSAGE;
 import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_TAMANHO_MAX;
-import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_TAMANHO_MIN;
 import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_TAMANHO_MESSAGE;
+import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_TAMANHO_MIN;
 import static br.com.contmatic.model.util.constantes.ClienteConstante.NOME_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.ClienteConstante.TELEFONE_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.ClienteConstante.TELEFONE_VAZIO_MESSAGE;
@@ -27,7 +27,6 @@ import static br.com.contmatic.model.util.constantes.ValidacaoConstante.REGEX_AC
 import static br.com.contmatic.model.util.constantes.ValidacaoConstante.REGEX_CONTEM_NUMERO;
 import static br.com.contmatic.model.util.constantes.ValidacaoConstante.REGEX_EMAIL;
 
-import java.util.Objects;
 import java.util.Set;
 
 import javax.validation.constraints.Email;
@@ -41,11 +40,13 @@ import org.hibernate.validator.constraints.br.CPF;
 
 import br.com.contmatic.model.telefone.Telefone;
 import br.com.contmatic.model.util.constantes.ClienteConstante;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@EqualsAndHashCode(of = { "cpf" }, callSuper = false)  
 public class Cliente extends Auditoria {
 
     @NotBlank(message = NOME_NOT_BLANK_MESSAGE )
@@ -76,24 +77,6 @@ public class Cliente extends Auditoria {
     public Cliente(String cpf, String nome) {
         this.setCpf(cpf);
         this.setNome(nome);
-    }
-
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(cpf);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Cliente other = (Cliente) obj;
-        return Objects.equals(cpf, other.cpf);
     }
 
     @Override

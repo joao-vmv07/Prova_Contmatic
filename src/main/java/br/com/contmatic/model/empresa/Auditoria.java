@@ -29,9 +29,11 @@ import org.joda.time.LocalDateTime;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
-@Setter
+@Setter 
+@ToString(callSuper = true) 
 public abstract class Auditoria { 
 
     @NotNull(message = DATA_CRIACAO_NULL_MESSAGE)
@@ -53,10 +55,4 @@ public abstract class Auditoria {
     @Size(min = USUARIO_ALTERACAO_TAMANHO_MIN, max = USUARIO_ALTERACAO_TAMANHO_MAX, message = USUARIO_ALTERACAO_TAMANHO_MESSAGE)
     @Pattern(regexp = REGEX_ACCEPT_SPACE_CONTEM_LETRAS, message = USUARIO_ALTERACAO_FORMAT_MESSAGE)
     private String usuarioAlteracao;
-
-    @Override
-    public String toString() {
-        return new StringBuilder().append(" Auditoria [DataCriacao=").append(dataCriacao).append(", DataAlteracao=").append(dataAlteracao).append(", UsuarioCriacao=").append(usuarioCriacao)
-                .append(", UsuarioAlteracao=").append(usuarioAlteracao).append("]").toString();
-    }
 }

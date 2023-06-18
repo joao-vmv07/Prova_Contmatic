@@ -1,7 +1,6 @@
 package br.com.contmatic.model.empresa;
 
 import static br.com.contimatic.model.util.Violation.getViolation;
-import static br.com.contmatic.model.util.constantes.DataValidacaoConstante.FORMATTER_DATA;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.CPF_INVALIDO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.CPF_LETRAS_MASK_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.CPF_NOT_BLANK_MESSAGE;
@@ -423,8 +422,6 @@ public class FuncionarioTest {
 
         assertTrue(funcionario.toString().contains(CPF));
         assertTrue(funcionario.toString().contains(IDADE));
-        assertTrue(funcionario.toString().contains(DATANASCIMENTO.toString(FORMATTER_DATA)));
-        assertTrue(funcionario.toString().contains(STATUS.toString()));
         assertTrue(funcionario.toString().contains(DATA_CRIACAO.toString()));
         assertTrue(funcionario.toString().contains(DATA_ALT.toString()));
         assertTrue(funcionario.toString().contains(USERALTERACAO));

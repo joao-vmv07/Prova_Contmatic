@@ -37,5 +37,5 @@ public enum EstadoUF{
     
     public String getNomeEstado() {
         return nomeEstado;
-    }
+    } 
 }

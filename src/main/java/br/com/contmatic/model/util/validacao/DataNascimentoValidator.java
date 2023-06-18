@@ -8,7 +8,7 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.joda.time.LocalDate;
 
-import br.com.contmatic.model.util.anotacao.CheckDataNascimento;
+import br.com.contmatic.model.util.anotacoes.CheckDataNascimento;
 
 public class DataNascimentoValidator implements ConstraintValidator<CheckDataNascimento, LocalDate> {
     private static LocalDate dataAtual = now();

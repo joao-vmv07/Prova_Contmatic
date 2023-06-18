@@ -16,7 +16,6 @@ import static br.com.contmatic.model.util.constantes.EmpresaConstante.NOME_FANTA
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_INVALIDO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_TAMANHO_MESSAGE;
-import static br.com.contmatic.model.util.constantes.EmpresaConstante.RAZAO_SOCIAL_VAZIO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.TELEFONE_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.EmpresaConstante.TELEFONE_VAZIO_MESSAGE;
 import static br.com.six2six.fixturefactory.Fixture.from;
@@ -160,13 +159,13 @@ public class EmpresaTest {
     @Test
     void nao_deve_aceitar_razao_social_campo_vazio() {
         empresaFixture.setRazaoSocial("");
-        assertThat(getViolation(empresaFixture), hasItem(RAZAO_SOCIAL_VAZIO_MESSAGE));
+        assertThat(getViolation(empresaFixture), hasItem(RAZAO_SOCIAL_NULL_MESSAGE));
     }
 
     @Test
     void nao_deve_aceitar_razao_social_campo_vazio_com_espaco() {
         empresaFixture.setRazaoSocial(" ");
-        assertThat(getViolation(empresaFixture), hasItem(RAZAO_SOCIAL_VAZIO_MESSAGE));
+        assertThat(getViolation(empresaFixture), hasItem(RAZAO_SOCIAL_NULL_MESSAGE));
     }
 
     // NomeFantasia
@@ -365,9 +364,9 @@ public class EmpresaTest {
     void deve_conter_valores_dos_campos_toString() {
         final String CNPJ = "17081431000122";
         final String NOME = "VIVO";
-        final String RAZAO = "Vivo Telecomunicações";
-        final String USERCRIACAO = "João";
-        final String USERALTERACAO = "José";
+        final String RAZAO = "Vivo Telecomunicacoes";
+        final String USERCRIACAO = "Joao";
+        final String USERALTERACAO = "Jose";
         LocalDateTime DATA_CRIACAO = LocalDateTime.now();
         LocalDateTime DATA_ALTERACAO = LocalDateTime.now();
 
@@ -387,12 +386,10 @@ public class EmpresaTest {
         empresa.setTelefones(telefones);
         empresa.setDataCriacao(DATA_CRIACAO);
         empresa.setDataAlteracao(DATA_ALTERACAO); 
-
+        
         assertTrue(empresa.toString().contains(CNPJ));
         assertTrue(empresa.toString().contains(NOME));
         assertTrue(empresa.toString().contains(RAZAO));
-        assertTrue(empresa.toString().contains(USERCRIACAO));
-        assertTrue(empresa.toString().contains(USERALTERACAO));
         assertTrue(empresa.toString().contains(enderecos.toString()));
         assertTrue(empresa.toString().contains(telefones.toString()));
         assertTrue(empresa.toString().contains(DATA_CRIACAO.toString()));

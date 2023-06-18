@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import br.com.contmatic.model.util.anotacao.CheckEstado;
+import br.com.contmatic.model.util.anotacoes.CheckEstado;
 
 public class EnumEstadoValidator implements ConstraintValidator<CheckEstado, String> {
     private List<String> acceptedValues;
@@ -19,7 +19,7 @@ public class EnumEstadoValidator implements ConstraintValidator<CheckEstado, Str
                 .map(Enum::name)
                 .collect(toList());
     }
-
+ 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         return value ==  null ? false : acceptedValues.contains(value);

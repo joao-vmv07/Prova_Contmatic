@@ -316,12 +316,17 @@ public class ClienteTest {
         LocalDateTime dataCriacao = LocalDateTime.now();
         LocalDateTime dataAlteracao = LocalDateTime.now();
 
+        Set<Telefone> telefones = new HashSet<>();
+        telefones.add(new Telefone("55", "11", "967976463"));
+        telefones.add(new Telefone("55", "11", "968984543"));
+
         Cliente cliente = new Cliente(CPF, NOME);
         cliente.setEmail(EMAIL);
         cliente.setUsuarioCriacao(USERACRIACAO);
         cliente.setUsuarioAlteracao(USERALTERACAO);
         cliente.setDataCriacao(dataCriacao);
         cliente.setDataAlteracao(dataAlteracao);
+        cliente.setTelefones(telefones);
 
         assertTrue(cliente.toString().contains(NOME));
         assertTrue(cliente.toString().contains(CPF));
@@ -330,6 +335,7 @@ public class ClienteTest {
         assertTrue(cliente.toString().contains(USERALTERACAO));
         assertTrue(cliente.toString().contains(dataAlteracao.toString()));
         assertTrue(cliente.toString().contains(dataCriacao.toString()));
+        assertTrue(cliente.toString().contains(telefones.toString()));
 
     }
 }

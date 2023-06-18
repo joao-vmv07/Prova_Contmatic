@@ -1,6 +1,5 @@
 package br.com.contmatic.model.empresa;
 
-import static br.com.contmatic.model.util.constantes.DataValidacaoConstante.FORMATTER_DATA;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.CPF_INVALIDO_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.CPF_LETRAS_MASK_MESSAGE;
 import static br.com.contmatic.model.util.constantes.FuncionarioConstante.CPF_NOT_BLANK_MESSAGE;
@@ -36,7 +35,6 @@ import static br.com.contmatic.model.util.constantes.ValidacaoConstante.REGEX_CO
 import static br.com.contmatic.model.util.constantes.ValidacaoConstante.REGEX_EMAIL;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
@@ -50,12 +48,16 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.br.CPF;
 import org.joda.time.LocalDate;
 
-import br.com.contmatic.model.util.anotacao.CheckDataNascimento;
+import br.com.contmatic.model.util.anotacoes.CheckDataNascimento;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@EqualsAndHashCode(of = { "cpf" }, callSuper = false)
+@ToString(callSuper = true) 
 public class Funcionario extends Auditoria {
 
     @NotBlank(message = CPF_NOT_BLANK_MESSAGE)
@@ -98,28 +100,5 @@ public class Funcionario extends Auditoria {
         super();
         this.setCpf(cpf);
         this.setNome(nome);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(cpf);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Funcionario other = (Funcionario) obj;
-        return Objects.equals(cpf, other.cpf);
-    }
-
-    @Override
-    public String toString() {
-        return new StringBuilder().append("Funcionario [CPF:").append(cpf).append(", Nome:").append(nome).append(", Email:").append(email).append(", Idade:").append(idade)
-                .append(", Salário:") .append(", DataDeNascimento:").append(dataNascimento.toString(FORMATTER_DATA)).append(", Status:").append(status).append("]").append(super.toString()).toString();
     }
 }

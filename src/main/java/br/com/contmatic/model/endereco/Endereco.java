@@ -39,8 +39,6 @@ import static br.com.contmatic.model.util.constantes.ValidacaoConstante.REGEX_AC
 import static br.com.contmatic.model.util.constantes.ValidacaoConstante.REGEX_ACCEPT_SPACE_CONTEM_LETRAS_NUMEROS;
 import static br.com.contmatic.model.util.constantes.ValidacaoConstante.REGEX_CONTEM_NUMERO;
 
-import java.util.Objects;
-
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -50,12 +48,16 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import br.com.contmatic.model.empresa.Auditoria;
-import br.com.contmatic.model.util.anotacao.CheckEstado;
+import br.com.contmatic.model.util.anotacoes.CheckEstado;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@EqualsAndHashCode(of = { "cep", "numero" }, callSuper = false)
+@ToString(callSuper = true) 
 public class Endereco extends Auditoria {
 
     @NotNull(message = LOGRADOURO_NULL_MESSAGE)
@@ -98,32 +100,9 @@ public class Endereco extends Auditoria {
  
     public Endereco() {
     }
-
+ 
     public Endereco(String cep, Integer numero) {
         this.setCep(cep);
         this.setNumero(numero);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(cep, numero);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Endereco other = (Endereco) obj;
-        return Objects.equals(cep, other.cep) && Objects.equals(numero, other.numero);
-    }
-
-    @Override
-    public String toString() {
-        return new StringBuilder().append("Endereco Logradouro=").append(logradouro).append(", Numero=").append(numero).append(", Bairro=").append(bairro).append(", Cep=").append(cep)
-                .append(", Pais=").append(pais).append(", UF=").append(uf).append(", Municipio=").append(municipio).append("]").append(super.toString()).toString();
     }
 }

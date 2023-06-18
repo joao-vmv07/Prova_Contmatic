@@ -16,19 +16,21 @@ import static br.com.contmatic.model.util.constantes.TelefoneConstante.NUMERO_TI
 import static br.com.contmatic.model.util.constantes.TelefoneConstante.TELEFONE_TIPO_NULL_MESSAGE;
 import static br.com.contmatic.model.util.constantes.ValidacaoConstante.REGEX_CONTEM_NUMERO;
 
-import java.util.Objects;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import br.com.contmatic.model.empresa.Auditoria;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@EqualsAndHashCode(of = { "ddd", "ddi", "numero" }, callSuper = false)
+@ToString(callSuper = true)
 public class Telefone extends Auditoria {
 
     @NotBlank(message = DDD_NOT_BLANK_MESSAGE)
@@ -48,33 +50,11 @@ public class Telefone extends Auditoria {
 
     @NotNull(message = TELEFONE_TIPO_NULL_MESSAGE)
     private TelefoneType telefoneType;
-
+ 
     public Telefone(String ddi, String ddd, String numero) {
         super();
         this.setDdi(ddi);
         this.setDdd(ddd);
         this.setNumero(numero);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(ddd, ddi, numero);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Telefone other = (Telefone) obj;
-        return Objects.equals(ddd, other.ddd) && Objects.equals(ddi, other.ddi) && Objects.equals(numero, other.numero);
-    }
-    
-    @Override
-    public String toString() {
-        return new StringBuilder().append(" Telefone [DDI=").append(ddi).append(", DDD=").append(ddd).append(", Numero=").append(numero).append("]").append(" Tipo:").append(getTelefoneType()).append(super.toString()).toString();
     }
 }
